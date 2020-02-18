@@ -46,7 +46,10 @@ public class ChefController {
 
     @GetMapping(value = "/download_excel", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<?> download() {
-        String dirPath = "DatosExcel/";
+        //for local
+        // String dirPath = "DatosExcel/";
+        //for gcloud
+        String dirPath = "../DatosExcel/";
         byte[] byteArray;  // data comes from external service call in byte[]
         byteArray = null;
         try {

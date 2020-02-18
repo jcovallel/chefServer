@@ -12,7 +12,10 @@ public class SpecimenService implements ISpecimenService{
 
     @Override
     public void saveImage(MultipartFile imageFile) throws Exception {
-        String folder ="src/main/resources/Images/Menu.jpg";
+        //for local
+        //String folder ="src/main/resources/Images/Menu.jpg";
+        //for gcloud
+        String folder ="../src/main/resources/Images/Menu.jpg";
         byte[] bytes = imageFile.getBytes();
         Path path = Paths.get(folder);
         Files.write(path,bytes);

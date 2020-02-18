@@ -13,7 +13,10 @@ import java.io.IOException;
 
 public class ExcelController {
     public void writeFile(DataModel datamodel) throws IOException {
-        File myfile = new File("DatosExcel/Reservaciones.xlsx");
+        //for local
+        //File myfile = new File("DatosExcel/Reservaciones.xlsx");
+        //for gcloud
+        File myfile = new File("../DatosExcel/Reservaciones.xlsx");
         FileInputStream fis = new FileInputStream(myfile);
 
         // Finds the workbook instance for XLSX file
