@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class ExcelController {
     public void writeFile(DataModel datamodel) throws IOException {
-        File myfile = new File("../DatosExcel/Reservaciones.xlsx");
+        File myfile = new File("DatosExcel/Reservaciones.xlsx");
         FileInputStream fis = new FileInputStream(myfile);
 
         // Finds the workbook instance for XLSX file
@@ -25,6 +25,7 @@ public class ExcelController {
         // Start in the first row empty available
         Row fila = mySheet.createRow(mySheet.getLastRowNum()+1);
         Cell celda = fila.createCell(0);
+
         celda.setCellValue(datamodel.getFecha().toString("dd/MM/yyyy"));
         celda = fila.createCell(1);
         celda.setCellValue(datamodel.getHora().toString("HH:mm"));

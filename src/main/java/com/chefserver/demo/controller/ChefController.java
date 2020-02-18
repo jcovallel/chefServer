@@ -1,40 +1,129 @@
 package com.chefserver.demo.controller;
 
+import com.chefserver.demo.model.ComentModel;
 import com.chefserver.demo.model.DataModel;
+import com.chefserver.demo.model.DisponibilidadModel;
 import com.chefserver.demo.ExcelDB.ExcelController;
+import com.chefserver.demo.repositories.ComentRepository;
+import com.chefserver.demo.repositories.DispoRepository;
+import com.chefserver.demo.repositories.ISpecimenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reservacion")
+@RequestMapping("/chef")
 public class ChefController {
-    //@Autowired
-    //private ChatRepository repository;
+    @Autowired
+    private ISpecimenService specimenService;
 
-    //@RequestMapping(value = "/", method = RequestMethod.GET)
-    /*public List<ChatModel> getAllChats() {
-        return repository.findAll();
+    @Autowired
+    private DispoRepository repository;
+
+    @Autowired
+    private ComentRepository rvrepository;
+
+    @PostMapping("/uploadmenu")
+    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile){
+        String returnValue = "error";
+        try {
+            specimenService.saveImage(imageFile);
+            returnValue = "exitosa";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return returnValue;
     }
 
-    @RequestMapping(value = "/{emisor}/{receptor}", method = RequestMethod.GET)
-    public List<ChatModel> getChatByEmiRec(@PathVariable int emisor, @PathVariable int receptor) {
-        return repository.findByEmisorAndReceptor(emisor,receptor);
+    @GetMapping(value = "/download_excel", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<?> download() {
+        String dirPath = "DatosExcel/";
+        byte[] byteArray;  // data comes from external service call in byte[]
+        byteArray = null;
+        try {
+            String fileName = "Reservaciones.xlsx";
+            byteArray = Files.readAllBytes(Paths.get(dirPath + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "reservas.xlsx" + "\"")
+                .body(byteArray);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void modifyPetById(@PathVariable("id") ObjectId id, @Valid @RequestBody ChatModel chatModel) {
-        chatModel.set_id(id);
-        repository.save(chatModel);
-    }*/
+    @RequestMapping(value = "/review/", method = RequestMethod.POST)
+    public void createreview(@Valid @RequestBody ComentModel cmodel) {
+        rvrepository.save(cmodel);
+    }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/review/", method = RequestMethod.GET)
+    public List<?> getreviews() {
+        return rvrepository.findAll();
+    }
+
+    @RequestMapping(value = "/disponibilidad/{dia}", method = RequestMethod.GET)
+    public int getDisponibilidad(@PathVariable String dia) {
+        switch (dia){
+            case "lunes":{
+                return repository.findById(0).lunes;
+            }
+            case "martes":{
+                return repository.findById(0).martes;
+            }
+            case "miercoles":{
+                return repository.findById(0).miercoles;
+            }
+            case "jueves":{
+                return repository.findById(0).jueves;
+            }
+            case "viernes":{
+                return repository.findById(0).viernes;
+            }
+        }
+        return 0;
+    }
+
+    @RequestMapping(value = "/disponibilidad/", method = RequestMethod.PUT)
+    public void modifyDispo(@Valid @RequestBody DisponibilidadModel dispoModel) {
+        System.out.println("peticion solicitada por: "+dispoModel);
+        if(repository.findById(0)!=null){
+            DisponibilidadModel current = repository.findById(0);
+            repository.delete(current);
+            if(dispoModel.getLunes()==null){
+                dispoModel.setLunes(current.getLunes());
+            }
+            if(dispoModel.getMartes()==null){
+                dispoModel.setMartes(current.getMartes());
+            }
+            if(dispoModel.getMiercoles()==null){
+                dispoModel.setMiercoles(current.getMiercoles());
+            }
+            if(dispoModel.getJueves()==null){
+                dispoModel.setJueves(current.getJueves());
+            }
+            if(dispoModel.getViernes()==null){
+                dispoModel.setViernes(current.getViernes());
+            }
+        }
+        repository.save(dispoModel);
+    }
+
+    @RequestMapping(value = "/disponibilidad/{id}", method = RequestMethod.DELETE)
+    public void deletePet(@PathVariable int id) {
+        repository.delete(repository.findById(id));
+    }
+
+    @RequestMapping(value = "/reserva/save", method = RequestMethod.POST)
     public void createReservationREG(@Valid @RequestBody DataModel dataModel) {
         ExcelController savetoexcel = new ExcelController();
         try {
@@ -43,9 +132,4 @@ public class ChefController {
             e.printStackTrace();
         }
     }
-
-    /*@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deletePet(@PathVariable ObjectId id) {
-        repository.delete(repository.findBy_id(id));
-    }*/
 }
