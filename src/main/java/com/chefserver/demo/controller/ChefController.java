@@ -77,19 +77,19 @@ public class ChefController {
     @RequestMapping(value = "/disponibilidad/{dia}", method = RequestMethod.GET)
     public int getDisponibilidad(@PathVariable String dia) {
         switch (dia){
-            case "lunes":{
+            case "Lunes":{
                 return repository.findById(0).lunes;
             }
-            case "martes":{
+            case "Martes":{
                 return repository.findById(0).martes;
             }
-            case "miercoles":{
+            case "Miercoles":{
                 return repository.findById(0).miercoles;
             }
-            case "jueves":{
+            case "Jueves":{
                 return repository.findById(0).jueves;
             }
-            case "viernes":{
+            case "Viernes":{
                 return repository.findById(0).viernes;
             }
         }
