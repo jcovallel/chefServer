@@ -2,11 +2,11 @@ package com.chefserver.demo.model;
 
 public class DisponibilidadModel {
     public int id;
-    public Integer lunes;
-    public Integer martes;
-    public Integer miercoles;
-    public Integer jueves;
-    public Integer viernes;
+    public Integer Lunes;
+    public Integer Martes;
+    public Integer Miercoles;
+    public Integer Jueves;
+    public Integer Viernes;
 
     public int getId() {
         return id;
@@ -17,42 +17,42 @@ public class DisponibilidadModel {
     }
 
     public Integer getLunes() {
-        return lunes;
+        return Lunes;
     }
 
     public void setLunes(Integer lunes) {
-        this.lunes = lunes;
+        this.Lunes = lunes;
     }
 
     public Integer getMartes() {
-        return martes;
+        return Martes;
     }
 
     public void setMartes(Integer martes) {
-        this.martes = martes;
+        this.Martes = martes;
     }
 
     public Integer getMiercoles() {
-        return miercoles;
+        return Miercoles;
     }
 
     public void setMiercoles(Integer miercoles) {
-        this.miercoles = miercoles;
+        this.Miercoles = miercoles;
     }
 
     public Integer getJueves() {
-        return jueves;
+        return Jueves;
     }
 
     public void setJueves(Integer jueves) {
-        this.jueves = jueves;
+        this.Jueves = jueves;
     }
 
     public Integer getViernes() {
-        return viernes;
+        return Viernes;
     }
 
     public void setViernes(Integer viernes) {
-        this.viernes = viernes;
+        this.Viernes = viernes;
     }
 }
