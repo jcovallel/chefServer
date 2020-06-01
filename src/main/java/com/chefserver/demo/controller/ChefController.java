@@ -210,6 +210,11 @@ public class ChefController {
         repository.delete(repository.findByEmpresa(empresa));
     }
 
+    @RequestMapping(value = "/getmail/{empresa}", method = RequestMethod.GET)
+    public String getmail(@PathVariable String empresa) {
+        return emrepository.findByNombre(empresa).getCorreo();
+    }
+
     @RequestMapping(value = "/reserva/save", method = RequestMethod.POST)
     public void createReservationREG(@Valid @RequestBody DataModel dataModel) {
         reserepository.save(dataModel);
