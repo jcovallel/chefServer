@@ -1,30 +1,36 @@
 package com.chefserver.demo.model;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
-
 public class DataModel {
-    public LocalDate fecha;
-    public LocalTime hora;
+    public String empresa;
+    String fecha;
+    String hora;
     public String nombre;
     public long celular;
     public String correo;
     public String cargo;
+    public String tipomenu;
     public boolean lunes = false;
     public boolean martes = false;
     public boolean miercoles = false;
     public boolean jueves = false;
     public boolean viernes = false;
+    public String entrega;
+    String horaentrega;
+    public String direccion;
     public String observaciones;
 
     //constructor
-    public DataModel(String fecha, String hora, String nombre, long celular, String correo, String cargo, String day, String observaciones){
-        this.fecha = new LocalDate(fecha);
-        this.hora = LocalTime.parse(hora);
+    public DataModel(String empresa, String fecha, String hora, String nombre, long celular, String correo, String cargo, String tipomenu, String day,
+                     String entrega, String horaentrega, String direccion, String observaciones){
+        this.empresa = empresa;
+        this.fecha = fecha;
+        this.hora = hora;
         this.nombre = nombre;
         this.celular = celular;
         this.correo = correo;
         this.cargo = cargo;
+        this.tipomenu = tipomenu;
+
         switch (day){
             case "lunes":{
                 this.lunes = true;
@@ -47,22 +53,33 @@ public class DataModel {
             }
             break;
         }
+        this.entrega = entrega;
+        this.horaentrega = horaentrega;
+        this.direccion = direccion;
         this.observaciones = observaciones;
     }
 
-    public LocalDate getFecha() {
+    public String getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
+    }
+
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
-    public LocalTime getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(LocalTime hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 
@@ -96,6 +113,14 @@ public class DataModel {
 
     public void setCargo(String cargo) {
         this.cargo = cargo;
+    }
+
+    public String getTipomenu() {
+        return tipomenu;
+    }
+
+    public void setTipomenu(String tipomenu) {
+        this.tipomenu = tipomenu;
     }
 
     public boolean isLunes() {
@@ -136,6 +161,30 @@ public class DataModel {
 
     public void setViernes(boolean viernes) {
         this.viernes = viernes;
+    }
+
+    public String getEntrega() {
+        return entrega;
+    }
+
+    public void setEntrega(String entrega) {
+        this.entrega = entrega;
+    }
+
+    public String getHoraentrega() {
+        return horaentrega;
+    }
+
+    public void setHoraentrega(String horaentrega) {
+        this.horaentrega = horaentrega;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public String getObservaciones() {

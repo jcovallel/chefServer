@@ -4,5 +4,5 @@ import com.chefserver.demo.model.DisponibilidadModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface DispoRepository extends MongoRepository<DisponibilidadModel, String> {
-    DisponibilidadModel findById(int id);
+    DisponibilidadModel findByEmpresa(String empresa);
 }

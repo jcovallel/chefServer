@@ -1,12 +1,8 @@
 package com.chefserver.demo.controller;
 
-import com.chefserver.demo.model.ComentModel;
-import com.chefserver.demo.model.DataModel;
-import com.chefserver.demo.model.DisponibilidadModel;
+import com.chefserver.demo.model.*;
 import com.chefserver.demo.ExcelDB.ExcelController;
-import com.chefserver.demo.repositories.ComentRepository;
-import com.chefserver.demo.repositories.DispoRepository;
-import com.chefserver.demo.repositories.ISpecimenService;
+import com.chefserver.demo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,7 +14,10 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/chef")
@@ -31,6 +30,12 @@ public class ChefController {
 
     @Autowired
     private ComentRepository rvrepository;
+
+    @Autowired
+    private EmpresasRepository emrepository;
+
+    @Autowired
+    private ReservaRepository reserepository;
 
     @PostMapping("/uploadmenu")
     public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile){
@@ -64,43 +69,37 @@ public class ChefController {
                 .body(byteArray);
     }
 
-    @RequestMapping(value = "/review/", method = RequestMethod.POST)
-    public void createreview(@Valid @RequestBody ComentModel cmodel) {
-        rvrepository.save(cmodel);
+    @RequestMapping(value = "/createuser/", method = RequestMethod.POST)
+    public void createuser(@Valid @RequestBody EmpresasModel emodel) {
+        emrepository.save(emodel);
     }
 
-    @RequestMapping(value = "/review/", method = RequestMethod.GET)
-    public List<?> getreviews() {
-        return rvrepository.findAll();
-    }
-
-    @RequestMapping(value = "/disponibilidad/{dia}", method = RequestMethod.GET)
-    public int getDisponibilidad(@PathVariable String dia) {
-        switch (dia){
-            case "Lunes":{
-                return repository.findById(0).Lunes;
-            }
-            case "Martes":{
-                return repository.findById(0).Martes;
-            }
-            case "Miercoles":{
-                return repository.findById(0).Miercoles;
-            }
-            case "Jueves":{
-                return repository.findById(0).Jueves;
-            }
-            case "Viernes":{
-                return repository.findById(0).Viernes;
-            }
+    @RequestMapping(value = "/getpass/{user}/{pass}", method = RequestMethod.GET)
+    public Boolean comparepass( @PathVariable String user, @PathVariable String pass) {
+        if(emrepository.findByNombre(user).getPassword().equals(pass)){
+            return true;
+        }else{
+            return false;
         }
-        return 0;
     }
 
-    @RequestMapping(value = "/disponibilidad/", method = RequestMethod.PUT)
-    public void modifyDispo(@Valid @RequestBody DisponibilidadModel dispoModel) {
-        System.out.println("peticion solicitada por: "+dispoModel);
-        if(repository.findById(0)!=null){
-            DisponibilidadModel current = repository.findById(0);
+    @RequestMapping(value = "/sendmail/{user}/{mail}", method = RequestMethod.GET)
+    public Boolean comparemail( @PathVariable String user, @PathVariable String mail) throws NoSuchAlgorithmException {
+        String tpass = passGen();
+        if(emrepository.findByNombre(user).getCorreo().equals(mail)){
+            EnvioEmail newmail = new EnvioEmail();
+            String contenido =  "Su nueva contraseña temporal es:" + tpass + ", recuerde que debe cambiarla una vez inicie sesion";
+            newmail.sendEmail(mail,"Recuperacion contraseña Kitchen Works", contenido);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @RequestMapping(value = "/disponibilidad/{user}/{npass}", method = RequestMethod.PUT)
+    public void modifyPass(@PathVariable DisponibilidadModel dispoModel, @PathVariable String empresa) {
+        if(repository.findByEmpresa(empresa)!=null){
+            DisponibilidadModel current = repository.findByEmpresa(empresa);
             repository.delete(current);
             if(dispoModel.getLunes()==null){
                 dispoModel.setLunes(current.getLunes());
@@ -121,12 +120,78 @@ public class ChefController {
         repository.save(dispoModel);
     }
 
-    @RequestMapping(value = "/disponibilidad/{id}", method = RequestMethod.DELETE)
-    public void deletePet(@PathVariable int id) {
-        repository.delete(repository.findById(id));
+    @RequestMapping(value = "/getusers/", method = RequestMethod.GET)
+    public List<User> getusers() {
+        return emrepository.findNameAndExcludeId();
+    }
+
+    @RequestMapping(value = "/review/", method = RequestMethod.POST)
+    public void createreview(@Valid @RequestBody ComentModel cmodel) {
+        rvrepository.save(cmodel);
+    }
+
+    @RequestMapping(value = "/review/", method = RequestMethod.GET)
+    public List<?> getreviews() {
+        return rvrepository.findAll();
+    }
+
+    @RequestMapping(value = "/disponibilidad/{empresa}/{dia}", method = RequestMethod.GET)
+    public int getDisponibilidad(@PathVariable String empresa, @PathVariable String dia) {
+        switch (dia){
+            case "Lunes":{
+                return repository.findByEmpresa(empresa).Lunes;
+            }
+            case "Martes":{
+                return repository.findByEmpresa(empresa).Martes;
+            }
+            case "Miercoles":{
+                return repository.findByEmpresa(empresa).Miercoles;
+            }
+            case "Jueves":{
+                return repository.findByEmpresa(empresa).Jueves;
+            }
+            case "Viernes":{
+                return repository.findByEmpresa(empresa).Viernes;
+            }
+        }
+        return 0;
+    }
+
+    @RequestMapping(value = "/disponibilidad/{empresa}", method = RequestMethod.PUT)
+    public void modifyDispo(@Valid @RequestBody DisponibilidadModel dispoModel, @PathVariable String empresa) {
+        if(repository.findByEmpresa(empresa)!=null){
+            DisponibilidadModel current = repository.findByEmpresa(empresa);
+            repository.delete(current);
+            if(dispoModel.getLunes()==null){
+                dispoModel.setLunes(current.getLunes());
+            }
+            if(dispoModel.getMartes()==null){
+                dispoModel.setMartes(current.getMartes());
+            }
+            if(dispoModel.getMiercoles()==null){
+                dispoModel.setMiercoles(current.getMiercoles());
+            }
+            if(dispoModel.getJueves()==null){
+                dispoModel.setJueves(current.getJueves());
+            }
+            if(dispoModel.getViernes()==null){
+                dispoModel.setViernes(current.getViernes());
+            }
+        }
+        repository.save(dispoModel);
+    }
+
+    @RequestMapping(value = "/disponibilidad/{empresa}", method = RequestMethod.DELETE)
+    public void deletePet(@PathVariable String empresa) {
+        repository.delete(repository.findByEmpresa(empresa));
     }
 
     @RequestMapping(value = "/reserva/save", method = RequestMethod.POST)
+    public void createReservationREG(@Valid @RequestBody DataModel dataModel) {
+        reserepository.save(dataModel);
+    }
+
+    /*@RequestMapping(value = "/reserva/save", method = RequestMethod.POST)
     public void createReservationREG(@Valid @RequestBody DataModel dataModel) {
         ExcelController savetoexcel = new ExcelController();
         try {
@@ -134,5 +199,18 @@ public class ChefController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }*/
+    public String passGen() throws NoSuchAlgorithmException {
+        String[] symbols = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
+        int length = 6;
+        Random random = SecureRandom.getInstanceStrong();    // as of JDK 8, this should return the strongest algorithm available to the JVM
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int indexRandom = random.nextInt( symbols.length );
+            sb.append( symbols[indexRandom] );
+        }
+        String password = sb.toString();
+        return  password;
     }
 }
+

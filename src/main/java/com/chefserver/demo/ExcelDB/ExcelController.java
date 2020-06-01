@@ -29,9 +29,9 @@ public class ExcelController {
         Row fila = mySheet.createRow(mySheet.getLastRowNum()+1);
         Cell celda = fila.createCell(0);
 
-        celda.setCellValue(datamodel.getFecha().toString("dd/MM/yyyy"));
-        celda = fila.createCell(1);
-        celda.setCellValue(datamodel.getHora().toString("HH:mm"));
+        //celda.setCellValue(datamodel.getFecha().toString("dd/MM/yyyy"));
+        //celda = fila.createCell(1);
+        //celda.setCellValue(datamodel.getHora().toString("HH:mm"));
         celda = fila.createCell(2);
         celda.setCellValue(datamodel.getNombre());
         celda = fila.createCell(3);

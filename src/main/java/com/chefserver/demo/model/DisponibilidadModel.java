@@ -1,19 +1,19 @@
 package com.chefserver.demo.model;
 
 public class DisponibilidadModel {
-    public int id;
+    public String empresa;
     public Integer Lunes;
     public Integer Martes;
     public Integer Miercoles;
     public Integer Jueves;
     public Integer Viernes;
 
-    public int getId() {
-        return id;
+    public String getEmpresa() {
+        return empresa;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
     }
 
     public Integer getLunes() {
