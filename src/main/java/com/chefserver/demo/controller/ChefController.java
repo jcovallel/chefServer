@@ -49,8 +49,17 @@ public class ChefController {
         return returnValue;
     }
 
-    @GetMapping(value = "/download_excel", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<?> download() {
+    @GetMapping(value = "/download_excel/{empresa}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<?> download(@PathVariable String empresa) {
+
+        ExcelController savetoexcel = new ExcelController();
+        List<DataModel> dataModel = reserepository.findByEmpresa(empresa);
+        try {
+            savetoexcel.writeFile(dataModel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         //for local
         // String dirPath = "DatosExcel/";
         //for gcloud
@@ -83,41 +92,33 @@ public class ChefController {
         }
     }
 
-    @RequestMapping(value = "/sendmail/{user}/{mail}", method = RequestMethod.GET)
-    public Boolean comparemail( @PathVariable String user, @PathVariable String mail) throws NoSuchAlgorithmException {
-        String tpass = passGen();
+    @RequestMapping(value = "/sendmail/{user}/{mail}/{cambio}", method = RequestMethod.GET)
+    public Boolean comparemail( @PathVariable String user, @PathVariable String mail, @PathVariable Boolean cambio) throws NoSuchAlgorithmException {
         if(emrepository.findByNombre(user).getCorreo().equals(mail)){
-            EnvioEmail newmail = new EnvioEmail();
-            String contenido =  "Su nueva contraseña temporal es:" + tpass + ", recuerde que debe cambiarla una vez inicie sesion";
-            newmail.sendEmail(mail,"Recuperacion contraseña Kitchen Works", contenido);
+            if(cambio){
+                String tpass = passGen();
+                emrepository.findByNombre(user).setPassword(tpass);
+                EnvioEmail newmail = new EnvioEmail();
+                String contenido =  "Su nueva contraseña temporal es:" + tpass + ", recuerde que debe cambiarla una vez inicie sesion";
+                newmail.sendEmail(mail,"Recuperacion contraseña Kitchen Works", contenido);
+            }
             return true;
         }else{
             return false;
         }
     }
 
-    @RequestMapping(value = "/disponibilidad/{user}/{npass}", method = RequestMethod.PUT)
-    public void modifyPass(@PathVariable DisponibilidadModel dispoModel, @PathVariable String empresa) {
-        if(repository.findByEmpresa(empresa)!=null){
-            DisponibilidadModel current = repository.findByEmpresa(empresa);
-            repository.delete(current);
-            if(dispoModel.getLunes()==null){
-                dispoModel.setLunes(current.getLunes());
-            }
-            if(dispoModel.getMartes()==null){
-                dispoModel.setMartes(current.getMartes());
-            }
-            if(dispoModel.getMiercoles()==null){
-                dispoModel.setMiercoles(current.getMiercoles());
-            }
-            if(dispoModel.getJueves()==null){
-                dispoModel.setJueves(current.getJueves());
-            }
-            if(dispoModel.getViernes()==null){
-                dispoModel.setViernes(current.getViernes());
-            }
+    @RequestMapping(value = "/modifyinfoadmi/{user}/{nnombre}/{npass}", method = RequestMethod.PUT)
+    public void modifyinfoadmi(@PathVariable String empresa, @PathVariable String nnombre, @PathVariable String nmail) {
+        EmpresasModel emodel = emrepository.findByNombre(empresa);
+        emrepository.deleteByNombre(empresa);
+        if(nnombre!=null){
+            emodel.setNombre(nnombre);
         }
-        repository.save(dispoModel);
+        if (nmail!=null){
+            emodel.setCorreo(nmail);
+        }
+        emrepository.save(emodel);
     }
 
     @RequestMapping(value = "/getusers/", method = RequestMethod.GET)
@@ -125,14 +126,37 @@ public class ChefController {
         return emrepository.findNameAndExcludeId();
     }
 
+    @RequestMapping(value = "/deleteresta/", method = RequestMethod.GET)
+    public void deleteresta(@PathVariable String empresa) {
+        emrepository.deleteByNombre(empresa);
+    }
+
     @RequestMapping(value = "/review/", method = RequestMethod.POST)
     public void createreview(@Valid @RequestBody ComentModel cmodel) {
         rvrepository.save(cmodel);
     }
 
-    @RequestMapping(value = "/review/", method = RequestMethod.GET)
-    public List<?> getreviews() {
+    @RequestMapping(value = "/admin/review/", method = RequestMethod.GET)
+    public List<?> getreviewsAdmi() {
         return rvrepository.findAll();
+    }
+
+    @RequestMapping(value = "/user/review/", method = RequestMethod.GET)
+    public List<ComentModel> getreviewsUS(@PathVariable String empresa) {
+        return rvrepository.findByEmpresa(empresa);
+    }
+
+    @RequestMapping(value = "/modifydatausers/{user}/{npass}", method = RequestMethod.PUT)
+    public void modifydatauser(@PathVariable String empresa, @PathVariable String npass, @PathVariable String nmail) {
+        EmpresasModel emodel = emrepository.findByNombre(empresa);
+        emrepository.deleteByNombre(empresa);
+        if(npass!=null){
+            emodel.setPassword(npass);
+        }
+        if (nmail!=null){
+            emodel.setCorreo(nmail);
+        }
+        emrepository.save(emodel);
     }
 
     @RequestMapping(value = "/disponibilidad/{empresa}/{dia}", method = RequestMethod.GET)
@@ -182,7 +206,7 @@ public class ChefController {
     }
 
     @RequestMapping(value = "/disponibilidad/{empresa}", method = RequestMethod.DELETE)
-    public void deletePet(@PathVariable String empresa) {
+    public void deleteDispo(@PathVariable String empresa) {
         repository.delete(repository.findByEmpresa(empresa));
     }
 
