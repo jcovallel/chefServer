@@ -1,7 +1,5 @@
 package com.chefserver.demo.model;
 
-import org.springframework.data.annotation.Id;
-
 public class ComentModel {
     public String empresa;
     public int estrellas;
