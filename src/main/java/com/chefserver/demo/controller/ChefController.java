@@ -131,7 +131,14 @@ public class ChefController {
         if(emrepository.findByNombre(user).getCorreo().equals(mail)){
             if(cambio){
                 String tpass = passGen();
-                emrepository.findByNombre(user).setPassword(hash(tpass));
+                EmpresasModel emodelold = emrepository.findByNombre(user);
+                EmpresasModel emodelnew = new EmpresasModel();
+                emodelnew.setPassword(hash(tpass));
+                emodelnew.setNombreid(emodelold.getNombre());
+                emodelnew.setNombre(emodelold.getNombre());
+                emodelnew.setCorreo(emodelold.getCorreo());
+                emrepository.deleteById(user);
+                emrepository.save(emodelnew);
                 String contenido =  "Su nueva contraseña temporal es: " + tpass + ", recuerde que debe cambiarla una vez inicie sesion";
                 sendEmail(mail,"Recuperacion contraseña Kitchen Works", contenido);
             }
