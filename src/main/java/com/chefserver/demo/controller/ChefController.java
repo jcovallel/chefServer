@@ -153,7 +153,7 @@ public class ChefController {
         if(npass.equals("NULL")){
             emodel.setPassword(npass);
         }
-        if (nmail!="NULL"){
+        if (nmail.equals("NULL")){
             emodel.setCorreo(nmail);
         }
         emrepository.save(emodel);
