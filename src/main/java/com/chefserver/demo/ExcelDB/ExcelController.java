@@ -124,7 +124,7 @@ public class ExcelController {
 
     public void comentwriteFile(List<ComentModel> comentmodel) throws IOException {
         //for local
-        //File myfile = new File("DatosExcel/Reservaciones.xlsx");
+        //File myfile = new File("DatosExcel/Comentarios.xlsx");
         //for gcloud
         File myfile = new File("../DatosExcel/Comentarios.xlsx");
         FileInputStream fis = new FileInputStream(myfile);
