@@ -1,6 +1,9 @@
 package com.chefserver.demo.model;
 
+import org.springframework.data.annotation.Id;
+
 public class EmpresasModel {
+    @Id
     public String nombre;
     public String correo;
     public String password;
