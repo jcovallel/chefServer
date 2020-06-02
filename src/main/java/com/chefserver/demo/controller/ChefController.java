@@ -108,7 +108,7 @@ public class ChefController {
         }
     }
 
-    @RequestMapping(value = "/modifyinfoadmi/{user}/{nnombre}/{npass}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/modifyinfoadmi/{user}/{nnombre}/{nmail}", method = RequestMethod.PUT)
     public void modifyinfoadmi(@PathVariable String empresa, @PathVariable String nnombre, @PathVariable String nmail) {
         EmpresasModel emodel = emrepository.findByNombre(empresa);
         emrepository.deleteByNombre(empresa);
@@ -141,12 +141,12 @@ public class ChefController {
         return rvrepository.findAll();
     }
 
-    @RequestMapping(value = "/user/review/", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/review/{empresa}", method = RequestMethod.GET)
     public List<ComentModel> getreviewsUS(@PathVariable String empresa) {
         return rvrepository.findByEmpresa(empresa);
     }
 
-    @RequestMapping(value = "/modifydatausers/{user}/{npass}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/modifydatausers/{user}/{npass}/{nmail}", method = RequestMethod.PUT)
     public void modifydatauser(@PathVariable String empresa, @PathVariable String npass, @PathVariable String nmail) {
         EmpresasModel emodel = emrepository.findByNombre(empresa);
         emrepository.deleteByNombre(empresa);
