@@ -7,13 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.List;
@@ -36,6 +40,9 @@ public class ChefController {
 
     @Autowired
     private ReservaRepository reserepository;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @PostMapping("/uploadmenu")
     public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile){
@@ -77,13 +84,13 @@ public class ChefController {
                 .body(byteArray);
     }
 
-    /*@GetMapping(value = "/download_excel_comen/{empresa}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/download_excel_comen/{empresa}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<?> downloadcomen(@PathVariable String empresa) {
 
         ExcelController savetoexcel = new ExcelController();
         List<ComentModel> comentModel = rvrepository.findByEmpresa(empresa);
         try {
-            comensavetoexcel.writeFile(comentModel);
+            savetoexcel.comentwriteFile(comentModel);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,16 +101,16 @@ public class ChefController {
         byte[] byteArray;  // data comes from external service call in byte[]
         byteArray = null;
         try {
-            String fileName = "Reservaciones.xlsx";
+            String fileName = "Comentarios.xlsx";
             byteArray = Files.readAllBytes(Paths.get(dirPath + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "reservas.xlsx" + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "comentarios.xlsx" + "\"")
                 .body(byteArray);
-    }*/
+    }
 
     @RequestMapping(value = "/createuser/", method = RequestMethod.POST)
     public void createuser(@Valid @RequestBody EmpresasModel emodel) {
@@ -118,16 +125,15 @@ public class ChefController {
             return false;
         }
     }
-//FSDKJFLKJSDKFJSDKJLFKJSDLKFJSDKLJFLKSDJKLFJDLKJFLKJDSLKJFLKSDJFLKSDJFKSDJLKFJSDLKJFLKDSJKLFJSDKJFLKSDJFKLSDJFLKDSJFLSDJFLDKSJFLKSDFJSLKDJFLKSDJFLKDJLKDSJLKFJ
+
     @RequestMapping(value = "/sendmail/{user}/{mail}/{cambio}", method = RequestMethod.GET)
     public Boolean comparemail( @PathVariable String user, @PathVariable String mail, @PathVariable Boolean cambio) throws NoSuchAlgorithmException {
         if(emrepository.findByNombre(user).getCorreo().equals(mail)){
             if(cambio){
                 String tpass = passGen();
-                emrepository.findByNombre(user).setPassword(tpass);
-                EnvioEmail newmail = new EnvioEmail();
-                String contenido =  "Su nueva contraseña temporal es:" + tpass + ", recuerde que debe cambiarla una vez inicie sesion";
-                newmail.sendEmail(mail,"Recuperacion contraseña Kitchen Works", contenido);
+                emrepository.findByNombre(user).setPassword(hash(tpass));
+                String contenido =  "Su nueva contraseña temporal es: " + tpass + ", recuerde que debe cambiarla una vez inicie sesion";
+                sendEmail(mail,"Recuperacion contraseña Kitchen Works", contenido);
             }
             return true;
         }else{
@@ -217,19 +223,19 @@ public class ChefController {
     public int getDisponibilidad(@PathVariable String empresa, @PathVariable String dia) {
         switch (dia){
             case "Lunes":{
-                return repository.findByEmpresa(empresa).Lunes;
+                return repository.findByEmpresa(empresa).getLunes();
             }
             case "Martes":{
-                return repository.findByEmpresa(empresa).Martes;
+                return repository.findByEmpresa(empresa).getMartes();
             }
             case "Miercoles":{
-                return repository.findByEmpresa(empresa).Miercoles;
+                return repository.findByEmpresa(empresa).getMiercoles();
             }
             case "Jueves":{
-                return repository.findByEmpresa(empresa).Jueves;
+                return repository.findByEmpresa(empresa).getJueves();
             }
             case "Viernes":{
-                return repository.findByEmpresa(empresa).Viernes;
+                return repository.findByEmpresa(empresa).getViernes();
             }
         }
         return 0;
@@ -293,9 +299,22 @@ public class ChefController {
             e.printStackTrace();
         }
     }*/
+
+    void sendEmail(String to, String subject, String content) {
+
+        SimpleMailMessage email = new SimpleMailMessage();
+
+        email.setTo(to);
+        email.setSubject(subject);
+        email.setText(content);
+
+        javaMailSender.send(email);
+
+    }
+
     public String passGen() throws NoSuchAlgorithmException {
         String[] symbols = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
-        int length = 6;
+        int length = 8;
         Random random = SecureRandom.getInstanceStrong();    // as of JDK 8, this should return the strongest algorithm available to the JVM
         StringBuilder sb = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
@@ -304,6 +323,22 @@ public class ChefController {
         }
         String password = sb.toString();
         return  password;
+    }
+
+    public String hash(String pass){
+        String algoritmoHash = "SHA-256";
+        byte[] bytePass = pass.getBytes();
+        byte[] passHashed;
+        String passHashedValue = "";
+        try {
+            MessageDigest funcionHash = MessageDigest.getInstance(algoritmoHash);
+            funcionHash.update(bytePass);
+            passHashed = funcionHash.digest();
+            passHashedValue = DatatypeConverter.printHexBinary(passHashed);
+        } catch (Exception e) {
+
+        }
+        return passHashedValue;
     }
 }
 

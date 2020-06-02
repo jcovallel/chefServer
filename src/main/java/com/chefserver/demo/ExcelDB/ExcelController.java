@@ -1,5 +1,6 @@
 package com.chefserver.demo.ExcelDB;
 
+import com.chefserver.demo.model.ComentModel;
 import com.chefserver.demo.model.DataModel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -116,6 +117,55 @@ public class ExcelController {
             celda = fila.createCell(15);
             celda.setCellValue(datamodel.get(15).getObservaciones());
         }
+        FileOutputStream salida = new FileOutputStream(myfile);
+        myWorkBook.write(salida);
+        myWorkBook.close();
+    }
+
+    public void comentwriteFile(List<ComentModel> comentmodel) throws IOException {
+        //for local
+        //File myfile = new File("DatosExcel/Reservaciones.xlsx");
+        //for gcloud
+        File myfile = new File("../DatosExcel/Comentarios.xlsx");
+        FileInputStream fis = new FileInputStream(myfile);
+
+        // Finds the workbook instance for XLSX file
+        XSSFWorkbook myWorkBook = new XSSFWorkbook (fis);
+
+        // Return first sheet from the XLSX workbook
+        XSSFSheet mySheet = myWorkBook.getSheetAt(0);
+
+        // Start in the first row empty available
+        Row fila = mySheet.createRow(0);
+        Cell celda = fila.createCell(0);
+        celda.setCellValue("Empresa");
+        celda = fila.createCell(1);
+        celda.setCellValue("Estrellas");
+        celda = fila.createCell(2);
+        celda.setCellValue("Comentarios");
+        celda = fila.createCell(3);
+        celda.setCellValue("Nombre");
+        celda = fila.createCell(4);
+        celda.setCellValue("Celular");
+        celda = fila.createCell(5);
+        celda.setCellValue("Correo");
+
+        for(int i =0; i<comentmodel.size(); i++) {
+            fila = mySheet.createRow(i + 1);
+            celda = fila.createCell(0);
+            celda.setCellValue(comentmodel.get(0).getEmpresa());
+            celda = fila.createCell(1);
+            celda.setCellValue(comentmodel.get(1).getEstrellas());
+            celda = fila.createCell(2);
+            celda.setCellValue(comentmodel.get(2).getComentario());
+            celda = fila.createCell(3);
+            celda.setCellValue(comentmodel.get(3).getNombre());
+            celda = fila.createCell(4);
+            celda.setCellValue(comentmodel.get(4).getCelular());
+            celda = fila.createCell(5);
+            celda.setCellValue(comentmodel.get(5).getCorreo());
+        }
+
         FileOutputStream salida = new FileOutputStream(myfile);
         myWorkBook.write(salida);
         myWorkBook.close();

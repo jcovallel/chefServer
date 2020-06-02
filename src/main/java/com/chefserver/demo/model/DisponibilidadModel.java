@@ -1,6 +1,9 @@
 package com.chefserver.demo.model;
 
+import org.springframework.data.annotation.Id;
+
 public class DisponibilidadModel {
+    @Id
     public String empresa;
     public Integer Lunes;
     public Integer Martes;

@@ -9,55 +9,15 @@ public class DataModel {
     public String correo;
     public String cargo;
     public String tipomenu;
-    public boolean lunes = false;
-    public boolean martes = false;
-    public boolean miercoles = false;
-    public boolean jueves = false;
-    public boolean viernes = false;
+    public boolean lunes;
+    public boolean martes;
+    public boolean miercoles;
+    public boolean jueves;
+    public boolean viernes;
     public String entrega;
     String horaentrega;
     public String direccion;
     public String observaciones;
-
-    //constructor
-    public DataModel(String empresa, String fecha, String hora, String nombre, long celular, String correo, String cargo, String tipomenu, String day,
-                     String entrega, String horaentrega, String direccion, String observaciones){
-        this.empresa = empresa;
-        this.fecha = fecha;
-        this.hora = hora;
-        this.nombre = nombre;
-        this.celular = celular;
-        this.correo = correo;
-        this.cargo = cargo;
-        this.tipomenu = tipomenu;
-
-        switch (day){
-            case "lunes":{
-                this.lunes = true;
-            }
-            break;
-            case "martes":{
-                this.martes = true;
-            }
-            break;
-            case "miercoles":{
-                this.miercoles = true;
-            }
-            break;
-            case "jueves":{
-                this.jueves = true;
-            }
-            break;
-            case "viernes":{
-                this.viernes = true;
-            }
-            break;
-        }
-        this.entrega = entrega;
-        this.horaentrega = horaentrega;
-        this.direccion = direccion;
-        this.observaciones = observaciones;
-    }
 
     public String getEmpresa() {
         return empresa;
