@@ -223,19 +223,19 @@ public class ChefController {
     public int getDisponibilidad(@PathVariable String empresa, @PathVariable String dia) {
         switch (dia){
             case "Lunes":{
-                return repository.findByEmpresa(empresa).getLunes();
+                return repository.findByEmpresa(empresa).Lunes;
             }
             case "Martes":{
-                return repository.findByEmpresa(empresa).getMartes();
+                return repository.findByEmpresa(empresa).Martes;
             }
             case "Miercoles":{
-                return repository.findByEmpresa(empresa).getMiercoles();
+                return repository.findByEmpresa(empresa).Miercoles;
             }
             case "Jueves":{
-                return repository.findByEmpresa(empresa).getJueves();
+                return repository.findByEmpresa(empresa).Jueves;
             }
             case "Viernes":{
-                return repository.findByEmpresa(empresa).getViernes();
+                return repository.findByEmpresa(empresa).Viernes;
             }
         }
         return 0;
