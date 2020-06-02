@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface EmpresasRepository extends MongoRepository<EmpresasModel, String> {
     EmpresasModel findByNombre(String nombre);
-    List<?> deleteByNombre(String nombre);
 
     @Query(value="{}", fields="{nombre : 1, _id : 0}")
     List<User> findNameAndExcludeId();

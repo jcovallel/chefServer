@@ -4,9 +4,18 @@ import org.springframework.data.annotation.Id;
 
 public class EmpresasModel {
     @Id
+    public String nombreid;
     public String nombre;
     public String correo;
     public String password;
+
+    public String getNombreid() {
+        return nombreid;
+    }
+
+    public void setNombreid(String nombreid) {
+        this.nombreid = nombreid;
+    }
 
     public String getNombre() {
         return nombre;

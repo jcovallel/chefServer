@@ -91,7 +91,7 @@ public class ChefController {
             return false;
         }
     }
-
+//FSDKJFLKJSDKFJSDKJLFKJSDLKFJSDKLJFLKSDJKLFJDLKJFLKJDSLKJFLKSDJFLKSDJFKSDJLKFJSDLKJFLKDSJKLFJSDKJFLKSDJFKLSDJFLKDSJFLSDJFLDKSJFLKSDFJSLKDJFLKSDJFLKDJLKDSJLKFJ
     @RequestMapping(value = "/sendmail/{user}/{mail}/{cambio}", method = RequestMethod.GET)
     public Boolean comparemail( @PathVariable String user, @PathVariable String mail, @PathVariable Boolean cambio) throws NoSuchAlgorithmException {
         if(emrepository.findByNombre(user).getCorreo().equals(mail)){
@@ -109,27 +109,44 @@ public class ChefController {
     }
 
     @RequestMapping(value = "/modifyinfoadmi/{user}/{nnombre}/{nmail}", method = RequestMethod.PUT)
-    public void modifyinfoadmi(@PathVariable String empresa, @PathVariable String nnombre, @PathVariable String nmail) {
-        EmpresasModel emodel = emrepository.findByNombre(empresa);
-        emrepository.deleteByNombre(empresa);
-        if(nnombre!=null){
-            emodel.setNombre(nnombre);
+    public void modifyinfoadmi(@PathVariable String user, @PathVariable String nnombre, @PathVariable String nmail) {
+        EmpresasModel emodelold = emrepository.findByNombre(user);
+        EmpresasModel emodelnew = new EmpresasModel();
+        emodelnew.setPassword(emodelold.getPassword());
+
+        if(!nmail.equals("NULL")){
+            if(!nnombre.equals("NULL")){
+                emodelnew.setNombreid(nnombre);
+                emodelnew.setNombre(nnombre);
+                emodelnew.setCorreo(nmail);
+                emrepository.save(emodelnew);
+            }else{
+                emodelnew.setNombreid(emodelold.getNombre());
+                emodelnew.setNombre(emodelold.getNombre());
+                emodelnew.setCorreo(nmail);
+                emrepository.save(emodelnew);
+            }
+        }else{
+            if(!nnombre.equals("NULL")){
+                emodelnew.setNombreid(nnombre);
+                emodelnew.setNombre(nnombre);
+                emodelnew.setCorreo(emodelold.getCorreo());
+                emrepository.save(emodelnew);
+            }
         }
-        if (nmail!=null){
-            emodel.setCorreo(nmail);
-        }
-        emrepository.save(emodel);
+        emrepository.save(emodelnew);
+        emrepository.deleteById(user);
     }
 
     @RequestMapping(value = "/getusers/", method = RequestMethod.GET)
     public List<User> getusers() {
         return emrepository.findNameAndExcludeId();
     }
-
+    /*
     @RequestMapping(value = "/deleteresta/", method = RequestMethod.GET)
     public void deleteresta(@PathVariable String empresa) {
-        emrepository.deleteByNombre(empresa);
-    }
+        //emrepository.deleteByNombre(empresa);
+    }*/
 
     @RequestMapping(value = "/review/", method = RequestMethod.POST)
     public void createreview(@Valid @RequestBody ComentModel cmodel) {
@@ -148,15 +165,30 @@ public class ChefController {
 
     @RequestMapping(value = "/modifydatausers/{user}/{npass}/{nmail}", method = RequestMethod.PUT)
     public void modifydatauser(@PathVariable String user, @PathVariable String npass, @PathVariable String nmail) {
-        EmpresasModel emodel = emrepository.findByNombre(user);
-        emrepository.deleteByNombre(user);
-        if(npass.equals("NULL")){
-           emodel.setPassword(npass);
+        EmpresasModel emodelold = emrepository.findByNombre(user);
+        EmpresasModel emodelnew = new EmpresasModel();
+        emodelnew.setNombreid(emodelold.getNombre());
+        emodelnew.setNombre(emodelold.getNombre());
+
+        if(!nmail.equals("NULL")){
+            if(!npass.equals("NULL")){
+                emodelnew.setPassword(npass);
+                emodelnew.setCorreo(nmail);
+                emrepository.save(emodelnew);
+            }else{
+                emodelnew.setPassword(emodelold.getPassword());
+                emodelnew.setCorreo(nmail);
+                emrepository.save(emodelnew);
+            }
+        }else{
+            if(!npass.equals("NULL")){
+                emodelnew.setPassword(npass);
+                emodelnew.setCorreo(emodelold.getCorreo());
+                emrepository.save(emodelnew);
+            }
         }
-        if (nmail.equals("NULL")){
-           emodel.setCorreo(nmail);
-        }
-        emrepository.save(emodel);
+        emrepository.save(emodelnew);
+        emrepository.deleteById(user);
     }
 
     @RequestMapping(value = "/disponibilidad/{empresa}/{dia}", method = RequestMethod.GET)
@@ -208,6 +240,11 @@ public class ChefController {
     @RequestMapping(value = "/disponibilidad/{empresa}", method = RequestMethod.DELETE)
     public void deleteDispo(@PathVariable String empresa) {
         repository.delete(repository.findByEmpresa(empresa));
+    }
+
+    @RequestMapping(value = "/deleteuser/{empresa}", method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable String empresa) {
+        emrepository.deleteById(empresa);
     }
 
     @RequestMapping(value = "/getmail/{empresa}", method = RequestMethod.GET)
