@@ -88,7 +88,12 @@ public class ChefController {
     public ResponseEntity<?> downloadcomen(@PathVariable String empresa) {
 
         ExcelController savetoexcel = new ExcelController();
-        List<ComentModel> comentModel = rvrepository.findByEmpresa(empresa);
+        List<ComentModel> comentModel;
+        if(empresa.equals("Administrador")){
+            comentModel = rvrepository.findAll();
+        }else{
+            comentModel = rvrepository.findByEmpresa(empresa);
+        }
         try {
             savetoexcel.comentwriteFile(comentModel);
         } catch (IOException e) {
