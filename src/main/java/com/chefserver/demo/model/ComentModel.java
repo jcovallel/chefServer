@@ -3,7 +3,6 @@ package com.chefserver.demo.model;
 import org.springframework.data.annotation.Id;
 
 public class ComentModel {
-    @Id
     public String empresa;
     public int estrellas;
     public String comentario;
