@@ -150,10 +150,10 @@ public class ChefController {
     public void modifydatauser(@PathVariable String user, @PathVariable String npass, @PathVariable String nmail) {
         EmpresasModel emodel = emrepository.findByNombre(user);
         emrepository.deleteByNombre(user);
-        if(npass!=null){
+        if(npass.equals("NULL")){
             emodel.setPassword(npass);
         }
-        if (nmail!=null){
+        if (nmail!="NULL"){
             emodel.setCorreo(nmail);
         }
         emrepository.save(emodel);
