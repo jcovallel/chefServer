@@ -59,7 +59,6 @@ public class ChefController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         //for local
         // String dirPath = "DatosExcel/";
         //for gcloud
@@ -77,6 +76,34 @@ public class ChefController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "reservas.xlsx" + "\"")
                 .body(byteArray);
     }
+
+    /*@GetMapping(value = "/download_excel_comen/{empresa}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<?> downloadcomen(@PathVariable String empresa) {
+
+        ExcelController savetoexcel = new ExcelController();
+        List<ComentModel> comentModel = rvrepository.findByEmpresa(empresa);
+        try {
+            comensavetoexcel.writeFile(comentModel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //for local
+        // String dirPath = "DatosExcel/";
+        //for gcloud
+        String dirPath = "../DatosExcel/";
+        byte[] byteArray;  // data comes from external service call in byte[]
+        byteArray = null;
+        try {
+            String fileName = "Reservaciones.xlsx";
+            byteArray = Files.readAllBytes(Paths.get(dirPath + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "reservas.xlsx" + "\"")
+                .body(byteArray);
+    }*/
 
     @RequestMapping(value = "/createuser/", method = RequestMethod.POST)
     public void createuser(@Valid @RequestBody EmpresasModel emodel) {
@@ -134,8 +161,8 @@ public class ChefController {
                 emrepository.save(emodelnew);
             }
         }
-        emrepository.save(emodelnew);
         emrepository.deleteById(user);
+        emrepository.save(emodelnew);
     }
 
     @RequestMapping(value = "/getusers/", method = RequestMethod.GET)
@@ -182,8 +209,8 @@ public class ChefController {
                 emrepository.save(emodelnew);
             }
         }
-        emrepository.save(emodelnew);
         emrepository.deleteById(user);
+        emrepository.save(emodelnew);
     }
 
     @RequestMapping(value = "/disponibilidad/{empresa}/{dia}", method = RequestMethod.GET)
