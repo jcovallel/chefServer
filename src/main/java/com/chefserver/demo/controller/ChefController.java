@@ -148,7 +148,7 @@ public class ChefController {
 
     @RequestMapping(value = "/modifydatausers/{user}/{npass}/{nmail}", method = RequestMethod.PUT)
     public void modifydatauser(@PathVariable String user, @PathVariable String npass, @PathVariable String nmail) {
-        //EmpresasModel emodel = emrepository.findByNombre(user);
+        EmpresasModel emodel = emrepository.findByNombre(user);
         //emrepository.deleteByNombre(user);
         //if(npass.equals("NULL")){
          //   emodel.setPassword(npass);
