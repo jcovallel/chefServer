@@ -221,7 +221,6 @@ public class ChefController {
 
     @RequestMapping(value = "/disponibilidad/{empresa}/{dia}", method = RequestMethod.GET)
     public int getDisponibilidad(@PathVariable String empresa, @PathVariable String dia) {
-        System.out.println(empresa+", "+dia);
         switch (dia){
             case "Lunes":{
                 return repository.findByEmpresa(empresa).getLunes();

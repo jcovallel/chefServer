@@ -65,57 +65,57 @@ public class ExcelController {
         for(int i =0; i<datamodel.size(); i++){
             fila = mySheet.createRow(i+1);
             celda = fila.createCell(0);
-            celda.setCellValue(datamodel.get(0).getFecha());
+            celda.setCellValue(datamodel.get(i).getFecha());
             celda = fila.createCell(1);
-            celda.setCellValue(datamodel.get(1).getHora());
+            celda.setCellValue(datamodel.get(i).getHora());
             celda = fila.createCell(2);
-            celda.setCellValue(datamodel.get(2).getNombre());
+            celda.setCellValue(datamodel.get(i).getNombre());
             celda = fila.createCell(3);
-            celda.setCellValue(datamodel.get(3).getCelular());
+            celda.setCellValue(datamodel.get(i).getCelular());
             celda = fila.createCell(4);
-            celda.setCellValue(datamodel.get(4).getCorreo());
+            celda.setCellValue(datamodel.get(i).getCorreo());
             celda = fila.createCell(5);
-            celda.setCellValue(datamodel.get(5).getCargo());
+            celda.setCellValue(datamodel.get(i).getCargo());
             celda = fila.createCell(6);
-            celda.setCellValue(datamodel.get(6).getTipomenu());
+            celda.setCellValue(datamodel.get(i).getTipomenu());
             celda = fila.createCell(7);
-            if(datamodel.get(7).isLunes()){
+            if(datamodel.get(i).isLunes()){
                 celda.setCellValue("si");
             }else {
                 celda.setCellValue("no");
             }
             celda = fila.createCell(8);
-            if(datamodel.get(8).isMartes()){
+            if(datamodel.get(i).isMartes()){
                 celda.setCellValue("si");
             }else {
                 celda.setCellValue("no");
             }
             celda = fila.createCell(9);
-            if(datamodel.get(9).isMiercoles()){
+            if(datamodel.get(i).isMiercoles()){
                 celda.setCellValue("si");
             }else {
                 celda.setCellValue("no");
             }
             celda = fila.createCell(10);
-            if(datamodel.get(10).isJueves()){
+            if(datamodel.get(i).isJueves()){
                 celda.setCellValue("si");
             }else {
                 celda.setCellValue("no");
             }
             celda = fila.createCell(11);
-            if(datamodel.get(11).isViernes()){
+            if(datamodel.get(i).isViernes()){
                 celda.setCellValue("si");
             }else {
                 celda.setCellValue("no");
             }
             celda = fila.createCell(12);
-            celda.setCellValue(datamodel.get(12).getEntrega());
+            celda.setCellValue(datamodel.get(i).getEntrega());
             celda = fila.createCell(13);
-            celda.setCellValue(datamodel.get(13).getHoraentrega());
+            celda.setCellValue(datamodel.get(i).getHoraentrega());
             celda = fila.createCell(14);
-            celda.setCellValue(datamodel.get(14).getDireccion());
+            celda.setCellValue(datamodel.get(i).getDireccion());
             celda = fila.createCell(15);
-            celda.setCellValue(datamodel.get(15).getObservaciones());
+            celda.setCellValue(datamodel.get(i).getObservaciones());
         }
         FileOutputStream salida = new FileOutputStream(myfile);
         myWorkBook.write(salida);
@@ -153,17 +153,17 @@ public class ExcelController {
         for(int i =0; i<comentmodel.size(); i++) {
             fila = mySheet.createRow(i + 1);
             celda = fila.createCell(0);
-            celda.setCellValue(comentmodel.get(0).getEmpresa());
+            celda.setCellValue(comentmodel.get(i).getEmpresa());
             celda = fila.createCell(1);
-            celda.setCellValue(comentmodel.get(1).getEstrellas());
+            celda.setCellValue(comentmodel.get(i).getEstrellas());
             celda = fila.createCell(2);
-            celda.setCellValue(comentmodel.get(2).getComentario());
+            celda.setCellValue(comentmodel.get(i).getComentario());
             celda = fila.createCell(3);
-            celda.setCellValue(comentmodel.get(3).getNombre());
+            celda.setCellValue(comentmodel.get(i).getNombre());
             celda = fila.createCell(4);
-            celda.setCellValue(comentmodel.get(4).getCelular());
+            celda.setCellValue(comentmodel.get(i).getCelular());
             celda = fila.createCell(5);
-            celda.setCellValue(comentmodel.get(5).getCorreo());
+            celda.setCellValue(comentmodel.get(i).getCorreo());
         }
 
         FileOutputStream salida = new FileOutputStream(myfile);
