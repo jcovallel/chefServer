@@ -4,12 +4,21 @@ import org.springframework.data.annotation.Id;
 
 public class DisponibilidadModel {
     @Id
+    public String empresaid;
     public String empresa;
     public Integer Lunes;
     public Integer Martes;
     public Integer Miercoles;
     public Integer Jueves;
     public Integer Viernes;
+
+    public String getEmpresaid() {
+        return empresaid;
+    }
+
+    public void setEmpresaid(String empresaid) {
+        this.empresaid = empresaid;
+    }
 
     public String getEmpresa() {
         return empresa;

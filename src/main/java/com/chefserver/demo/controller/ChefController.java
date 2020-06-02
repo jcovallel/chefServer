@@ -224,19 +224,19 @@ public class ChefController {
         System.out.println(empresa+", "+dia);
         switch (dia){
             case "Lunes":{
-                return repository.findByEmpresa(empresa).Lunes;
+                return repository.findByEmpresa(empresa).getLunes();
             }
             case "Martes":{
-                return repository.findByEmpresa(empresa).Martes;
+                return repository.findByEmpresa(empresa).getMartes();
             }
             case "Miercoles":{
-                return repository.findByEmpresa(empresa).Miercoles;
+                return repository.findByEmpresa(empresa).getMiercoles();
             }
             case "Jueves":{
-                return repository.findByEmpresa(empresa).Jueves;
+                return repository.findByEmpresa(empresa).getJueves();
             }
             case "Viernes":{
-                return repository.findByEmpresa(empresa).Viernes;
+                return repository.findByEmpresa(empresa).getViernes();
             }
         }
         return 0;
