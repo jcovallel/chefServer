@@ -142,11 +142,6 @@ public class ChefController {
     public List<User> getusers() {
         return emrepository.findNameAndExcludeId();
     }
-    /*
-    @RequestMapping(value = "/deleteresta/", method = RequestMethod.GET)
-    public void deleteresta(@PathVariable String empresa) {
-        //emrepository.deleteByNombre(empresa);
-    }*/
 
     @RequestMapping(value = "/review/", method = RequestMethod.POST)
     public void createreview(@Valid @RequestBody ComentModel cmodel) {
@@ -242,8 +237,13 @@ public class ChefController {
         repository.delete(repository.findByEmpresa(empresa));
     }
 
-    @RequestMapping(value = "/deleteuser/{empresa}", method = RequestMethod.DELETE)
+    /*@RequestMapping(value = "/deleteuser/{empresa}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable String empresa) {
+        emrepository.deleteById(empresa);
+    }*/
+
+    @RequestMapping(value = "/deleteuser/{empresa}", method = RequestMethod.GET)
+    public void deleteresta(@PathVariable String empresa) {
         emrepository.deleteById(empresa);
     }
 
