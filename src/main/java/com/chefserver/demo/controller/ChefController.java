@@ -308,25 +308,30 @@ public class ChefController {
     @RequestMapping(value = "/getdayslist/", method = RequestMethod.GET)
     public List<Dia> getdays() {
         //DisponibilidadModel dmodel = repository.findByEmpresa(empresa);
-        List<Dia> dlist = new ArrayList<>();
-        Dia dia = new Dia();
+        List<Dia> dlist = new ArrayList<Dia>();
+        Dia dia;
         //if(dmodel.getLunes()>0){
+            dia = new Dia();
             dia.setDia("lunes");
             dlist.add(dia);
         //}
         //if(dmodel.getLunes()>0){
+            dia = new Dia();
             dia.setDia("Martes");
             dlist.add(dia);
         //}
         //if(dmodel.getLunes()>0){
+            dia = new Dia();
             dia.setDia("Míercoles");
             dlist.add(dia);
         //}
         //if(dmodel.getLunes()>0){
+            dia = new Dia();
             dia.setDia("Jueves");
             dlist.add(dia);
         //}
         //if(dmodel.getLunes()>0){
+            dia = new Dia();
             dia.setDia("Viernes");
             dlist.add(dia);
         //}
