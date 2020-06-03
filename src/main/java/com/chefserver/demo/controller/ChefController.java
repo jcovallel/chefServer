@@ -304,9 +304,10 @@ public class ChefController {
     }
 
     //@RequestMapping(value = "/getdayslist/{empresa}", method = RequestMethod.GET)
+    //public List<Dia> getdays(@PathVariable String empresa) {
     @RequestMapping(value = "/getdayslist/", method = RequestMethod.GET)
-    public List<Dia> getdays(@PathVariable String empresa) {
-        DisponibilidadModel dmodel = repository.findByEmpresa(empresa);
+    public List<Dia> getdays() {
+        //DisponibilidadModel dmodel = repository.findByEmpresa(empresa);
         List<Dia> dlist = new ArrayList<>();
         Dia dia = new Dia();
         //if(dmodel.getLunes()>0){
