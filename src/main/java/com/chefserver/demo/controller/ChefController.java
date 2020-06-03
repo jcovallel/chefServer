@@ -348,7 +348,7 @@ public class ChefController {
 
     @RequestMapping(value = "/gethours/{empresa}/{dia}", method = RequestMethod.GET)
     public List<Horas> gethours(@PathVariable String empresa, @PathVariable String dia) {
-        DispoHorasModel dmodel = dhrepository.findByEmpresa(empresa);
+        DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(empresa,dia);
         List<Horas> dlist = new ArrayList<Horas>();
         Horas horas;
         if(dmodel.getFranja1()<20){

@@ -4,5 +4,5 @@ import com.chefserver.demo.model.DispoHorasModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface DispoHorasRepository extends MongoRepository<DispoHorasModel, String> {
-    DispoHorasModel findByEmpresa(String empresa);
+    DispoHorasModel findByEmpresaAndDia(String empresa, String dia);
 }
