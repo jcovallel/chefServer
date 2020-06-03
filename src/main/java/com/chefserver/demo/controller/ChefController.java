@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -302,15 +303,34 @@ public class ChefController {
         reserepository.save(dataModel);
     }
 
-    /*@RequestMapping(value = "/reserva/save", method = RequestMethod.POST)
-    public void createReservationREG(@Valid @RequestBody DataModel dataModel) {
-        ExcelController savetoexcel = new ExcelController();
-        try {
-            savetoexcel.writeFile(dataModel);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
+    //@RequestMapping(value = "/getdayslist/{empresa}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getdayslist/", method = RequestMethod.GET)
+    public List<Dia> getdays(@PathVariable String empresa) {
+        DisponibilidadModel dmodel = repository.findByEmpresa(empresa);
+        List<Dia> dlist = new ArrayList<>();
+        Dia dia = new Dia();
+        //if(dmodel.getLunes()>0){
+            dia.setDia("lunes");
+            dlist.add(dia);
+        //}
+        //if(dmodel.getLunes()>0){
+            dia.setDia("Martes");
+            dlist.add(dia);
+        //}
+        //if(dmodel.getLunes()>0){
+            dia.setDia("Míercoles");
+            dlist.add(dia);
+        //}
+        //if(dmodel.getLunes()>0){
+            dia.setDia("Jueves");
+            dlist.add(dia);
+        //}
+        //if(dmodel.getLunes()>0){
+            dia.setDia("Viernes");
+            dlist.add(dia);
+        //}
+        return dlist;
+    }
 
     void sendEmail(String to, String subject, String content) {
 
