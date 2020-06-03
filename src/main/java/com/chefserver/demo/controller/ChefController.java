@@ -34,6 +34,9 @@ public class ChefController {
     private DispoRepository repository;
 
     @Autowired
+    private DispoHorasRepository dhrepository;
+
+    @Autowired
     private ComentRepository rvrepository;
 
     @Autowired
@@ -335,6 +338,119 @@ public class ChefController {
             dia.setDia("Viernes");
             dlist.add(dia);
         //}
+        return dlist;
+    }
+
+    @RequestMapping(value = "/createhours/", method = RequestMethod.POST)
+    public void createhours(@Valid @RequestBody DispoHorasModel cmodel) {
+        dhrepository.save(cmodel);
+    }
+
+    @RequestMapping(value = "/gethours/{empresa}/{dia}", method = RequestMethod.GET)
+    public List<Horas> gethours(@PathVariable String empresa, @PathVariable String dia) {
+        DispoHorasModel dmodel = dhrepository.findByEmpresa(empresa);
+        List<Horas> dlist = new ArrayList<Horas>();
+        Horas horas;
+        if(dmodel.getFranja1()<20){
+            horas = new Horas();
+            horas.setHoras("10:00am - 10:15am");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja2()<20){
+            horas = new Horas();
+            horas.setHoras("10:15am - 10:30am");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja3()<20){
+            horas = new Horas();
+            horas.setHoras("10:30am - 10:45am");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja4()<20){
+            horas = new Horas();
+            horas.setHoras("10:45am - 11:00am");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja5()<20){
+            horas = new Horas();
+            horas.setHoras("11:00am - 11:15am");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja6()<20){
+            horas = new Horas();
+            horas.setHoras("11:15am - 11:30am");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja7()<20){
+            horas = new Horas();
+            horas.setHoras("11:30am - 11:45am");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja8()<20){
+            horas = new Horas();
+            horas.setHoras("11:45 - 12:00pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja9()<20){
+            horas = new Horas();
+            horas.setHoras("12:00pm - 12:15pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja10()<20){
+            horas = new Horas();
+            horas.setHoras("12:15pm - 12:30pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja11()<20){
+            horas = new Horas();
+            horas.setHoras("12:30pm - 12:45pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja12()<20){
+            horas = new Horas();
+            horas.setHoras("12:45pm - 01:00pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja13()<20){
+            horas = new Horas();
+            horas.setHoras("01:00pm - 01:15pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja14()<20){
+            horas = new Horas();
+            horas.setHoras("01:15pm - 01:30pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja15()<20){
+            horas = new Horas();
+            horas.setHoras("01:30pm - 01:45pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja16()<20){
+            horas = new Horas();
+            horas.setHoras("01:45pm - 02:00pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja17()<20){
+            horas = new Horas();
+            horas.setHoras("02:00pm - 02:15pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja18()<20){
+            horas = new Horas();
+            horas.setHoras("02:15pm - 02:30pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja19()<20){
+            horas = new Horas();
+            horas.setHoras("02:30pm - 02:45pm");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja20()<20){
+            horas = new Horas();
+            horas.setHoras("02:45pm - 03:00pm");
+            dlist.add(horas);
+        }
         return dlist;
     }
 
