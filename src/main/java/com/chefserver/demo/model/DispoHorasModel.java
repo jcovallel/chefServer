@@ -1,6 +1,10 @@
 package com.chefserver.demo.model;
 
+import org.springframework.data.annotation.Id;
+
 public class DispoHorasModel {
+    @Id
+    String id;
     String empresa;
     String dia;
     int franja1;
@@ -23,6 +27,14 @@ public class DispoHorasModel {
     int franja18;
     int franja19;
     int franja20;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getEmpresa() {
         return empresa;

@@ -695,5 +695,68 @@ public class ChefController {
         arepository.delete(dmodel);
         arepository.save(newmodel);
     }
+    @Scheduled(cron = "0 0 0 ? * MON", zone = "GMT-5")
+    public void reset() {
+        List<AvailaibleDays> lresult = arepository.findAll();
+        AvailaibleDays dmodel = lresult.get(0);
+        AvailaibleDays newmodel = new AvailaibleDays();
+        newmodel.setid("availaible");
+        newmodel.setLunes(true);
+        newmodel.setMartes(true);
+        newmodel.setMiercoles(true);
+        newmodel.setJueves(true);
+        newmodel.setViernes(true);
+        arepository.delete(dmodel);
+        arepository.save(newmodel);
+    }
+    @Scheduled(cron = "0 0 15 ? * FRI", zone = "GMT-5")
+    public void resethours() {
+        List<User> nombres = getusers();
+        for(int i =0; i<nombres.size(); i++){
+            if(!nombres.get(i).getNombre().equals("Administrador")){
+                DispoHorasModel dmodel;
+                DispoHorasModel dmodel2;
+                dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Lunes");
+                dmodel2 = new DispoHorasModel();
+                dmodel2.setId(dmodel.getId());
+                dmodel2.setEmpresa(dmodel.getEmpresa());
+                dmodel2.setDia("Lunes");
+                dhrepository.delete(dmodel);
+                dhrepository.save(dmodel2);
+
+                dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Martes");
+                dmodel2 = new DispoHorasModel();
+                dmodel2.setId(dmodel.getId());
+                dmodel2.setEmpresa(dmodel.getEmpresa());
+                dmodel2.setDia("Martes");
+                dhrepository.delete(dmodel);
+                dhrepository.save(dmodel2);
+
+                dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Miércoles");
+                dmodel2 = new DispoHorasModel();
+                dmodel2.setId(dmodel.getId());
+                dmodel2.setEmpresa(dmodel.getEmpresa());
+                dmodel2.setDia("Miércoles");
+                dhrepository.delete(dmodel);
+                dhrepository.save(dmodel2);
+
+                dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Jueves");
+                dmodel2 = new DispoHorasModel();
+                dmodel2.setId(dmodel.getId());
+                dmodel2.setEmpresa(dmodel.getEmpresa());
+                dmodel2.setDia("Jueves");
+                dhrepository.delete(dmodel);
+                dhrepository.save(dmodel2);
+
+                dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Viernes");
+                dmodel2 = new DispoHorasModel();
+                dmodel2.setId(dmodel.getId());
+                dmodel2.setEmpresa(dmodel.getEmpresa());
+                dmodel2.setDia("Viernes");
+                dhrepository.delete(dmodel);
+                dhrepository.save(dmodel2);
+            }
+        }
+    }
 }
 
