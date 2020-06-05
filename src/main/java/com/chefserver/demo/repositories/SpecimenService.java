@@ -15,6 +15,7 @@ public class SpecimenService implements ISpecimenService{
         //for local
         //String folder ="src/main/resources/Images/Menu.jpg";
         //for gcloud
+        empresa = empresa.replaceAll(" ","-");
         String folder ="../src/main/resources/Images/"+empresa+"Menu.jpg";
         byte[] bytes = imageFile.getBytes();
         Path path = Paths.get(folder);
