@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,6 +45,9 @@ public class ChefController {
 
     @Autowired
     private ReservaRepository reserepository;
+
+    @Autowired
+    private AvailableRepository arepository;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -235,6 +239,45 @@ public class ChefController {
         emrepository.save(emodelnew);
     }
 
+    @RequestMapping(value = "/setavailabledays/", method = RequestMethod.POST)
+    public void setavadays(@Valid @RequestBody AvailaibleDays amodel) {
+        arepository.save(amodel);
+    }
+
+    @RequestMapping(value = "/getavailabledays/", method = RequestMethod.GET)
+    public List<Dia> getavadays() {
+        List<AvailaibleDays> lresult = arepository.findAll();
+        AvailaibleDays dmodel = lresult.get(0);
+        List<Dia> dlist = new ArrayList<Dia>();
+        Dia dia;
+        if(dmodel.getLunes()){
+            dia = new Dia();
+            dia.setDia("Lunes");
+            dlist.add(dia);
+        }
+        if(dmodel.getMartes()){
+            dia = new Dia();
+            dia.setDia("Martes");
+            dlist.add(dia);
+        }
+        if(dmodel.getMiercoles()){
+            dia = new Dia();
+            dia.setDia("Míercoles");
+            dlist.add(dia);
+        }
+        if(dmodel.getJueves()){
+            dia = new Dia();
+            dia.setDia("Jueves");
+            dlist.add(dia);
+        }
+        if(dmodel.getViernes()){
+            dia = new Dia();
+            dia.setDia("Viernes");
+            dlist.add(dia);
+        }
+        return dlist;
+    }
+
     @RequestMapping(value = "/disponibilidad/{empresa}/{dia}", method = RequestMethod.GET)
     public int getDisponibilidad(@PathVariable String empresa, @PathVariable String dia) {
         switch (dia){
@@ -301,8 +344,13 @@ public class ChefController {
         return emrepository.findByNombre(empresa).getCorreo();
     }
 
-    @RequestMapping(value = "/reserva/save", method = RequestMethod.POST)
-    public void createReservationREG(@Valid @RequestBody DataModel dataModel) {
+    @RequestMapping(value = "/reserva/save/{provisional}", method = RequestMethod.POST)
+    public void createReservationREG(@Valid @RequestBody DataModel dataModel, @PathVariable String provisional) {
+        if(!dataModel.getHoraentrega().equals("")){
+            String dia = provisional.replace(dataModel.getEmpresa(),"");
+            DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
+            setFranjaEQ(dataModel.getHoraentrega(), dmodel);
+        }
         reserepository.save(dataModel);
     }
 
@@ -491,6 +539,161 @@ public class ChefController {
 
         }
         return passHashedValue;
+    }
+
+    public int setFranjaEQ(String equivalente, DispoHorasModel dmodel){
+        if(equivalente.equals("10:00am - 10:15am")){
+            dmodel.setFranja1(dmodel.getFranja1()+1);
+            return 0;
+        }
+        if(equivalente.equals("10:15am - 10:30am")){
+            dmodel.setFranja2(dmodel.getFranja2()+1);
+            return 0;
+        }
+        if(equivalente.equals("10:30am - 10:45am")){
+            dmodel.setFranja3(dmodel.getFranja3()+1);
+            return 0;
+        }
+        if(equivalente.equals("10:45am - 11:00am")){
+            dmodel.setFranja4(dmodel.getFranja4()+1);
+            return 0;
+        }
+        if(equivalente.equals("11:00am - 11:15am")){
+            dmodel.setFranja5(dmodel.getFranja5()+1);
+            return 0;
+        }
+        if(equivalente.equals("11:15am - 11:30am")){
+            dmodel.setFranja6(dmodel.getFranja6()+1);
+            return 0;
+        }
+        if(equivalente.equals("11:30am - 11:45am")){
+            dmodel.setFranja7(dmodel.getFranja8()+1);
+            return 0;
+        }
+        if(equivalente.equals("11:45 - 12:00pm")){
+            dmodel.setFranja8(dmodel.getFranja8()+1);
+            return 0;
+        }
+        if(equivalente.equals("12:00pm - 12:15pm")){
+            dmodel.setFranja9(dmodel.getFranja9()+1);
+            return 0;
+        }
+        if(equivalente.equals("12:15pm - 12:30pm")){
+            dmodel.setFranja10(dmodel.getFranja10()+1);
+            return 0;
+        }
+        if(equivalente.equals("12:30pm - 12:45pm")){
+            dmodel.setFranja11(dmodel.getFranja11()+1);
+            return 0;
+        }
+        if(equivalente.equals("12:45pm - 01:00pm")){
+            dmodel.setFranja12(dmodel.getFranja12()+1);
+            return 0;
+        }
+        if(equivalente.equals("01:00pm - 01:15pm")){
+            dmodel.setFranja13(dmodel.getFranja13()+1);
+            return 0;
+        }
+        if(equivalente.equals("01:15pm - 01:30pm")){
+            dmodel.setFranja14(dmodel.getFranja14()+1);
+            return 0;
+        }
+        if(equivalente.equals("01:30pm - 01:45pm")){
+            dmodel.setFranja15(dmodel.getFranja15()+1);
+            return 0;
+        }
+        if(equivalente.equals("01:45pm - 02:00pm")){
+            dmodel.setFranja16(dmodel.getFranja16()+1);
+            return 0;
+        }
+        if(equivalente.equals("02:00pm - 02:15pm")){
+            dmodel.setFranja17(dmodel.getFranja17()+1);
+            return 0;
+        }
+        if(equivalente.equals("02:15pm - 02:30pm")){
+            dmodel.setFranja18(dmodel.getFranja18()+1);
+            return 0;
+        }
+        if(equivalente.equals("02:30pm - 02:45pm")){
+            dmodel.setFranja19(dmodel.getFranja19()+1);
+            return 0;
+        }
+        if(equivalente.equals("02:45pm - 03:00pm")){
+            dmodel.setFranja20(dmodel.getFranja20()+1);
+            return 0;
+        }
+        return 0;
+    }
+
+    @Scheduled(cron = "0 0 10 ? * MON", zone = "GMT-5")
+    public void Nomasporlun() {
+        List<AvailaibleDays> lresult = arepository.findAll();
+        AvailaibleDays dmodel = lresult.get(0);
+        AvailaibleDays newmodel = new AvailaibleDays();
+        newmodel.setid("availaible");
+        newmodel.setLunes(false);
+        newmodel.setMartes(true);
+        newmodel.setMiercoles(true);
+        newmodel.setJueves(true);
+        newmodel.setViernes(true);
+        arepository.delete(dmodel);
+        arepository.save(newmodel);
+    }
+    @Scheduled(cron = "0 0 10 ? * TUE", zone = "GMT-5")
+    public void Nomaspormar() {
+        List<AvailaibleDays> lresult = arepository.findAll();
+        AvailaibleDays dmodel = lresult.get(0);
+        AvailaibleDays newmodel = new AvailaibleDays();
+        newmodel.setid("availaible");
+        newmodel.setLunes(false);
+        newmodel.setMartes(false);
+        newmodel.setMiercoles(true);
+        newmodel.setJueves(true);
+        newmodel.setViernes(true);
+        arepository.delete(dmodel);
+        arepository.save(newmodel);
+    }
+    @Scheduled(cron = "0 0 10 ? * WED", zone = "GMT-5")
+    public void Nomaspormie() {
+        List<AvailaibleDays> lresult = arepository.findAll();
+        AvailaibleDays dmodel = lresult.get(0);
+        AvailaibleDays newmodel = new AvailaibleDays();
+        newmodel.setid("availaible");
+        newmodel.setLunes(false);
+        newmodel.setMartes(false);
+        newmodel.setMiercoles(false);
+        newmodel.setJueves(true);
+        newmodel.setViernes(true);
+        arepository.delete(dmodel);
+        arepository.save(newmodel);
+    }
+    @Scheduled(cron = "0 0 10 ? * THU", zone = "GMT-5")
+    public void Nomasporjue() {
+        List<AvailaibleDays> lresult = arepository.findAll();
+        AvailaibleDays dmodel = lresult.get(0);
+        AvailaibleDays newmodel = new AvailaibleDays();
+        newmodel.setid("availaible");
+        newmodel.setLunes(false);
+        newmodel.setMartes(false);
+        newmodel.setMiercoles(false);
+        newmodel.setJueves(false);
+        newmodel.setViernes(true);
+        arepository.delete(dmodel);
+        arepository.save(newmodel);
+    }
+    @Scheduled(cron = "0 0 10 ? * FRI", zone = "GMT-5")
+    public void Nomasporvie() {
+        List<AvailaibleDays> lresult = arepository.findAll();
+        AvailaibleDays dmodel = lresult.get(0);
+        AvailaibleDays newmodel = new AvailaibleDays();
+        newmodel.setid("availaible");
+        newmodel.setLunes(false);
+        newmodel.setMartes(false);
+        newmodel.setMiercoles(false);
+        newmodel.setJueves(false);
+        newmodel.setViernes(false);
+        arepository.delete(dmodel);
+        arepository.save(newmodel);
     }
 }
 
