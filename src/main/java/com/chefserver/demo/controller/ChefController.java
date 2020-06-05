@@ -316,22 +316,22 @@ public class ChefController {
             dia.setDia("Lunes");
             dlist.add(dia);
         }
-        if(dmodel.getLunes()>0){
+        if(dmodel.getMartes()>0){
             dia = new Dia();
             dia.setDia("Martes");
             dlist.add(dia);
         }
-        if(dmodel.getLunes()>0){
+        if(dmodel.getMiercoles()>0){
             dia = new Dia();
             dia.setDia("Míercoles");
             dlist.add(dia);
         }
-        if(dmodel.getLunes()>0){
+        if(dmodel.getJueves()>0){
             dia = new Dia();
             dia.setDia("Jueves");
             dlist.add(dia);
         }
-        if(dmodel.getLunes()>0){
+        if(dmodel.getViernes()>0){
             dia = new Dia();
             dia.setDia("Viernes");
             dlist.add(dia);
