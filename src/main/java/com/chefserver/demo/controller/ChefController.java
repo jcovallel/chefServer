@@ -48,11 +48,11 @@ public class ChefController {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @PostMapping("/uploadmenu")
-    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile){
+    @PostMapping("/uploadmenu/{empresa}")
+    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable String empresa){
         String returnValue = "error";
         try {
-            specimenService.saveImage(imageFile);
+            specimenService.saveImage(imageFile, empresa);
             returnValue = "exitosa";
         } catch (Exception e) {
             e.printStackTrace();
@@ -339,7 +339,7 @@ public class ChefController {
         return dlist;
     }
 
-    @RequestMapping(value = "/createhours/", method = RequestMethod.POST)
+    @RequestMapping(value = "/createhours", method = RequestMethod.POST)
     public void createhours(@Valid @RequestBody DispoHorasModel cmodel) {
         dhrepository.save(cmodel);
     }

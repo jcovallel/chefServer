@@ -11,11 +11,11 @@ import java.nio.file.Paths;
 public class SpecimenService implements ISpecimenService{
 
     @Override
-    public void saveImage(MultipartFile imageFile) throws Exception {
+    public void saveImage(MultipartFile imageFile, String empresa) throws Exception {
         //for local
         //String folder ="src/main/resources/Images/Menu.jpg";
         //for gcloud
-        String folder ="../src/main/resources/Images/Menu.jpg";
+        String folder ="../src/main/resources/Images/"+empresa+"Menu.jpg";
         byte[] bytes = imageFile.getBytes();
         Path path = Paths.get(folder);
         Files.write(path,bytes);

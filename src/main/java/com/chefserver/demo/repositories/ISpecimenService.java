@@ -5,5 +5,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 public interface ISpecimenService {
-    void saveImage(MultipartFile imageFile) throws Exception;
+    void saveImage(MultipartFile imageFile, String empresa) throws Exception;
 }
