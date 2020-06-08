@@ -262,7 +262,7 @@ public class ChefController {
         }
         if(dmodel.getMiercoles()){
             dia = new Dia();
-            dia.setDia("Míercoles");
+            dia.setDia("Miércoles");
             dlist.add(dia);
         }
         if(dmodel.getJueves()){
