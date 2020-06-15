@@ -351,6 +351,10 @@ public class ChefController {
             DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
             setFranjaEQ(dataModel.getHoraentrega(), dmodel);
         }
+        String contenido = "Este es un resumen de la resevacion:\n";
+        contenido+="Tipo de ménu: "+dataModel.getTipomenu()+"\n";
+        contenido+="Fecha reservacion: "+dataModel.getFecha()+" "+dataModel.getHora()+"\n";
+        sendEmail(getmail(dataModel.getEmpresa()),"Tiene una nueva reservacion", contenido);
         reserepository.save(dataModel);
     }
 
@@ -399,103 +403,157 @@ public class ChefController {
         Horas horas;
         if(dmodel.getFranja1()<20){
             horas = new Horas();
-            horas.setHoras("10:00am - 10:15am");
+            if(empresa.equals("Albahaca")){
+                horas.setHoras("06:40pm - 06:55pm");
+            }else{
+                horas.setHoras("10:00am - 10:15am");
+            }
             dlist.add(horas);
         }
         if(dmodel.getFranja2()<20){
             horas = new Horas();
-            horas.setHoras("10:15am - 10:30am");
+            if(empresa.equals("Albahaca")){
+                horas.setHoras("06:55pm - 07:10pm");
+            }else{
+                horas.setHoras("10:15am - 10:30am");
+            }
             dlist.add(horas);
         }
         if(dmodel.getFranja3()<20){
             horas = new Horas();
-            horas.setHoras("10:30am - 10:45am");
+            if(empresa.equals("Albahaca")){
+                horas.setHoras("07:10pm - 07:25pm");
+            }else{
+                horas.setHoras("10:30am - 10:45am");
+            }
             dlist.add(horas);
         }
         if(dmodel.getFranja4()<20){
             horas = new Horas();
-            horas.setHoras("10:45am - 11:00am");
+            if(empresa.equals("Albahaca")){
+                horas.setHoras("07:25pm - 07:40pm");
+            }else{
+                horas.setHoras("10:45am - 11:00am");
+            }
             dlist.add(horas);
         }
         if(dmodel.getFranja5()<20){
             horas = new Horas();
-            horas.setHoras("11:00am - 11:15am");
+            if(empresa.equals("Albahaca")){
+                horas.setHoras("07:40pm - 07:55pm");
+            }else{
+                horas.setHoras("11:00am - 11:15am");
+            }
             dlist.add(horas);
         }
         if(dmodel.getFranja6()<20){
             horas = new Horas();
-            horas.setHoras("11:15am - 11:30am");
+            if(empresa.equals("Albahaca")){
+                horas.setHoras("07:55pm - 08:10pm");
+            }else{
+                horas.setHoras("11:15am - 11:30am");
+            }
             dlist.add(horas);
         }
         if(dmodel.getFranja7()<20){
             horas = new Horas();
-            horas.setHoras("11:30am - 11:45am");
+            if(empresa.equals("Albahaca")){
+                horas.setHoras("08:10pm - 08:25pm");
+            }else{
+                horas.setHoras("11:30am - 11:45am");
+            }
             dlist.add(horas);
         }
         if(dmodel.getFranja8()<20){
             horas = new Horas();
-            horas.setHoras("11:45 - 12:00pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("11:45 - 12:00pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja9()<20){
             horas = new Horas();
-            horas.setHoras("12:00pm - 12:15pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("12:00pm - 12:15pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja10()<20){
             horas = new Horas();
-            horas.setHoras("12:15pm - 12:30pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("12:15pm - 12:30pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja11()<20){
             horas = new Horas();
-            horas.setHoras("12:30pm - 12:45pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("12:15pm - 12:30pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja12()<20){
             horas = new Horas();
-            horas.setHoras("12:45pm - 01:00pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("12:45pm - 01:00pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja13()<20){
             horas = new Horas();
-            horas.setHoras("01:00pm - 01:15pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("01:00pm - 01:15pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja14()<20){
             horas = new Horas();
-            horas.setHoras("01:15pm - 01:30pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("01:15pm - 01:30pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja15()<20){
             horas = new Horas();
-            horas.setHoras("01:30pm - 01:45pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("01:30pm - 01:45pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja16()<20){
             horas = new Horas();
-            horas.setHoras("01:45pm - 02:00pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("01:45pm - 02:00pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja17()<20){
             horas = new Horas();
-            horas.setHoras("02:00pm - 02:15pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("02:00pm - 02:15pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja18()<20){
             horas = new Horas();
-            horas.setHoras("02:15pm - 02:30pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("02:15pm - 02:30pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja19()<20){
             horas = new Horas();
-            horas.setHoras("02:30pm - 02:45pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("02:30pm - 02:45pm");
+                dlist.add(horas);
+            }
         }
         if(dmodel.getFranja20()<20){
             horas = new Horas();
-            horas.setHoras("02:45pm - 03:00pm");
-            dlist.add(horas);
+            if(!empresa.equals("Albahaca")){
+                horas.setHoras("02:45pm - 03:00pm");
+                dlist.add(horas);
+            }
         }
         return dlist;
     }
