@@ -3,6 +3,9 @@ package com.chefserver.demo.controller;
 import com.chefserver.demo.model.*;
 import com.chefserver.demo.ExcelDB.ExcelController;
 import com.chefserver.demo.repositories.*;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -351,9 +354,15 @@ public class ChefController {
             DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
             setFranjaEQ(dataModel.getHoraentrega(), dmodel);
         }
-        String contenido = "Este es un resumen de la resevacion:\n";
-        contenido+="Tipo de ménu: "+dataModel.getTipomenu()+"\n";
-        contenido+="Fecha reservacion: "+dataModel.getFecha()+" "+dataModel.getHora()+"\n";
+        String contenido = "Hola! "+dataModel.getNombre()+"acaba de reservar\n";
+        contenido+="Tipo de menú: "+dataModel.getTipomenu()+"\n";
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEE,dd,MMMM");
+        LocalDate ld = LocalDate.parse(dataModel.getFecha(),fmt);
+        contenido+="Para el día: "+ld.toString()+"\n";
+        contenido+="Hora de reserva: "+dataModel.getHora()+"\n";
+        if(!dataModel.getHoraentrega().equals("")){
+            contenido+="Hora de entrega: "+dataModel.getHoraentrega()+"\n";
+        }
         sendEmail(getmail(dataModel.getEmpresa()),"Tiene una nueva reservacion", contenido);
         reserepository.save(dataModel);
     }
