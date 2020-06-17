@@ -54,9 +54,9 @@ public class ExcelController {
         celda = fila.createCell(11);
         celda.setCellValue("Reserva menú Viernes");
         celda = fila.createCell(12);
-        celda.setCellValue("Entrega");
+        celda.setCellValue("Tipo entrega");
         celda = fila.createCell(13);
-        celda.setCellValue("Hora entrega");
+        celda.setCellValue("Hora reserva");
         celda = fila.createCell(14);
         celda.setCellValue("Dirección");
         celda = fila.createCell(15);

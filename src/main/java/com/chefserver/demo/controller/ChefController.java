@@ -4,6 +4,7 @@ import com.chefserver.demo.model.*;
 import com.chefserver.demo.ExcelDB.ExcelController;
 import com.chefserver.demo.repositories.*;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -349,19 +350,42 @@ public class ChefController {
 
     @RequestMapping(value = "/reserva/save/{provisional}", method = RequestMethod.POST)
     public void createReservationREG(@Valid @RequestBody DataModel dataModel, @PathVariable String provisional) {
+        String dia = provisional.replace(dataModel.getEmpresa(),"");
         if(!dataModel.getHoraentrega().equals("")){
-            String dia = provisional.replace(dataModel.getEmpresa(),"");
             DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
             setFranjaEQ(dataModel.getHoraentrega(), dmodel);
         }
-        String contenido = "Hola! "+dataModel.getNombre()+"acaba de reservar\n";
+        String contenido = "Hola! "+dataModel.getNombre()+" acaba de reservar\n";
         contenido+="Tipo de menú: "+dataModel.getTipomenu()+"\n";
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEE dd - MMMM");
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("e");
         LocalDate ld = LocalDate.parse(dataModel.getFecha());
+        int hoy = Integer.parseInt(ld.toString(fmt));
+        int reservaday=0;
+        switch (dia){
+            case "Lunes":{
+                reservaday=1;
+            }break;
+            case "Martes":{
+                reservaday=2;
+            }break;
+            case "Miércoles":{
+                reservaday=3;
+            }break;
+            case "Jueves":{
+                reservaday=4;
+            }break;
+            case "Viernes":{
+                reservaday=5;
+            }break;
+        }
+        LocalDate ld2 = ld.plusDays(reservaday-hoy);
+        DateTimeFormatter fmt2 = DateTimeFormat.forPattern("EEEE dd - MMMM");
         contenido+="Para el día: "+ld.toString(fmt).replace("-","de")+"\n";
-        contenido+="Hora de reserva: "+dataModel.getHora()+"\n";
+        contenido+="Tipo de entrega: "+dataModel.getEntrega()+"\n";
         if(!dataModel.getHoraentrega().equals("")){
-            contenido+="Hora de entrega: "+dataModel.getHoraentrega()+"\n";
+            contenido+="Hora de reserva: "+dataModel.getHoraentrega()+"\n";
+        }else{
+            contenido+="Direccion: "+dataModel.getDireccion()+"\n";
         }
         sendEmail(getmail(dataModel.getEmpresa()),"Tiene una nueva reservacion", contenido);
         reserepository.save(dataModel);
