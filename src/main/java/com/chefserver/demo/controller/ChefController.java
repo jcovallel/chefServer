@@ -356,9 +356,9 @@ public class ChefController {
         }
         String contenido = "Hola! "+dataModel.getNombre()+"acaba de reservar\n";
         contenido+="Tipo de menú: "+dataModel.getTipomenu()+"\n";
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEE,dd,MMMM");
-        LocalDate ld = LocalDate.parse(dataModel.getFecha(),fmt);
-        contenido+="Para el día: "+ld.toString()+"\n";
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEE dd - MMMM");
+        LocalDate ld = LocalDate.parse(dataModel.getFecha());
+        contenido+="Para el día: "+ld.toString(fmt).replace("-","de")+"\n";
         contenido+="Hora de reserva: "+dataModel.getHora()+"\n";
         if(!dataModel.getHoraentrega().equals("")){
             contenido+="Hora de entrega: "+dataModel.getHoraentrega()+"\n";
