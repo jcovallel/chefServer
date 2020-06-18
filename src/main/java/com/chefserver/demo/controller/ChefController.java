@@ -380,7 +380,7 @@ public class ChefController {
         }
         LocalDate ld2 = ld.plusDays(reservaday-hoy);
         DateTimeFormatter fmt2 = DateTimeFormat.forPattern("EEEE dd - MMMM");
-        contenido+="Para el día: "+ld.toString(fmt).replace("-","de")+"\n";
+        contenido+="Para el día: "+ld2.toString(fmt2).replace("-","de")+"\n";
         contenido+="Tipo de entrega: "+dataModel.getEntrega()+"\n";
         if(!dataModel.getHoraentrega().equals("")){
             contenido+="Hora de reserva: "+dataModel.getHoraentrega()+"\n";
