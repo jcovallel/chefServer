@@ -351,11 +351,12 @@ public class ChefController {
     @RequestMapping(value = "/reserva/save/{provisional}", method = RequestMethod.POST)
     public void createReservationREG(@Valid @RequestBody DataModel dataModel, @PathVariable String provisional) {
         String dia = provisional.replace(dataModel.getEmpresa(),"");
+        if(dia.equals("Miercoles")){
+            dia = "Miércoles";
+        }
         if(!dataModel.getHoraentrega().equals("")){
-            System.out.println("empresa: "+dataModel.getEmpresa()+", dia: "+dia);
             DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
-            //System.out.println("hola disculpe: "+dmodel.getId());
-            //setFranjaEQ(dataModel.getHoraentrega(), dmodel, dhrepository);
+            setFranjaEQ(dataModel.getHoraentrega(), dmodel, dhrepository);
         }
         String contenido = "Hola! "+dataModel.getNombre()+" acaba de reservar\n";
         contenido+="Tipo de menú: "+dataModel.getTipomenu()+"\n";
