@@ -353,7 +353,7 @@ public class ChefController {
         String dia = provisional.replace(dataModel.getEmpresa(),"");
         if(!dataModel.getHoraentrega().equals("")){
             DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
-            setFranjaEQ(dataModel.getHoraentrega(), dmodel);
+            setFranjaEQ(dataModel.getHoraentrega(), dmodel, dhrepository);
         }
         String contenido = "Hola! "+dataModel.getNombre()+" acaba de reservar\n";
         contenido+="Tipo de menú: "+dataModel.getTipomenu()+"\n";
@@ -632,85 +632,129 @@ public class ChefController {
         return passHashedValue;
     }
 
-    public int setFranjaEQ(String equivalente, DispoHorasModel dmodel){
+    public int setFranjaEQ(String equivalente, DispoHorasModel dmodel, DispoHorasRepository dh){
+        DispoHorasModel dmodel2 = new DispoHorasModel();
+        dmodel2.setId(dmodel.getId());
+        dmodel2.setEmpresa(dmodel.getEmpresa());
+        dmodel2.setDia(dmodel.getDia());
+        dmodel2.setFranja1(dmodel.getFranja1());
+        dmodel2.setFranja2(dmodel.getFranja2());
+        dmodel2.setFranja3(dmodel.getFranja3());
+        dmodel2.setFranja4(dmodel.getFranja4());
+        dmodel2.setFranja5(dmodel.getFranja5());
+        dmodel2.setFranja6(dmodel.getFranja6());
+        dmodel2.setFranja7(dmodel.getFranja7());
+        dmodel2.setFranja8(dmodel.getFranja8());
+        dmodel2.setFranja9(dmodel.getFranja9());
+        dmodel2.setFranja10(dmodel.getFranja10());
+        dmodel2.setFranja11(dmodel.getFranja11());
+        dmodel2.setFranja12(dmodel.getFranja12());
+        dmodel2.setFranja13(dmodel.getFranja13());
+        dmodel2.setFranja14(dmodel.getFranja14());
+        dmodel2.setFranja15(dmodel.getFranja15());
+        dmodel2.setFranja16(dmodel.getFranja16());
+        dmodel2.setFranja17(dmodel.getFranja17());
+        dmodel2.setFranja18(dmodel.getFranja18());
+        dmodel2.setFranja19(dmodel.getFranja19());
+        dmodel2.setFranja20(dmodel.getFranja20());
         if(equivalente.equals("10:00am - 10:15am")){
-            dmodel.setFranja1(dmodel.getFranja1()+1);
+            dmodel2.setFranja1(dmodel.getFranja1()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("10:15am - 10:30am")){
-            dmodel.setFranja2(dmodel.getFranja2()+1);
+            dmodel2.setFranja2(dmodel.getFranja2()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("10:30am - 10:45am")){
-            dmodel.setFranja3(dmodel.getFranja3()+1);
+            dmodel2.setFranja3(dmodel.getFranja3()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("10:45am - 11:00am")){
-            dmodel.setFranja4(dmodel.getFranja4()+1);
+            dmodel2.setFranja4(dmodel.getFranja4()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("11:00am - 11:15am")){
-            dmodel.setFranja5(dmodel.getFranja5()+1);
+            dmodel2.setFranja5(dmodel.getFranja5()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("11:15am - 11:30am")){
-            dmodel.setFranja6(dmodel.getFranja6()+1);
+            dmodel2.setFranja6(dmodel.getFranja6()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("11:30am - 11:45am")){
-            dmodel.setFranja7(dmodel.getFranja8()+1);
+            dmodel2.setFranja7(dmodel.getFranja8()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("11:45 - 12:00pm")){
-            dmodel.setFranja8(dmodel.getFranja8()+1);
+            dmodel2.setFranja8(dmodel.getFranja8()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("12:00pm - 12:15pm")){
-            dmodel.setFranja9(dmodel.getFranja9()+1);
+            dmodel2.setFranja9(dmodel.getFranja9()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("12:15pm - 12:30pm")){
-            dmodel.setFranja10(dmodel.getFranja10()+1);
+            dmodel2.setFranja10(dmodel.getFranja10()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("12:30pm - 12:45pm")){
-            dmodel.setFranja11(dmodel.getFranja11()+1);
+            dmodel2.setFranja11(dmodel.getFranja11()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("12:45pm - 01:00pm")){
-            dmodel.setFranja12(dmodel.getFranja12()+1);
+            dmodel2.setFranja12(dmodel.getFranja12()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("01:00pm - 01:15pm")){
-            dmodel.setFranja13(dmodel.getFranja13()+1);
+            dmodel2.setFranja13(dmodel.getFranja13()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("01:15pm - 01:30pm")){
-            dmodel.setFranja14(dmodel.getFranja14()+1);
+            dmodel2.setFranja14(dmodel.getFranja14()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("01:30pm - 01:45pm")){
-            dmodel.setFranja15(dmodel.getFranja15()+1);
+            dmodel2.setFranja15(dmodel.getFranja15()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("01:45pm - 02:00pm")){
-            dmodel.setFranja16(dmodel.getFranja16()+1);
+            dmodel2.setFranja16(dmodel.getFranja16()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("02:00pm - 02:15pm")){
-            dmodel.setFranja17(dmodel.getFranja17()+1);
+            dmodel2.setFranja17(dmodel.getFranja17()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("02:15pm - 02:30pm")){
-            dmodel.setFranja18(dmodel.getFranja18()+1);
+            dmodel2.setFranja18(dmodel.getFranja18()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("02:30pm - 02:45pm")){
-            dmodel.setFranja19(dmodel.getFranja19()+1);
+            dmodel2.setFranja19(dmodel.getFranja19()+1);
+            dh.save(dmodel2);
             return 0;
         }
         if(equivalente.equals("02:45pm - 03:00pm")){
-            dmodel.setFranja20(dmodel.getFranja20()+1);
+            dmodel2.setFranja20(dmodel.getFranja20()+1);
+            dh.save(dmodel2);
             return 0;
         }
         return 0;
