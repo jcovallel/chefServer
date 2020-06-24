@@ -634,7 +634,7 @@ public class ChefController {
 
     public int setFranjaEQ(String equivalente, DispoHorasModel dmodel, DispoHorasRepository dh){
         DispoHorasModel dmodel2 = new DispoHorasModel();
-        dmodel2.setId(dmodel.getId());
+        dmodel2.setId(dmodel.getEmpresa()+dmodel.getDia());
         dmodel2.setEmpresa(dmodel.getEmpresa());
         dmodel2.setDia(dmodel.getDia());
         dmodel2.setFranja1(dmodel.getFranja1());
