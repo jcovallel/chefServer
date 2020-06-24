@@ -353,7 +353,8 @@ public class ChefController {
         String dia = provisional.replace(dataModel.getEmpresa(),"");
         if(!dataModel.getHoraentrega().equals("")){
             DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
-            setFranjaEQ(dataModel.getHoraentrega(), dmodel, dhrepository);
+            System.out.println("hola disculpe: "+dmodel.getId());
+            //setFranjaEQ(dataModel.getHoraentrega(), dmodel, dhrepository);
         }
         String contenido = "Hola! "+dataModel.getNombre()+" acaba de reservar\n";
         contenido+="Tipo de menú: "+dataModel.getTipomenu()+"\n";
