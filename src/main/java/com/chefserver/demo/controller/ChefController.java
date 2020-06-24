@@ -352,8 +352,9 @@ public class ChefController {
     public void createReservationREG(@Valid @RequestBody DataModel dataModel, @PathVariable String provisional) {
         String dia = provisional.replace(dataModel.getEmpresa(),"");
         if(!dataModel.getHoraentrega().equals("")){
+            System.out.println("empresa: "+dataModel.getEmpresa()+", dia: "+dia);
             DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
-            System.out.println("hola disculpe: "+dmodel.getId());
+            //System.out.println("hola disculpe: "+dmodel.getId());
             //setFranjaEQ(dataModel.getHoraentrega(), dmodel, dhrepository);
         }
         String contenido = "Hola! "+dataModel.getNombre()+" acaba de reservar\n";
