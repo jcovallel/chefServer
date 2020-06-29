@@ -12,4 +12,7 @@ public interface EmpresasRepository extends MongoRepository<EmpresasModel, Strin
 
     @Query(value="{}", fields="{nombre : 1, _id : 0}")
     List<User> findNameAndExcludeId();
+
+    @Query(value="{rol: 3}", fields="{nombre : 1, _id : 0}")
+    List<User> findNameMobileAndExcludeId();
 }

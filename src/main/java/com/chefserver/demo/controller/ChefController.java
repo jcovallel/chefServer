@@ -209,6 +209,11 @@ public class ChefController {
         return emrepository.findNameAndExcludeId();
     }
 
+    @RequestMapping(value = "/getusersmobile/", method = RequestMethod.GET)
+    public List<User> getusersmobile() {
+        return emrepository.findNameMobileAndExcludeId();
+    }
+
     @RequestMapping(value = "/review/", method = RequestMethod.POST)
     public void createreview(@Valid @RequestBody ComentModel cmodel) {
         rvrepository.save(cmodel);
