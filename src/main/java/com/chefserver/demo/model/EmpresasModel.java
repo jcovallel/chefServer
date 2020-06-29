@@ -8,6 +8,7 @@ public class EmpresasModel {
     public String nombre;
     public String correo;
     public String password;
+    public int rol;
 
     public String getNombreid() {
         return nombreid;
@@ -39,5 +40,13 @@ public class EmpresasModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getRol() {
+        return rol;
+    }
+
+    public void setRol(int rol) {
+        this.rol = rol;
     }
 }
