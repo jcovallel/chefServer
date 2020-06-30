@@ -25,7 +25,7 @@ public class ExcelController {
         XSSFWorkbook myWorkBook = new XSSFWorkbook ();
 
         // Return first sheet from the XLSX workbook
-        XSSFSheet mySheet = myWorkBook.getSheetAt(0);
+        XSSFSheet mySheet = myWorkBook.createSheet("Reservas");
 
         // Start in the first row empty available
         Row fila = mySheet.createRow(0);
@@ -133,7 +133,7 @@ public class ExcelController {
         XSSFWorkbook myWorkBook = new XSSFWorkbook ();
 
         // Return first sheet from the XLSX workbook
-        XSSFSheet mySheet = myWorkBook.getSheetAt(0);
+        XSSFSheet mySheet = myWorkBook.createSheet("Comentarios");
 
         // Start in the first row empty available
         Row fila = mySheet.createRow(0);
