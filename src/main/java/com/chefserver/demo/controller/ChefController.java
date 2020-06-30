@@ -154,7 +154,7 @@ public class ChefController {
 
     @RequestMapping(value = "/getrol/{nombre}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getrol( @PathVariable String nombre) {
-        return "{\"responserol\":\""+emrepository.findByNombre(nombre).getRol()+"\"}";
+        return "{\"responserol\":"+emrepository.findByNombre(nombre).getRol()+"}";
     }
 
     @RequestMapping(value = "/sendmail/{user}/{mail}/{cambio}", method = RequestMethod.GET)
@@ -184,6 +184,7 @@ public class ChefController {
         EmpresasModel emodelold = emrepository.findByNombre(user);
         EmpresasModel emodelnew = new EmpresasModel();
         emodelnew.setPassword(emodelold.getPassword());
+        emodelnew.setRol(emodelold.getRol());
 
         if(!nmail.equals("NULL")){
             if(!nnombre.equals("NULL")){
@@ -240,6 +241,7 @@ public class ChefController {
         EmpresasModel emodelnew = new EmpresasModel();
         emodelnew.setNombreid(emodelold.getNombre());
         emodelnew.setNombre(emodelold.getNombre());
+        emodelnew.setRol(emodelold.getRol());
 
         if(!nmail.equals("NULL")){
             if(!npass.equals("NULL")){
