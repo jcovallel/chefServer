@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ReservaRepository extends MongoRepository<DataModel, String> {
     List<DataModel> findByEmpresa(String nombre);
+    void deleteByEmpresa(String empresa);
 }

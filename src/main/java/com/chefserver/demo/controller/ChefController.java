@@ -369,6 +369,21 @@ public class ChefController {
         rvrepository.deleteByEmpresa(empresa);
     }
 
+    @RequestMapping(value = "/deletedmodel/{empresa}", method = RequestMethod.GET)
+    public void deletdatamodel(@PathVariable String empresa) {
+        reserepository.deleteByEmpresa(empresa);
+    }
+
+    @RequestMapping(value = "/deletedhmodel/{empresa}", method = RequestMethod.GET)
+    public void deletdhmodel(@PathVariable String empresa) {
+        dhrepository.deleteByEmpresa(empresa);
+    }
+
+    @RequestMapping(value = "/deletedispomodel/{empresa}", method = RequestMethod.GET)
+    public void deletdispomodel(@PathVariable String empresa) {
+        repository.deleteById(empresa);
+    }
+
     @RequestMapping(value = "/getmail/{empresa}", method = RequestMethod.GET)
     public String getmail(@PathVariable String empresa) {
         return emrepository.findByNombre(empresa).getCorreo();
