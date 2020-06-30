@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ComentRepository extends MongoRepository<ComentModel, String> {
     List<ComentModel> findByEmpresa(String empresa);
+    void deleteByEmpresa(String empresa);
 }

@@ -360,8 +360,13 @@ public class ChefController {
     }*/
 
     @RequestMapping(value = "/deleteuser/{empresa}", method = RequestMethod.GET)
-    public void deleteresta(@PathVariable String empresa) {
+    public void deletuser(@PathVariable String empresa) {
         emrepository.deleteById(empresa);
+    }
+
+    @RequestMapping(value = "/deletecoment/{empresa}", method = RequestMethod.GET)
+    public void deletcoment(@PathVariable String empresa) {
+        rvrepository.deleteByEmpresa(empresa);
     }
 
     @RequestMapping(value = "/getmail/{empresa}", method = RequestMethod.GET)
