@@ -101,7 +101,7 @@ public class ChefController {
 
         ExcelController savetoexcel = new ExcelController();
         List<ComentModel> comentModel;
-        if(empresa.equals("Administrador")){
+        if(emrepository.findByNombre(empresa).getRol()<3){
             comentModel = rvrepository.findAll();
         }else{
             comentModel = rvrepository.findByEmpresa(empresa);

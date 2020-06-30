@@ -18,11 +18,11 @@ public class ExcelController {
         //for local
         //File myfile = new File("DatosExcel/Reservaciones.xlsx");
         //for gcloud
-        File myfile = new File("../DatosExcel/Reservaciones.xlsx");
-        FileInputStream fis = new FileInputStream(myfile);
+        //File myfile = new File("../DatosExcel/Reservaciones.xlsx");
+        //FileInputStream fis = new FileInputStream(myfile);
 
         // Finds the workbook instance for XLSX file
-        XSSFWorkbook myWorkBook = new XSSFWorkbook (fis);
+        XSSFWorkbook myWorkBook = new XSSFWorkbook ();
 
         // Return first sheet from the XLSX workbook
         XSSFSheet mySheet = myWorkBook.getSheetAt(0);
@@ -117,7 +117,7 @@ public class ExcelController {
             celda = fila.createCell(15);
             celda.setCellValue(datamodel.get(i).getObservaciones());
         }
-        FileOutputStream salida = new FileOutputStream(myfile);
+        FileOutputStream salida = new FileOutputStream("../DatosExcel/Reservaciones.xlsx");
         myWorkBook.write(salida);
         myWorkBook.close();
     }
@@ -126,11 +126,11 @@ public class ExcelController {
         //for local
         //File myfile = new File("DatosExcel/Comentarios.xlsx");
         //for gcloud
-        File myfile = new File("../DatosExcel/Comentarios.xlsx");
-        FileInputStream fis = new FileInputStream(myfile);
+        //File myfile = new File("../DatosExcel/Comentarios.xlsx");
+        //FileInputStream fis = new FileInputStream(myfile);
 
         // Finds the workbook instance for XLSX file
-        XSSFWorkbook myWorkBook = new XSSFWorkbook (fis);
+        XSSFWorkbook myWorkBook = new XSSFWorkbook ();
 
         // Return first sheet from the XLSX workbook
         XSSFSheet mySheet = myWorkBook.getSheetAt(0);
@@ -166,7 +166,7 @@ public class ExcelController {
             celda.setCellValue(comentmodel.get(i).getCorreo());
         }
 
-        FileOutputStream salida = new FileOutputStream(myfile);
+        FileOutputStream salida = new FileOutputStream("../DatosExcel/Comentarios.xlsx");
         myWorkBook.write(salida);
         myWorkBook.close();
     }
