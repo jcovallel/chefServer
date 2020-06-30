@@ -154,7 +154,7 @@ public class ChefController {
 
     @RequestMapping(value = "/getrol/{nombre}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getrol( @PathVariable String nombre) {
-        return "{\"response\":"+emrepository.findByNombre(nombre).getRol()+"}";
+        return "{\"responserol\":\""+emrepository.findByNombre(nombre).getRol()+"\"}";
     }
 
     @RequestMapping(value = "/sendmail/{user}/{mail}/{cambio}", method = RequestMethod.GET)
