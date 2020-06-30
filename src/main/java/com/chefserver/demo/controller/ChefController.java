@@ -527,10 +527,10 @@ public class ChefController {
             horas = new Horas();
             if(empresa.equals("Albahaca")){
                 horas.setHoras("07:25pm - 07:40pm");
-            }if (empresa.equals("Finandina"))
+            }else if (empresa.equals("Finandina"))
             {
                 horas.setHoras("12:45pm-01:00pm");
-            }if (empresa.equals("Protección"))
+            }else if (empresa.equals("Protección"))
             {
                 horas.setHoras("12:15pm-12:30pm");
             }else{
@@ -593,8 +593,8 @@ public class ChefController {
                 horas.setHoras("01:15pm-01:30pm");
             }else if(!empresa.equals("Albahaca")){
                 horas.setHoras("11:45 - 12:00pm");
-                dlist.add(horas);
             }
+            dlist.add(horas);
         }
         if(dmodel.getFranja9()<20){
             horas = new Horas();
@@ -613,8 +613,8 @@ public class ChefController {
                 horas.setHoras("01:45pm-02:00pm");
             }else if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))){
                 horas.setHoras("12:15pm - 12:30pm");
-                dlist.add(horas);
             }
+            dlist.add(horas);
         }
         if(dmodel.getFranja11()<20){
             horas = new Horas();
