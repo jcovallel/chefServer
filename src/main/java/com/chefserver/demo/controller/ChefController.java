@@ -152,6 +152,11 @@ public class ChefController {
         }
     }
 
+    @RequestMapping(value = "/getrol/{nombre}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getrol( @PathVariable String nombre) {
+        return "{\"response\":"+emrepository.findByNombre(nombre).getRol()+"}";
+    }
+
     @RequestMapping(value = "/sendmail/{user}/{mail}/{cambio}", method = RequestMethod.GET)
     public Boolean comparemail( @PathVariable String user, @PathVariable String mail, @PathVariable Boolean cambio) throws NoSuchAlgorithmException {
         if(emrepository.findByNombre(user).getCorreo().equals(mail)){
