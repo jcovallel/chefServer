@@ -619,20 +619,22 @@ public class ChefController {
             if (empresa.equals("Protección"))
             {
                 horas.setHoras("01:30pm-01:45pm");
+                dlist.add(horas);
             }else if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("12:00pm - 12:15pm");
+                dlist.add(horas);
             }
-            dlist.add(horas);
         }
         if(dmodel.getFranja10()<20){
             horas = new Horas();
             if (empresa.equals("Protección"))
             {
                 horas.setHoras("01:45pm-02:00pm");
+                dlist.add(horas);
             }else if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("12:15pm - 12:30pm");
+                dlist.add(horas);
             }
-            dlist.add(horas);
         }
         if(dmodel.getFranja11()<20){
             horas = new Horas();
