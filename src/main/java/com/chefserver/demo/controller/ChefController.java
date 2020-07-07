@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/chef")
 public class ChefController {
     @Autowired
@@ -349,10 +350,10 @@ public class ChefController {
         repository.save(dispoModel);
     }
 
-    @RequestMapping(value = "/disponibilidad/{empresa}", method = RequestMethod.DELETE)
+    /*@RequestMapping(value = "/disponibilidad/{empresa}", method = RequestMethod.DELETE)
     public void deleteDispo(@PathVariable String empresa) {
         repository.delete(repository.findByEmpresa(empresa));
-    }
+    }*/
 
     /*@RequestMapping(value = "/deleteuser/{empresa}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable String empresa) {
