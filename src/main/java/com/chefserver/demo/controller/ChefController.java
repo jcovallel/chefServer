@@ -486,9 +486,12 @@ public class ChefController {
             }else if (empresa.equals("Finandina"))
             {
                 horas.setHoras("12:00pm-12:15pm");
-            }else if (empresa.equals("Protección"))
+            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
             {
                 horas.setHoras("11:30am-11:45am");
+            }else if (empresa.equals("Central Cervecera"))
+            {
+                horas.setHoras("12:30pm-12:45pm");
             }else{
                 horas.setHoras("10:00am - 10:15am");
             }
@@ -501,9 +504,12 @@ public class ChefController {
             }else if (empresa.equals("Finandina"))
             {
                 horas.setHoras("12:15pm-12:30pm");
-            }else if (empresa.equals("Protección"))
+            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
             {
                 horas.setHoras("11:45am-12:00pm");
+            }else if (empresa.equals("Central Cervecera"))
+            {
+                horas.setHoras("12:45pm-01:00pm");
             }else{
                 horas.setHoras("10:15am - 10:30am");
             }
@@ -516,9 +522,12 @@ public class ChefController {
             }else if (empresa.equals("Finandina"))
             {
                 horas.setHoras("12:30pm-12:45pm");
-            }else if (empresa.equals("Protección"))
+            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
             {
                 horas.setHoras("12:00pm-12:15pm");
+            }else if (empresa.equals("Central Cervecera"))
+            {
+                horas.setHoras("01:00pm-01:15pm");
             }else{
                 horas.setHoras("10:30am - 10:45am");
             }
@@ -528,12 +537,15 @@ public class ChefController {
             horas = new Horas();
             if(empresa.equals("Albahaca")){
                 horas.setHoras("07:25pm - 07:40pm");
-            }if (empresa.equals("Finandina"))
+            }else if (empresa.equals("Finandina"))
             {
                 horas.setHoras("12:45pm-01:00pm");
-            }if (empresa.equals("Protección"))
+            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
             {
                 horas.setHoras("12:15pm-12:30pm");
+            }else if (empresa.equals("Central Cervecera"))
+            {
+                horas.setHoras("01:15pm-01:30pm");
             }else{
                 horas.setHoras("10:45am - 11:00am");
             }
@@ -546,9 +558,12 @@ public class ChefController {
             }else if (empresa.equals("Finandina"))
             {
                 horas.setHoras("01:00pm-01:15pm");
-            }else if (empresa.equals("Protección"))
+            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
             {
                 horas.setHoras("12:30pm-12:45pm");
+            }else if (empresa.equals("Central Cervecera"))
+            {
+                horas.setHoras("01:30pm-01:45pm");
             }else{
                 horas.setHoras("11:00am - 11:15am");
             }
@@ -561,9 +576,12 @@ public class ChefController {
             }else if(empresa.equals("Finandina"))
             {
                 horas.setHoras("01:15pm-01:30pm");
-            }else if (empresa.equals("Protección"))
+            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
             {
                 horas.setHoras("12:45pm-01:00pm");
+            }else if (empresa.equals("Central Cervecera"))
+            {
+                horas.setHoras("01:45pm-02:00pm");
             }else{
                 horas.setHoras("11:15am - 11:30am");
             }
@@ -573,26 +591,31 @@ public class ChefController {
             horas = new Horas();
             if(empresa.equals("Albahaca")){
                 horas.setHoras("08:10pm - 08:25pm");
+                dlist.add(horas);
             }else if (empresa.equals("Finandina"))
             {
                 horas.setHoras("01:30pm-01:45pm");
-            }else if (empresa.equals("Protección"))
+                dlist.add(horas);
+            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
             {
                 horas.setHoras("01:00pm-01:15pm");
-            }else{
+                dlist.add(horas);
+            }else if (!empresa.equals("Central Cervecera")){
                 horas.setHoras("11:30am - 11:45am");
+                dlist.add(horas);
             }
-            dlist.add(horas);
         }
         if(dmodel.getFranja8()<20){
             horas = new Horas();
             if (empresa.equals("Finandina"))
             {
                 horas.setHoras("01:45pm-02:00pm");
-            }else if (empresa.equals("Protección"))
+                dlist.add(horas);
+            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
             {
                 horas.setHoras("01:15pm-01:30pm");
-            }else if(!empresa.equals("Albahaca")){
+                dlist.add(horas);
+            }else if((!empresa.equals("Albahaca"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("11:45 - 12:00pm");
                 dlist.add(horas);
             }
@@ -602,7 +625,8 @@ public class ChefController {
             if (empresa.equals("Protección"))
             {
                 horas.setHoras("01:30pm-01:45pm");
-            }else if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))){
+                dlist.add(horas);
+            }else if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("12:00pm - 12:15pm");
                 dlist.add(horas);
             }
@@ -612,77 +636,78 @@ public class ChefController {
             if (empresa.equals("Protección"))
             {
                 horas.setHoras("01:45pm-02:00pm");
-            }else if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))){
+                dlist.add(horas);
+            }else if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("12:15pm - 12:30pm");
                 dlist.add(horas);
             }
         }
         if(dmodel.getFranja11()<20){
             horas = new Horas();
-            if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))){
+            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("12:15pm - 12:30pm");
                 dlist.add(horas);
             }
         }
         if(dmodel.getFranja12()<20){
             horas = new Horas();
-            if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))){
+            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("12:45pm - 01:00pm");
                 dlist.add(horas);
             }
         }
         if(dmodel.getFranja13()<20){
             horas = new Horas();
-            if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))){
+            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("01:00pm - 01:15pm");
                 dlist.add(horas);
             }
         }
         if(dmodel.getFranja14()<20){
             horas = new Horas();
-            if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))){
+            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("01:15pm - 01:30pm");
                 dlist.add(horas);
             }
         }
         if(dmodel.getFranja15()<20){
             horas = new Horas();
-            if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))){
+            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("01:30pm - 01:45pm");
                 dlist.add(horas);
             }
         }
         if(dmodel.getFranja16()<20){
             horas = new Horas();
-            if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))){
+            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("01:45pm - 02:00pm");
                 dlist.add(horas);
             }
         }
         if(dmodel.getFranja17()<20){
             horas = new Horas();
-            if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))){
+            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("02:00pm - 02:15pm");
                 dlist.add(horas);
             }
         }
         if(dmodel.getFranja18()<20){
             horas = new Horas();
-            if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))){
+            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("02:15pm - 02:30pm");
                 dlist.add(horas);
             }
         }
         if(dmodel.getFranja19()<20){
             horas = new Horas();
-            if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))){
+            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("02:30pm - 02:45pm");
                 dlist.add(horas);
             }
         }
         if(dmodel.getFranja20()<20){
             horas = new Horas();
-            if((!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))){
+            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
                 horas.setHoras("02:45pm - 03:00pm");
                 dlist.add(horas);
             }
