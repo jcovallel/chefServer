@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @RequestMapping("/chef")
 public class ChefController {
     @Autowired
