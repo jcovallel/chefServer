@@ -2,22 +2,25 @@ package com.chefserver.demo.model;
 
 import org.springframework.data.annotation.Id;
 
-public class DisponibilidadModel {
+public class DisponibilidadPorMenu {
     @Id
-    public String empresaid;
+    public String id;
     public String empresa;
+    public String menu;
     public Integer Lunes;
     public Integer Martes;
     public Integer Miercoles;
     public Integer Jueves;
     public Integer Viernes;
+    public Integer Sabado;
+    public Integer Domingo;
 
-    public String getEmpresaid() {
-        return empresaid;
+    public String getId() {
+        return id;
     }
 
-    public void setEmpresaid(String empresaid) {
-        this.empresaid = empresaid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmpresa() {
@@ -27,6 +30,10 @@ public class DisponibilidadModel {
     public void setEmpresa(String empresa) {
         this.empresa = empresa;
     }
+
+    public String getMenu() { return menu; }
+
+    public void setMenu(String menu) { this.menu = menu; }
 
     public Integer getLunes() {
         return Lunes;
@@ -67,4 +74,12 @@ public class DisponibilidadModel {
     public void setViernes(Integer viernes) {
         this.Viernes = viernes;
     }
+
+    public Integer getSabado() { return Sabado; }
+
+    public void setSabado(Integer sabado) { Sabado = sabado; }
+
+    public Integer getDomingo() { return Domingo; }
+
+    public void setDomingo(Integer domingo) { Domingo = domingo; }
 }

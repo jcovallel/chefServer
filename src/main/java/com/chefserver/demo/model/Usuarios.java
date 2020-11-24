@@ -2,20 +2,20 @@ package com.chefserver.demo.model;
 
 import org.springframework.data.annotation.Id;
 
-public class EmpresasModel {
+public class Usuarios {
     @Id
-    public String nombreid;
+    public String id;
     public String nombre;
     public String correo;
     public String password;
     public int rol;
 
-    public String getNombreid() {
-        return nombreid;
+    public String getId() {
+        return id;
     }
 
-    public void setNombreid(String nombreid) {
-        this.nombreid = nombreid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNombre() {

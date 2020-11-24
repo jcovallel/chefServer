@@ -4,7 +4,6 @@ import com.chefserver.demo.model.*;
 import com.chefserver.demo.ExcelDB.ExcelController;
 import com.chefserver.demo.repositories.*;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +45,9 @@ public class ChefController {
 
     @Autowired
     private EmpresasRepository emrepository;
+
+    @Autowired
+    private ListaMenusRepository lmrepository;
 
     @Autowired
     private ReservaRepository reserepository;
@@ -130,8 +132,22 @@ public class ChefController {
     }
 
     @RequestMapping(value = "/createuser/", method = RequestMethod.POST)
-    public void createuser(@Valid @RequestBody EmpresasModel emodel) {
-        emrepository.save(emodel);
+    public void createuser(@Valid @RequestBody Usuarios emodel) {
+        emrepository.insert(emodel);
+    }
+
+    @RequestMapping(value = "/createmenu/", method = RequestMethod.POST)
+    public void createmenu(@Valid @RequestBody ListaMenus menus) { lmrepository.insert(menus);}
+
+    @RequestMapping(value = "/modifymenu/{user}/{nmenu}", method = RequestMethod.PUT)
+    public void modifymenu(@PathVariable String user, @PathVariable String nmenu) {
+        ListaMenus oldmenu = lmrepository.findByMenu(user);
+        ListaMenus newmenu = new ListaMenus();
+        newmenu.setId(nmenu);
+        newmenu.setMenu(nmenu);
+        lmrepository.deleteById(user);
+        lmrepository.save(newmenu);
+        //ARREGLAR ESTO TILDES Y ÑS NO PASAN POR PATHVARIABLE, JSON NEEDED
     }
 
     @RequestMapping(value = "/getpass/{user}/{pass}", method = RequestMethod.GET)
@@ -162,10 +178,10 @@ public class ChefController {
         if(emrepository.findByNombre(user).getCorreo().equals(mail)){
             if(cambio){
                 String tpass = passGen();
-                EmpresasModel emodelold = emrepository.findByNombre(user);
-                EmpresasModel emodelnew = new EmpresasModel();
+                Usuarios emodelold = emrepository.findByNombre(user);
+                Usuarios emodelnew = new Usuarios();
                 emodelnew.setPassword(hash(tpass));
-                emodelnew.setNombreid(emodelold.getNombre());
+                emodelnew.setId(emodelold.getNombre());
                 emodelnew.setNombre(emodelold.getNombre());
                 emodelnew.setCorreo(emodelold.getCorreo());
                 emrepository.deleteById(user);
@@ -181,29 +197,29 @@ public class ChefController {
 
     @RequestMapping(value = "/modifyinfoadmi/{user}/{nnombre}/{nmail}", method = RequestMethod.PUT)
     public void modifyinfoadmi(@PathVariable String user, @PathVariable String nnombre, @PathVariable String nmail) {
-        EmpresasModel emodelold = emrepository.findByNombre(user);
-        EmpresasModel emodelnew = new EmpresasModel();
+        Usuarios emodelold = emrepository.findByNombre(user);
+        Usuarios emodelnew = new Usuarios();
         emodelnew.setPassword(emodelold.getPassword());
         emodelnew.setRol(emodelold.getRol());
 
         if(!nmail.equals("NULL")){
             if(!nnombre.equals("NULL")){
-                emodelnew.setNombreid(nnombre);
+                emodelnew.setId(nnombre);
                 emodelnew.setNombre(nnombre);
                 emodelnew.setCorreo(nmail);
-                emrepository.save(emodelnew);
+                //emrepository.save(emodelnew);
             }else{
-                emodelnew.setNombreid(emodelold.getNombre());
+                emodelnew.setId(emodelold.getNombre());
                 emodelnew.setNombre(emodelold.getNombre());
                 emodelnew.setCorreo(nmail);
-                emrepository.save(emodelnew);
+                //emrepository.save(emodelnew);
             }
         }else{
             if(!nnombre.equals("NULL")){
-                emodelnew.setNombreid(nnombre);
+                emodelnew.setId(nnombre);
                 emodelnew.setNombre(nnombre);
                 emodelnew.setCorreo(emodelold.getCorreo());
-                emrepository.save(emodelnew);
+                //emrepository.save(emodelnew);
             }
         }
         emrepository.deleteById(user);
@@ -218,6 +234,11 @@ public class ChefController {
     @RequestMapping(value = "/getusersmobile/", method = RequestMethod.GET)
     public List<User> getusersmobile() {
         return emrepository.findNameMobileAndExcludeId();
+    }
+
+    @RequestMapping(value = "/getmenus/", method = RequestMethod.GET)
+    public List<Menu> getmenus() {
+        return lmrepository.findListaMenus();
     }
 
     @RequestMapping(value = "/review/", method = RequestMethod.POST)
@@ -237,9 +258,9 @@ public class ChefController {
 
     @RequestMapping(value = "/modifydatausers/{user}/{npass}/{nmail}", method = RequestMethod.PUT)
     public void modifydatauser(@PathVariable String user, @PathVariable String npass, @PathVariable String nmail) {
-        EmpresasModel emodelold = emrepository.findByNombre(user);
-        EmpresasModel emodelnew = new EmpresasModel();
-        emodelnew.setNombreid(emodelold.getNombre());
+        Usuarios emodelold = emrepository.findByNombre(user);
+        Usuarios emodelnew = new Usuarios();
+        emodelnew.setId(emodelold.getNombre());
         emodelnew.setNombre(emodelold.getNombre());
         emodelnew.setRol(emodelold.getRol());
 
@@ -265,14 +286,14 @@ public class ChefController {
     }
 
     @RequestMapping(value = "/setavailabledays/", method = RequestMethod.POST)
-    public void setavadays(@Valid @RequestBody AvailaibleDays amodel) {
+    public void setavadays(@Valid @RequestBody DiasDisponiblesPorSitio amodel) {
         arepository.save(amodel);
     }
 
     @RequestMapping(value = "/getavailabledays/", method = RequestMethod.GET)
     public List<Dia> getavadays() {
-        List<AvailaibleDays> lresult = arepository.findAll();
-        AvailaibleDays dmodel = lresult.get(0);
+        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
+        DiasDisponiblesPorSitio dmodel = lresult.get(0);
         List<Dia> dlist = new ArrayList<Dia>();
         Dia dia;
         if(dmodel.getLunes()){
@@ -326,9 +347,9 @@ public class ChefController {
     }
 
     @RequestMapping(value = "/disponibilidad/{empresa}", method = RequestMethod.PUT)
-    public void modifyDispo(@Valid @RequestBody DisponibilidadModel dispoModel, @PathVariable String empresa) {
+    public void modifyDispo(@Valid @RequestBody DisponibilidadPorMenu dispoModel, @PathVariable String empresa) {
         if(repository.findByEmpresa(empresa)!=null){
-            DisponibilidadModel current = repository.findByEmpresa(empresa);
+            DisponibilidadPorMenu current = repository.findByEmpresa(empresa);
             repository.delete(current);
             if(dispoModel.getLunes()==null){
                 dispoModel.setLunes(current.getLunes());
@@ -364,6 +385,11 @@ public class ChefController {
         emrepository.deleteById(empresa);
     }
 
+    @RequestMapping(value = "/deletemenu/{menu}", method = RequestMethod.GET)
+    public void deletmenu(@PathVariable String menu) {
+        lmrepository.deleteById(menu);
+    }
+
     @RequestMapping(value = "/deletecoment/{empresa}", method = RequestMethod.GET)
     public void deletcoment(@PathVariable String empresa) {
         rvrepository.deleteByEmpresa(empresa);
@@ -396,7 +422,7 @@ public class ChefController {
             dia = "Miércoles";
         }
         if(!dataModel.getHoraentrega().equals("")){
-            DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
+            DisponibilidadPorFranjaHoraria dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
             setFranjaEQ(dataModel.getHoraentrega(), dmodel, dhrepository);
         }
         String contenido = "Hola! "+dataModel.getNombre()+" acaba de reservar\n";
@@ -437,7 +463,7 @@ public class ChefController {
 
     @RequestMapping(value = "/getdayslist/{empresa}", method = RequestMethod.GET)
     public List<Dia> getdays(@PathVariable String empresa) {
-        DisponibilidadModel dmodel = repository.findByEmpresa(empresa);
+        DisponibilidadPorMenu dmodel = repository.findByEmpresa(empresa);
         List<Dia> dlist = new ArrayList<Dia>();
         Dia dia;
         if(dmodel.getLunes()>0){
@@ -469,13 +495,13 @@ public class ChefController {
     }
 
     @RequestMapping(value = "/createhours", method = RequestMethod.POST)
-    public void createhours(@Valid @RequestBody DispoHorasModel cmodel) {
+    public void createhours(@Valid @RequestBody DisponibilidadPorFranjaHoraria cmodel) {
         dhrepository.save(cmodel);
     }
 
     @RequestMapping(value = "/gethours/{empresa}/{dia}", method = RequestMethod.GET)
     public List<Horas> gethours(@PathVariable String empresa, @PathVariable String dia) {
-        DispoHorasModel dmodel = dhrepository.findByEmpresaAndDia(empresa,dia);
+        DisponibilidadPorFranjaHoraria dmodel = dhrepository.findByEmpresaAndDia(empresa,dia);
         List<Horas> dlist = new ArrayList<Horas>();
         Horas horas;
         if(dmodel.getFranja1()<20){
@@ -755,8 +781,8 @@ public class ChefController {
         return passHashedValue;
     }
 
-    public int setFranjaEQ(String equivalente, DispoHorasModel dmodel, DispoHorasRepository dh){
-        DispoHorasModel dmodel2 = new DispoHorasModel();
+    public int setFranjaEQ(String equivalente, DisponibilidadPorFranjaHoraria dmodel, DispoHorasRepository dh){
+        DisponibilidadPorFranjaHoraria dmodel2 = new DisponibilidadPorFranjaHoraria();
         dmodel2.setId(dmodel.getEmpresa()+dmodel.getDia());
         dmodel2.setEmpresa(dmodel.getEmpresa());
         dmodel2.setDia(dmodel.getDia());
@@ -885,9 +911,9 @@ public class ChefController {
 
     @Scheduled(cron = "0 0 10 ? * MON", zone = "GMT-5")
     public void Nomasporlun() {
-        List<AvailaibleDays> lresult = arepository.findAll();
-        AvailaibleDays dmodel = lresult.get(0);
-        AvailaibleDays newmodel = new AvailaibleDays();
+        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
+        DiasDisponiblesPorSitio dmodel = lresult.get(0);
+        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
         newmodel.setid("availaible");
         newmodel.setLunes(false);
         newmodel.setMartes(true);
@@ -899,9 +925,9 @@ public class ChefController {
     }
     @Scheduled(cron = "0 0 10 ? * TUE", zone = "GMT-5")
     public void Nomaspormar() {
-        List<AvailaibleDays> lresult = arepository.findAll();
-        AvailaibleDays dmodel = lresult.get(0);
-        AvailaibleDays newmodel = new AvailaibleDays();
+        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
+        DiasDisponiblesPorSitio dmodel = lresult.get(0);
+        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
         newmodel.setid("availaible");
         newmodel.setLunes(false);
         newmodel.setMartes(false);
@@ -913,9 +939,9 @@ public class ChefController {
     }
     @Scheduled(cron = "0 0 10 ? * WED", zone = "GMT-5")
     public void Nomaspormie() {
-        List<AvailaibleDays> lresult = arepository.findAll();
-        AvailaibleDays dmodel = lresult.get(0);
-        AvailaibleDays newmodel = new AvailaibleDays();
+        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
+        DiasDisponiblesPorSitio dmodel = lresult.get(0);
+        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
         newmodel.setid("availaible");
         newmodel.setLunes(false);
         newmodel.setMartes(false);
@@ -927,9 +953,9 @@ public class ChefController {
     }
     @Scheduled(cron = "0 0 10 ? * THU", zone = "GMT-5")
     public void Nomasporjue() {
-        List<AvailaibleDays> lresult = arepository.findAll();
-        AvailaibleDays dmodel = lresult.get(0);
-        AvailaibleDays newmodel = new AvailaibleDays();
+        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
+        DiasDisponiblesPorSitio dmodel = lresult.get(0);
+        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
         newmodel.setid("availaible");
         newmodel.setLunes(false);
         newmodel.setMartes(false);
@@ -941,9 +967,9 @@ public class ChefController {
     }
     @Scheduled(cron = "0 0 10 ? * FRI", zone = "GMT-5")
     public void Nomasporvie() {
-        List<AvailaibleDays> lresult = arepository.findAll();
-        AvailaibleDays dmodel = lresult.get(0);
-        AvailaibleDays newmodel = new AvailaibleDays();
+        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
+        DiasDisponiblesPorSitio dmodel = lresult.get(0);
+        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
         newmodel.setid("availaible");
         newmodel.setLunes(false);
         newmodel.setMartes(false);
@@ -955,9 +981,9 @@ public class ChefController {
     }
     @Scheduled(cron = "0 0 0 ? * MON", zone = "GMT-5")
     public void reset() {
-        List<AvailaibleDays> lresult = arepository.findAll();
-        AvailaibleDays dmodel = lresult.get(0);
-        AvailaibleDays newmodel = new AvailaibleDays();
+        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
+        DiasDisponiblesPorSitio dmodel = lresult.get(0);
+        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
         newmodel.setid("availaible");
         newmodel.setLunes(true);
         newmodel.setMartes(true);
@@ -972,10 +998,10 @@ public class ChefController {
         List<User> nombres = getusers();
         for(int i =0; i<nombres.size(); i++){
             if(!nombres.get(i).getNombre().equals("Administrador")){
-                DispoHorasModel dmodel;
-                DispoHorasModel dmodel2;
+                DisponibilidadPorFranjaHoraria dmodel;
+                DisponibilidadPorFranjaHoraria dmodel2;
                 dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Lunes");
-                dmodel2 = new DispoHorasModel();
+                dmodel2 = new DisponibilidadPorFranjaHoraria();
                 dmodel2.setId(dmodel.getId());
                 dmodel2.setEmpresa(dmodel.getEmpresa());
                 dmodel2.setDia("Lunes");
@@ -983,7 +1009,7 @@ public class ChefController {
                 dhrepository.save(dmodel2);
 
                 dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Martes");
-                dmodel2 = new DispoHorasModel();
+                dmodel2 = new DisponibilidadPorFranjaHoraria();
                 dmodel2.setId(dmodel.getId());
                 dmodel2.setEmpresa(dmodel.getEmpresa());
                 dmodel2.setDia("Martes");
@@ -991,7 +1017,7 @@ public class ChefController {
                 dhrepository.save(dmodel2);
 
                 dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Miércoles");
-                dmodel2 = new DispoHorasModel();
+                dmodel2 = new DisponibilidadPorFranjaHoraria();
                 dmodel2.setId(dmodel.getId());
                 dmodel2.setEmpresa(dmodel.getEmpresa());
                 dmodel2.setDia("Miércoles");
@@ -999,7 +1025,7 @@ public class ChefController {
                 dhrepository.save(dmodel2);
 
                 dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Jueves");
-                dmodel2 = new DispoHorasModel();
+                dmodel2 = new DisponibilidadPorFranjaHoraria();
                 dmodel2.setId(dmodel.getId());
                 dmodel2.setEmpresa(dmodel.getEmpresa());
                 dmodel2.setDia("Jueves");
@@ -1007,7 +1033,7 @@ public class ChefController {
                 dhrepository.save(dmodel2);
 
                 dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Viernes");
-                dmodel2 = new DispoHorasModel();
+                dmodel2 = new DisponibilidadPorFranjaHoraria();
                 dmodel2.setId(dmodel.getId());
                 dmodel2.setEmpresa(dmodel.getEmpresa());
                 dmodel2.setDia("Viernes");

@@ -2,7 +2,7 @@ package com.chefserver.demo.model;
 
 import org.springframework.data.annotation.Id;
 
-public class AvailaibleDays {
+public class DiasDisponiblesPorSitio {
     @Id
     public String id;
     public boolean Lunes;
@@ -10,6 +10,8 @@ public class AvailaibleDays {
     public boolean Miercoles;
     public boolean Jueves;
     public boolean Viernes;
+    public boolean Sabado;
+    public boolean Domingo;
 
     public String getid() {
         return id;
@@ -58,4 +60,12 @@ public class AvailaibleDays {
     public void setViernes(boolean viernes) {
         this.Viernes = viernes;
     }
+
+    public boolean getSabado() { return Sabado; }
+
+    public void setSabado(boolean sabado) { Sabado = sabado; }
+
+    public boolean getDomingo() { return Domingo; }
+
+    public void setDomingo(boolean domingo) { Domingo = domingo; }
 }
