@@ -7,6 +7,13 @@ public class DisponibilidadPorMenu {
     public String id;
     public String empresa;
     public String menu;
+    public Integer Lunesref;
+    public Integer Martesref;
+    public Integer Miercolesref;
+    public Integer Juevesref;
+    public Integer Viernesref;
+    public Integer Sabadoref;
+    public Integer Domingoref;
     public Integer Lunes;
     public Integer Martes;
     public Integer Miercoles;
@@ -39,8 +46,64 @@ public class DisponibilidadPorMenu {
         return Lunes;
     }
 
+    public Integer getLunesref() {
+        return Lunesref;
+    }
+
+    public void setLunesref(Integer lunesref) {
+        Lunesref = lunesref;
+    }
+
+    public Integer getMartesref() {
+        return Martesref;
+    }
+
+    public void setMartesref(Integer martesref) {
+        Martesref = martesref;
+    }
+
+    public Integer getMiercolesref() {
+        return Miercolesref;
+    }
+
+    public void setMiercolesref(Integer miercolesref) {
+        Miercolesref = miercolesref;
+    }
+
+    public Integer getJuevesref() {
+        return Juevesref;
+    }
+
+    public void setJuevesref(Integer juevesref) {
+        Juevesref = juevesref;
+    }
+
+    public Integer getViernesref() {
+        return Viernesref;
+    }
+
+    public void setViernesref(Integer viernesref) {
+        Viernesref = viernesref;
+    }
+
+    public Integer getSabadoref() {
+        return Sabadoref;
+    }
+
+    public void setSabadoref(Integer sabadoref) {
+        Sabadoref = sabadoref;
+    }
+
+    public Integer getDomingoref() {
+        return Domingoref;
+    }
+
+    public void setDomingoref(Integer domingoref) {
+        Domingoref = domingoref;
+    }
+
     public void setLunes(Integer lunes) {
-        this.Lunes = lunes;
+        Lunes = lunes;
     }
 
     public Integer getMartes() {
@@ -48,7 +111,7 @@ public class DisponibilidadPorMenu {
     }
 
     public void setMartes(Integer martes) {
-        this.Martes = martes;
+        Martes = martes;
     }
 
     public Integer getMiercoles() {
@@ -56,7 +119,7 @@ public class DisponibilidadPorMenu {
     }
 
     public void setMiercoles(Integer miercoles) {
-        this.Miercoles = miercoles;
+        Miercoles = miercoles;
     }
 
     public Integer getJueves() {
@@ -64,7 +127,7 @@ public class DisponibilidadPorMenu {
     }
 
     public void setJueves(Integer jueves) {
-        this.Jueves = jueves;
+        Jueves = jueves;
     }
 
     public Integer getViernes() {
@@ -72,14 +135,22 @@ public class DisponibilidadPorMenu {
     }
 
     public void setViernes(Integer viernes) {
-        this.Viernes = viernes;
+        Viernes = viernes;
     }
 
-    public Integer getSabado() { return Sabado; }
+    public Integer getSabado() {
+        return Sabado;
+    }
 
-    public void setSabado(Integer sabado) { Sabado = sabado; }
+    public void setSabado(Integer sabado) {
+        Sabado = sabado;
+    }
 
-    public Integer getDomingo() { return Domingo; }
+    public Integer getDomingo() {
+        return Domingo;
+    }
 
-    public void setDomingo(Integer domingo) { Domingo = domingo; }
+    public void setDomingo(Integer domingo) {
+        Domingo = domingo;
+    }
 }

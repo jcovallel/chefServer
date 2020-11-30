@@ -4,14 +4,15 @@ import org.springframework.data.annotation.Id;
 
 public class DiasDisponiblesPorSitio {
     @Id
-    public String id;
-    public boolean Lunes;
-    public boolean Martes;
-    public boolean Miercoles;
-    public boolean Jueves;
-    public boolean Viernes;
-    public boolean Sabado;
-    public boolean Domingo;
+    String id;
+    String empresa;
+    Boolean lunes;
+    Boolean martes;
+    Boolean miercoles;
+    Boolean jueves;
+    Boolean viernes;
+    Boolean sabado;
+    Boolean domingo;
 
     public String getid() {
         return id;
@@ -21,51 +22,59 @@ public class DiasDisponiblesPorSitio {
         id = avid;
     }
 
-    public boolean getLunes() {
-        return Lunes;
+    public String getEmpresa() {
+        return empresa;
     }
 
-    public void setLunes(boolean lunes) {
-        this.Lunes = lunes;
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
     }
 
-    public boolean getMartes() {
-        return Martes;
+    public Boolean getLunes() {
+        return lunes;
     }
 
-    public void setMartes(boolean martes) {
-        this.Martes = martes;
+    public void setLunes(Boolean lunes) {
+        this.lunes = lunes;
     }
 
-    public boolean getMiercoles() {
-        return Miercoles;
+    public Boolean getMartes() {
+        return martes;
     }
 
-    public void setMiercoles(boolean miercoles) {
-        this.Miercoles = miercoles;
+    public void setMartes(Boolean martes) {
+        this.martes = martes;
     }
 
-    public boolean getJueves() {
-        return Jueves;
+    public Boolean getMiercoles() {
+        return miercoles;
     }
 
-    public void setJueves(boolean jueves) {
-        this.Jueves = jueves;
+    public void setMiercoles(Boolean miercoles) {
+        this.miercoles = miercoles;
     }
 
-    public boolean getViernes() {
-        return Viernes;
+    public Boolean getJueves() {
+        return jueves;
     }
 
-    public void setViernes(boolean viernes) {
-        this.Viernes = viernes;
+    public void setJueves(Boolean jueves) {
+        this.jueves = jueves;
     }
 
-    public boolean getSabado() { return Sabado; }
+    public Boolean getViernes() {
+        return viernes;
+    }
 
-    public void setSabado(boolean sabado) { Sabado = sabado; }
+    public void setViernes(Boolean viernes) {
+        this.viernes = viernes;
+    }
 
-    public boolean getDomingo() { return Domingo; }
+    public Boolean getSabado() { return sabado; }
 
-    public void setDomingo(boolean domingo) { Domingo = domingo; }
+    public void setSabado(Boolean sabado) { this.sabado = sabado; }
+
+    public Boolean getDomingo() { return domingo; }
+
+    public void setDomingo(Boolean domingo) { this.domingo = domingo; }
 }

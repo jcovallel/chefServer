@@ -47,7 +47,16 @@ public class ChefController {
     private EmpresasRepository emrepository;
 
     @Autowired
+    private HorariosMenusRepository hmrepository;
+
+    @Autowired
+    private dispoDiasSitioRepository ddsitiorepository;
+
+    @Autowired
     private ListaMenusRepository lmrepository;
+
+    @Autowired
+    private ListaMenusEmpresaRepository lmerepository;
 
     @Autowired
     private ReservaRepository reserepository;
@@ -138,6 +147,24 @@ public class ChefController {
 
     @RequestMapping(value = "/createmenu/", method = RequestMethod.POST)
     public void createmenu(@Valid @RequestBody ListaMenus menus) { lmrepository.insert(menus);}
+
+    @RequestMapping(value = "/createhorariomenus/", method = RequestMethod.POST)
+    public void createHorarioMenus(@Valid @RequestBody HorariosMenus hmenus) { hmrepository.save(hmenus);}
+
+    @RequestMapping(value = "/createdispomenu/", method = RequestMethod.POST)
+    public void createDispoMenu(@Valid @RequestBody DisponibilidadPorMenu dispomenu) { repository.save(dispomenu);}
+
+    @RequestMapping(value = "/creatediassitio/", method = RequestMethod.POST)
+    public void createDiasSitio(@Valid @RequestBody DiasDisponiblesPorSitio dds) {
+        ddsitiorepository.save(dds);
+    }
+
+    @RequestMapping(value = "/menuwithempresa/", method = RequestMethod.POST)
+    public void menuwithEmpresa(@Valid @RequestBody List<ListaMenusEmpresas> menus) {
+        for(int i=0; i<menus.size(); i++){
+            lmerepository.save(menus.get(i));
+        }
+    }
 
     @RequestMapping(value = "/modifymenu/{user}/{nmenu}", method = RequestMethod.PUT)
     public void modifymenu(@PathVariable String user, @PathVariable String nmenu) {
@@ -241,6 +268,36 @@ public class ChefController {
         return lmrepository.findListaMenus();
     }
 
+    @RequestMapping(value = "/getdispodiassitio/{empresa}", method = RequestMethod.GET)
+    public List<DiasDispoSitio> getDispoDiasSitio(@PathVariable String empresa) {
+        return ddsitiorepository.findListaDias(empresa);
+    }
+
+    @RequestMapping(value = "/gethorariomenu/{empresa}/{menu}", method = RequestMethod.GET)
+    public List<HorarioMenusReturn> getHorarioMenu(@PathVariable String empresa, @PathVariable String menu) {
+        return hmrepository.findListaHoras(empresa, menu);
+    }
+
+    @RequestMapping(value = "/getdispomenuref/{empresa}/{menu}", method = RequestMethod.GET)
+    public List<DisponibilidadPorMenuReturn> getDisponibilidadRefMenu(@PathVariable String empresa, @PathVariable String menu) {
+        return repository.findDispoRefMenus(empresa, menu);
+    }
+
+    @RequestMapping(value = "/getdispomenu/{empresa}/{menu}", method = RequestMethod.GET)
+    public List<DisponibilidadPorMenuReturn> getDisponibilidadMenu(@PathVariable String empresa, @PathVariable String menu) {
+        return repository.findDispoMenus(empresa, menu);
+    }
+
+    @RequestMapping(value = "/getmenusempresa/{empresa}", method = RequestMethod.GET)
+    public List<MenuEmpresa> getmenusEmpresa(@PathVariable String empresa) {
+        return lmerepository.findListaMenus(empresa);
+    }
+
+    @RequestMapping(value = "/getmenustrueempresa/{empresa}", method = RequestMethod.GET)
+    public List<MenuTrue> getmenusTrueEmpresa(@PathVariable String empresa) {
+        return lmerepository.findListaMenusTrue(empresa);
+    }
+
     @RequestMapping(value = "/review/", method = RequestMethod.POST)
     public void createreview(@Valid @RequestBody ComentModel cmodel) {
         rvrepository.save(cmodel);
@@ -324,7 +381,7 @@ public class ChefController {
         return dlist;
     }
 
-    @RequestMapping(value = "/disponibilidad/{empresa}/{dia}", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/disponibilidad/{empresa}/{dia}", method = RequestMethod.GET)
     public int getDisponibilidad(@PathVariable String empresa, @PathVariable String dia) {
         switch (dia){
             case "Lunes":{
@@ -368,7 +425,7 @@ public class ChefController {
             }
         }
         repository.save(dispoModel);
-    }
+    }*/
 
     /*@RequestMapping(value = "/disponibilidad/{empresa}", method = RequestMethod.DELETE)
     public void deleteDispo(@PathVariable String empresa) {
@@ -461,7 +518,7 @@ public class ChefController {
         reserepository.save(dataModel);
     }
 
-    @RequestMapping(value = "/getdayslist/{empresa}", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/getdayslist/{empresa}", method = RequestMethod.GET)
     public List<Dia> getdays(@PathVariable String empresa) {
         DisponibilidadPorMenu dmodel = repository.findByEmpresa(empresa);
         List<Dia> dlist = new ArrayList<Dia>();
@@ -492,7 +549,7 @@ public class ChefController {
             dlist.add(dia);
         }
         return dlist;
-    }
+    }*/
 
     @RequestMapping(value = "/createhours", method = RequestMethod.POST)
     public void createhours(@Valid @RequestBody DisponibilidadPorFranjaHoraria cmodel) {
