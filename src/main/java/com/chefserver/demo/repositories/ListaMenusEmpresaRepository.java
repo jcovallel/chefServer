@@ -15,4 +15,6 @@ public interface ListaMenusEmpresaRepository extends MongoRepository<ListaMenusE
 
     @Query(value="{empresa: ?0, check: true}", fields="{ menu : 1, empresa : 1, check : 1, _id : 0}")
     List<MenuTrue> findListaMenusTrue(String empresa);
+
+    void deleteByEmpresa (String empresa);
 }

@@ -19,4 +19,6 @@ public interface DispoRepository extends MongoRepository<DisponibilidadPorMenu, 
             "viernes : 1, sabado : 1, domingo : 1, lunesref : 1, martesref : 1, miercolesref : 1, " +
             "juevesref : 1, viernesref : 1, sabadoref : 1, domingoref : 1, menu : 1, empresa : 1, _id : 0}")
     List<DisponibilidadPorMenuReturn> findDispoMenus(String empresa, String menu);
+
+    void deleteByEmpresa (String empresa);
 }

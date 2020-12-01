@@ -442,6 +442,26 @@ public class ChefController {
         emrepository.deleteById(empresa);
     }
 
+    @RequestMapping(value = "/deletedispodiassitio/{empresa}", method = RequestMethod.GET)
+    public void deletDispoDiasSitio(@PathVariable String empresa) {
+         ddsitiorepository.deleteById(empresa);
+    }
+
+    @RequestMapping(value = "/deletehorariomenus/{empresa}", method = RequestMethod.GET)
+    public void deletHorarioMenus(@PathVariable String empresa) {
+        hmrepository.deleteByEmpresa(empresa);
+    }
+
+    @RequestMapping(value = "/deletelistamenusempresa/{empresa}", method = RequestMethod.GET)
+    public void deletListaMenusEmpresa(@PathVariable String empresa) {
+        lmerepository.deleteByEmpresa(empresa);
+    }
+
+    @RequestMapping(value = "/deletedispomenu/{empresa}", method = RequestMethod.GET)
+    public void deletDispoMenu(@PathVariable String empresa) {
+        repository.deleteByEmpresa(empresa);
+    }
+
     @RequestMapping(value = "/deletemenu/{menu}", method = RequestMethod.GET)
     public void deletmenu(@PathVariable String menu) {
         lmrepository.deleteById(menu);
