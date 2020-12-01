@@ -279,7 +279,7 @@ public class ChefController {
     }
 
     @RequestMapping(value = "/getdispomenuref/{empresa}/{menu}", method = RequestMethod.GET)
-    public List<DisponibilidadPorMenuReturn> getDisponibilidadRefMenu(@PathVariable String empresa, @PathVariable String menu) {
+    public List<DisponibilidadPorMenuRefReturn> getDisponibilidadRefMenu(@PathVariable String empresa, @PathVariable String menu) {
         return repository.findDispoRefMenus(empresa, menu);
     }
 

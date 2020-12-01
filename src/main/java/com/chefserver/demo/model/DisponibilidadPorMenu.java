@@ -7,20 +7,20 @@ public class DisponibilidadPorMenu {
     public String id;
     public String empresa;
     public String menu;
-    public Integer Lunesref;
-    public Integer Martesref;
-    public Integer Miercolesref;
-    public Integer Juevesref;
-    public Integer Viernesref;
-    public Integer Sabadoref;
-    public Integer Domingoref;
-    public Integer Lunes;
-    public Integer Martes;
-    public Integer Miercoles;
-    public Integer Jueves;
-    public Integer Viernes;
-    public Integer Sabado;
-    public Integer Domingo;
+    public Integer lunesref;
+    public Integer martesref;
+    public Integer miercolesref;
+    public Integer juevesref;
+    public Integer viernesref;
+    public Integer sabadoref;
+    public Integer domingoref;
+    public Integer lunes;
+    public Integer martes;
+    public Integer miercoles;
+    public Integer jueves;
+    public Integer viernes;
+    public Integer sabado;
+    public Integer domingo;
 
     public String getId() {
         return id;
@@ -43,114 +43,114 @@ public class DisponibilidadPorMenu {
     public void setMenu(String menu) { this.menu = menu; }
 
     public Integer getLunes() {
-        return Lunes;
+        return lunes;
     }
 
     public Integer getLunesref() {
-        return Lunesref;
+        return lunesref;
     }
 
     public void setLunesref(Integer lunesref) {
-        Lunesref = lunesref;
+        this.lunesref = lunesref;
     }
 
     public Integer getMartesref() {
-        return Martesref;
+        return martesref;
     }
 
     public void setMartesref(Integer martesref) {
-        Martesref = martesref;
+        this.martesref = martesref;
     }
 
     public Integer getMiercolesref() {
-        return Miercolesref;
+        return miercolesref;
     }
 
     public void setMiercolesref(Integer miercolesref) {
-        Miercolesref = miercolesref;
+        this.miercolesref = miercolesref;
     }
 
     public Integer getJuevesref() {
-        return Juevesref;
+        return juevesref;
     }
 
     public void setJuevesref(Integer juevesref) {
-        Juevesref = juevesref;
+        this.juevesref = juevesref;
     }
 
     public Integer getViernesref() {
-        return Viernesref;
+        return viernesref;
     }
 
     public void setViernesref(Integer viernesref) {
-        Viernesref = viernesref;
+        this.viernesref = viernesref;
     }
 
     public Integer getSabadoref() {
-        return Sabadoref;
+        return sabadoref;
     }
 
     public void setSabadoref(Integer sabadoref) {
-        Sabadoref = sabadoref;
+        this.sabadoref = sabadoref;
     }
 
     public Integer getDomingoref() {
-        return Domingoref;
+        return domingoref;
     }
 
     public void setDomingoref(Integer domingoref) {
-        Domingoref = domingoref;
+        this.domingoref = domingoref;
     }
 
     public void setLunes(Integer lunes) {
-        Lunes = lunes;
+        this.lunes = lunes;
     }
 
     public Integer getMartes() {
-        return Martes;
+        return martes;
     }
 
     public void setMartes(Integer martes) {
-        Martes = martes;
+        this.martes = martes;
     }
 
     public Integer getMiercoles() {
-        return Miercoles;
+        return miercoles;
     }
 
     public void setMiercoles(Integer miercoles) {
-        Miercoles = miercoles;
+        this.miercoles = miercoles;
     }
 
     public Integer getJueves() {
-        return Jueves;
+        return jueves;
     }
 
     public void setJueves(Integer jueves) {
-        Jueves = jueves;
+        this.jueves = jueves;
     }
 
     public Integer getViernes() {
-        return Viernes;
+        return viernes;
     }
 
     public void setViernes(Integer viernes) {
-        Viernes = viernes;
+        this.viernes = viernes;
     }
 
     public Integer getSabado() {
-        return Sabado;
+        return sabado;
     }
 
     public void setSabado(Integer sabado) {
-        Sabado = sabado;
+        this.sabado = sabado;
     }
 
     public Integer getDomingo() {
-        return Domingo;
+        return domingo;
     }
 
     public void setDomingo(Integer domingo) {
-        Domingo = domingo;
+        this.domingo = domingo;
     }
 }
