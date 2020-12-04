@@ -7,10 +7,10 @@ public class DisponibilidadPorFranjaHoraria {
     String id;
     String empresa;
     String dia;
-    int franja1;
-    int franja2;
-    int franja3;
-    int franja4;
+    int franja1;//12:00AM
+    int franja2;//12:15AM
+    int franja3;//12:30AM
+    int franja4;//12:45AM
     int franja5;
     int franja6;
     int franja7;
@@ -99,10 +99,10 @@ public class DisponibilidadPorFranjaHoraria {
     int franja90;
     int franja91;
     int franja92;
-    int franja93;
-    int franja94;
-    int franja95;
-    int franja96;
+    int franja93;//11:00PM
+    int franja94;//11:15PM
+    int franja95;//11:30PM
+    int franja96;//11:45PM
 
     public String getId() {
         return id;

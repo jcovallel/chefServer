@@ -3,6 +3,7 @@ package com.chefserver.demo.controller;
 import com.chefserver.demo.model.*;
 import com.chefserver.demo.ExcelDB.ExcelController;
 import com.chefserver.demo.repositories.*;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -25,6 +26,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -576,243 +578,593 @@ public class ChefController {
         dhrepository.save(cmodel);
     }
 
-    @RequestMapping(value = "/gethours/{empresa}/{dia}", method = RequestMethod.GET)
-    public List<Horas> gethours(@PathVariable String empresa, @PathVariable String dia) {
+    @RequestMapping(value = "/gethours/{empresa}/{dia}/{menu}", method = RequestMethod.GET)
+    public List<Horas> gethours(@PathVariable String empresa, @PathVariable String dia, @PathVariable String menu) {
         DisponibilidadPorFranjaHoraria dmodel = dhrepository.findByEmpresaAndDia(empresa,dia);
         List<Horas> dlist = new ArrayList<Horas>();
-        Horas horas;
-        if(dmodel.getFranja1()<20){
-            horas = new Horas();
-            if(empresa.equals("Albahaca")){
-                horas.setHoras("06:40pm - 06:55pm");
-            }else if (empresa.equals("Finandina"))
-            {
-                horas.setHoras("12:00pm-12:15pm");
-            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
-            {
-                horas.setHoras("11:30am-11:45am");
-            }else if (empresa.equals("Central Cervecera"))
-            {
-                horas.setHoras("12:30pm-12:45pm");
-            }else{
-                horas.setHoras("10:00am - 10:15am");
-            }
+
+        HashMap<String, Integer> hmap = new HashMap<String, Integer>();
+        /*Adding elements to HashMap*/
+        hmap.put("12:00AM", 1);
+        hmap.put("12:15AM", 2);
+        hmap.put("12:30AM", 3);
+        hmap.put("12:45AM", 4);
+        hmap.put("01:00AM", 5);
+        hmap.put("01:15AM", 6);
+        hmap.put("01:30AM", 7);
+        hmap.put("01:45AM", 8);
+        hmap.put("02:00AM", 9);
+        hmap.put("02:15AM", 10);
+        hmap.put("02:30AM", 11);
+        hmap.put("02:45AM", 12);
+        hmap.put("03:00AM", 13);
+        hmap.put("03:15AM", 14);
+        hmap.put("03:30AM", 15);
+        hmap.put("03:45AM", 16);
+        hmap.put("04:00AM", 17);
+        hmap.put("04:15AM", 18);
+        hmap.put("04:30AM", 19);
+        hmap.put("04:45AM", 20);
+        hmap.put("05:00AM", 21);
+        hmap.put("05:15AM", 22);
+        hmap.put("05:30AM", 23);
+        hmap.put("05:45AM", 24);
+        hmap.put("06:00AM", 25);
+        hmap.put("06:15AM", 26);
+        hmap.put("06:30AM", 27);
+        hmap.put("06:45AM", 28);
+        hmap.put("07:00AM", 29);
+        hmap.put("07:15AM", 30);
+        hmap.put("07:30AM", 31);
+        hmap.put("07:45AM", 32);
+        hmap.put("08:00AM", 33);
+        hmap.put("08:15AM", 34);
+        hmap.put("08:30AM", 35);
+        hmap.put("08:45AM", 36);
+        hmap.put("09:00AM", 37);
+        hmap.put("09:15AM", 38);
+        hmap.put("09:30AM", 39);
+        hmap.put("09:45AM", 40);
+        hmap.put("10:00AM", 41);
+        hmap.put("10:15AM", 42);
+        hmap.put("10:30AM", 43);
+        hmap.put("10:45AM", 44);
+        hmap.put("11:00AM", 45);
+        hmap.put("11:15AM", 46);
+        hmap.put("11:30AM", 47);
+        hmap.put("11:45AM", 48);
+        hmap.put("12:00PM", 49);
+        hmap.put("12:15PM", 50);
+        hmap.put("12:30PM", 51);
+        hmap.put("12:45PM", 52);
+        hmap.put("01:00PM", 53);
+        hmap.put("01:15PM", 54);
+        hmap.put("01:30PM", 55);
+        hmap.put("01:45PM", 56);
+        hmap.put("02:00PM", 57);
+        hmap.put("02:15PM", 58);
+        hmap.put("02:30PM", 59);
+        hmap.put("02:45PM", 60);
+        hmap.put("03:00PM", 61);
+        hmap.put("03:15PM", 62);
+        hmap.put("03:30PM", 63);
+        hmap.put("03:45PM", 64);
+        hmap.put("04:00PM", 65);
+        hmap.put("04:15PM", 66);
+        hmap.put("04:30PM", 67);
+        hmap.put("04:45PM", 68);
+        hmap.put("05:00PM", 69);
+        hmap.put("05:15PM", 70);
+        hmap.put("05:30PM", 71);
+        hmap.put("05:45PM", 72);
+        hmap.put("06:00PM", 73);
+        hmap.put("06:15PM", 74);
+        hmap.put("06:30PM", 75);
+        hmap.put("06:45PM", 76);
+        hmap.put("07:00PM", 77);
+        hmap.put("07:15PM", 78);
+        hmap.put("07:30PM", 79);
+        hmap.put("07:45PM", 80);
+        hmap.put("08:00PM", 81);
+        hmap.put("08:15PM", 82);
+        hmap.put("08:30PM", 83);
+        hmap.put("08:45PM", 84);
+        hmap.put("09:00PM", 85);
+        hmap.put("09:15PM", 86);
+        hmap.put("09:30PM", 87);
+        hmap.put("09:45PM", 88);
+        hmap.put("10:00PM", 89);
+        hmap.put("10:15PM", 90);
+        hmap.put("10:30PM", 91);
+        hmap.put("10:45PM", 92);
+        hmap.put("11:00PM", 93);
+        hmap.put("11:15PM", 94);
+        hmap.put("11:30PM", 95);
+        hmap.put("11:45PM", 96);
+
+        List<HorarioMenusReturn> horarios = hmrepository.findListaHoras(empresa, menu);
+        String hini = horarios.get(0).gethInicioRes();
+        String hfin = horarios.get(0).gethFinRes();
+
+        if(dmodel.getFranja1()<20 && hmap.get(hini)<=1 && hmap.get(hfin)>1 ) {
+            Horas horas = new Horas();
+            horas.setHoras("12:00AM - 12:15AM");
             dlist.add(horas);
         }
-        if(dmodel.getFranja2()<20){
-            horas = new Horas();
-            if(empresa.equals("Albahaca")){
-                horas.setHoras("06:55pm - 07:10pm");
-            }else if (empresa.equals("Finandina"))
-            {
-                horas.setHoras("12:15pm-12:30pm");
-            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
-            {
-                horas.setHoras("11:45am-12:00pm");
-            }else if (empresa.equals("Central Cervecera"))
-            {
-                horas.setHoras("12:45pm-01:00pm");
-            }else{
-                horas.setHoras("10:15am - 10:30am");
-            }
+        if(dmodel.getFranja2()<20 && hmap.get(hini)<=2 && hmap.get(hfin)>2 ) {
+            Horas horas = new Horas();
+            horas.setHoras("12:15AM - 12:30AM");
             dlist.add(horas);
         }
-        if(dmodel.getFranja3()<20){
-            horas = new Horas();
-            if(empresa.equals("Albahaca")){
-                horas.setHoras("07:10pm - 07:25pm");
-            }else if (empresa.equals("Finandina"))
-            {
-                horas.setHoras("12:30pm-12:45pm");
-            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
-            {
-                horas.setHoras("12:00pm-12:15pm");
-            }else if (empresa.equals("Central Cervecera"))
-            {
-                horas.setHoras("01:00pm-01:15pm");
-            }else{
-                horas.setHoras("10:30am - 10:45am");
-            }
+        if(dmodel.getFranja3()<20 && hmap.get(hini)<=3 && hmap.get(hfin)>3 ) {
+            Horas horas = new Horas();
+            horas.setHoras("12:30AM - 12:45AM");
             dlist.add(horas);
         }
-        if(dmodel.getFranja4()<20){
-            horas = new Horas();
-            if(empresa.equals("Albahaca")){
-                horas.setHoras("07:25pm - 07:40pm");
-            }else if (empresa.equals("Finandina"))
-            {
-                horas.setHoras("12:45pm-01:00pm");
-            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
-            {
-                horas.setHoras("12:15pm-12:30pm");
-            }else if (empresa.equals("Central Cervecera"))
-            {
-                horas.setHoras("01:15pm-01:30pm");
-            }else{
-                horas.setHoras("10:45am - 11:00am");
-            }
+        if(dmodel.getFranja4()<20 && hmap.get(hini)<=4 && hmap.get(hfin)>4 ) {
+            Horas horas = new Horas();
+            horas.setHoras("12:45AM - 01:00AM");
             dlist.add(horas);
         }
-        if(dmodel.getFranja5()<20){
-            horas = new Horas();
-            if(empresa.equals("Albahaca")){
-                horas.setHoras("07:40pm - 07:55pm");
-            }else if (empresa.equals("Finandina"))
-            {
-                horas.setHoras("01:00pm-01:15pm");
-            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
-            {
-                horas.setHoras("12:30pm-12:45pm");
-            }else if (empresa.equals("Central Cervecera"))
-            {
-                horas.setHoras("01:30pm-01:45pm");
-            }else{
-                horas.setHoras("11:00am - 11:15am");
-            }
+        if(dmodel.getFranja5()<20 && hmap.get(hini)<=5 && hmap.get(hfin)>5 ) {
+            Horas horas = new Horas();
+            horas.setHoras("01:00AM - 01:15AM");
             dlist.add(horas);
         }
-        if(dmodel.getFranja6()<20){
-            horas = new Horas();
-            if(empresa.equals("Albahaca")){
-                horas.setHoras("07:55pm - 08:10pm");
-            }else if(empresa.equals("Finandina"))
-            {
-                horas.setHoras("01:15pm-01:30pm");
-            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
-            {
-                horas.setHoras("12:45pm-01:00pm");
-            }else if (empresa.equals("Central Cervecera"))
-            {
-                horas.setHoras("01:45pm-02:00pm");
-            }else{
-                horas.setHoras("11:15am - 11:30am");
-            }
+        if(dmodel.getFranja6()<20 && hmap.get(hini)<=6 && hmap.get(hfin)>6 ) {
+            Horas horas = new Horas();
+            horas.setHoras("01:15AM - 01:30AM");
             dlist.add(horas);
         }
-        if(dmodel.getFranja7()<20){
-            horas = new Horas();
-            if(empresa.equals("Albahaca")){
-                horas.setHoras("08:10pm - 08:25pm");
-                dlist.add(horas);
-            }else if (empresa.equals("Finandina"))
-            {
-                horas.setHoras("01:30pm-01:45pm");
-                dlist.add(horas);
-            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
-            {
-                horas.setHoras("01:00pm-01:15pm");
-                dlist.add(horas);
-            }else if (!empresa.equals("Central Cervecera")){
-                horas.setHoras("11:30am - 11:45am");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja7()<20 && hmap.get(hini)<=7 && hmap.get(hfin)>7 ) {
+            Horas horas = new Horas();
+            horas.setHoras("01:30AM - 01:45AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja8()<20){
-            horas = new Horas();
-            if (empresa.equals("Finandina"))
-            {
-                horas.setHoras("01:45pm-02:00pm");
-                dlist.add(horas);
-            }else if ((empresa.equals("Protección"))||(empresa.equals("Gecolsa Medellín")))
-            {
-                horas.setHoras("01:15pm-01:30pm");
-                dlist.add(horas);
-            }else if((!empresa.equals("Albahaca"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("11:45 - 12:00pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja8()<20 && hmap.get(hini)<=8 && hmap.get(hfin)>8 ) {
+            Horas horas = new Horas();
+            horas.setHoras("01:45AM - 02:00AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja9()<20){
-            horas = new Horas();
-            if (empresa.equals("Protección"))
-            {
-                horas.setHoras("01:30pm-01:45pm");
-                dlist.add(horas);
-            }else if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("12:00pm - 12:15pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja9()<20 && hmap.get(hini)<=9 && hmap.get(hfin)>9 ) {
+            Horas horas = new Horas();
+            horas.setHoras("02:00AM - 02:15AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja10()<20){
-            horas = new Horas();
-            if (empresa.equals("Protección"))
-            {
-                horas.setHoras("01:45pm-02:00pm");
-                dlist.add(horas);
-            }else if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("12:15pm - 12:30pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja10()<20 && hmap.get(hini)<=10 && hmap.get(hfin)>10 ) {
+            Horas horas = new Horas();
+            horas.setHoras("02:15AM - 02:30AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja11()<20){
-            horas = new Horas();
-            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("12:15pm - 12:30pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja11()<20 && hmap.get(hini)<=11 && hmap.get(hfin)>11 ) {
+            Horas horas = new Horas();
+            horas.setHoras("02:30AM - 02:45AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja12()<20){
-            horas = new Horas();
-            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("12:45pm - 01:00pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja12()<20 && hmap.get(hini)<=12 && hmap.get(hfin)>12 ) {
+            Horas horas = new Horas();
+            horas.setHoras("02:45AM - 03:00AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja13()<20){
-            horas = new Horas();
-            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("01:00pm - 01:15pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja13()<20 && hmap.get(hini)<=13 && hmap.get(hfin)>13 ) {
+            Horas horas = new Horas();
+            horas.setHoras("03:00AM - 03:15AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja14()<20){
-            horas = new Horas();
-            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("01:15pm - 01:30pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja14()<20 && hmap.get(hini)<=14 && hmap.get(hfin)>14 ) {
+            Horas horas = new Horas();
+            horas.setHoras("03:15AM - 03:30AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja15()<20){
-            horas = new Horas();
-            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("01:30pm - 01:45pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja15()<20 && hmap.get(hini)<=15 && hmap.get(hfin)>15 ) {
+            Horas horas = new Horas();
+            horas.setHoras("03:30AM - 03:45AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja16()<20){
-            horas = new Horas();
-            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("01:45pm - 02:00pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja16()<20 && hmap.get(hini)<=16 && hmap.get(hfin)>16 ) {
+            Horas horas = new Horas();
+            horas.setHoras("03:45AM - 04:00AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja17()<20){
-            horas = new Horas();
-            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("02:00pm - 02:15pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja17()<20 && hmap.get(hini)<=17 && hmap.get(hfin)>17 ) {
+            Horas horas = new Horas();
+            horas.setHoras("04:00AM - 04:15AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja18()<20){
-            horas = new Horas();
-            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("02:15pm - 02:30pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja18()<20 && hmap.get(hini)<=18 && hmap.get(hfin)>18 ) {
+            Horas horas = new Horas();
+            horas.setHoras("04:15AM - 04:30AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja19()<20){
-            horas = new Horas();
-            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("02:30pm - 02:45pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja19()<20 && hmap.get(hini)<=19 && hmap.get(hfin)>19 ) {
+            Horas horas = new Horas();
+            horas.setHoras("04:30AM - 04:45AM");
+            dlist.add(horas);
         }
-        if(dmodel.getFranja20()<20){
-            horas = new Horas();
-            if((!empresa.equals("Gecolsa Medellín"))&&(!empresa.equals("Albahaca"))&&(!empresa.equals("Finandina"))&&(!empresa.equals("Protección"))&&(!empresa.equals("Central Cervecera"))){
-                horas.setHoras("02:45pm - 03:00pm");
-                dlist.add(horas);
-            }
+        if(dmodel.getFranja20()<20 && hmap.get(hini)<=20 && hmap.get(hfin)>20 ) {
+            Horas horas = new Horas();
+            horas.setHoras("04:45AM - 05:00AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja21()<20 && hmap.get(hini)<=21 && hmap.get(hfin)>21 ) {
+            Horas horas = new Horas();
+            horas.setHoras("05:00AM - 05:15AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja22()<20 && hmap.get(hini)<=22 && hmap.get(hfin)>22 ) {
+            Horas horas = new Horas();
+            horas.setHoras("05:15AM - 05:30AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja23()<20 && hmap.get(hini)<=23 && hmap.get(hfin)>23 ) {
+            Horas horas = new Horas();
+            horas.setHoras("05:30AM - 05:45AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja24()<20 && hmap.get(hini)<=24 && hmap.get(hfin)>24 ) {
+            Horas horas = new Horas();
+            horas.setHoras("05:45AM - 06:00AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja25()<20 && hmap.get(hini)<=25 && hmap.get(hfin)>25 ) {
+            Horas horas = new Horas();
+            horas.setHoras("06:00AM - 06:15AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja26()<20 && hmap.get(hini)<=26 && hmap.get(hfin)>26 ) {
+            Horas horas = new Horas();
+            horas.setHoras("06:15AM - 06:30AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja27()<20 && hmap.get(hini)<=27 && hmap.get(hfin)>27 ) {
+            Horas horas = new Horas();
+            horas.setHoras("06:30AM - 06:45AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja28()<20 && hmap.get(hini)<=28 && hmap.get(hfin)>28 ) {
+            Horas horas = new Horas();
+            horas.setHoras("06:45AM - 07:00AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja29()<20 && hmap.get(hini)<=29 && hmap.get(hfin)>29 ) {
+            Horas horas = new Horas();
+            horas.setHoras("07:00AM - 07:15AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja30()<20 && hmap.get(hini)<=30 && hmap.get(hfin)>30 ) {
+            Horas horas = new Horas();
+            horas.setHoras("07:15AM - 07:30AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja31()<20 && hmap.get(hini)<=31 && hmap.get(hfin)>31 ) {
+            Horas horas = new Horas();
+            horas.setHoras("07:30AM - 07:45AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja32()<20 && hmap.get(hini)<=32 && hmap.get(hfin)>32 ) {
+            Horas horas = new Horas();
+            horas.setHoras("07:45AM - 08:00AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja33()<20 && hmap.get(hini)<=33 && hmap.get(hfin)>33 ) {
+            Horas horas = new Horas();
+            horas.setHoras("08:00AM - 08:15AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja34()<20 && hmap.get(hini)<=34 && hmap.get(hfin)>34 ) {
+            Horas horas = new Horas();
+            horas.setHoras("08:15AM - 08:30AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja35()<20 && hmap.get(hini)<=35 && hmap.get(hfin)>35 ) {
+            Horas horas = new Horas();
+            horas.setHoras("08:30AM - 08:45AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja36()<20 && hmap.get(hini)<=36 && hmap.get(hfin)>36 ) {
+            Horas horas = new Horas();
+            horas.setHoras("08:45AM - 09:00AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja37()<20 && hmap.get(hini)<=37 && hmap.get(hfin)>37 ) {
+            Horas horas = new Horas();
+            horas.setHoras("09:00AM - 09:15AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja38()<20 && hmap.get(hini)<=38 && hmap.get(hfin)>38 ) {
+            Horas horas = new Horas();
+            horas.setHoras("09:15AM - 09:30AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja39()<20 && hmap.get(hini)<=39 && hmap.get(hfin)>39 ) {
+            Horas horas = new Horas();
+            horas.setHoras("09:30AM - 09:45AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja40()<20 && hmap.get(hini)<=40 && hmap.get(hfin)>40 ) {
+            Horas horas = new Horas();
+            horas.setHoras("09:45AM - 10:00AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja41()<20 && hmap.get(hini)<=41 && hmap.get(hfin)>41 ) {
+            Horas horas = new Horas();
+            horas.setHoras("10:00AM - 10:15AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja42()<20 && hmap.get(hini)<=42 && hmap.get(hfin)>42 ) {
+            Horas horas = new Horas();
+            horas.setHoras("10:15AM - 10:30AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja43()<20 && hmap.get(hini)<=43 && hmap.get(hfin)>43 ) {
+            Horas horas = new Horas();
+            horas.setHoras("10:30AM - 10:45AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja44()<20 && hmap.get(hini)<=44 && hmap.get(hfin)>44 ) {
+            Horas horas = new Horas();
+            horas.setHoras("10:45AM - 11:00AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja45()<20 && hmap.get(hini)<=45 && hmap.get(hfin)>45 ) {
+            Horas horas = new Horas();
+            horas.setHoras("11:00AM - 11:15AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja46()<20 && hmap.get(hini)<=46 && hmap.get(hfin)>46 ) {
+            Horas horas = new Horas();
+            horas.setHoras("11:15AM - 11:30AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja47()<20 && hmap.get(hini)<=47 && hmap.get(hfin)>47 ) {
+            Horas horas = new Horas();
+            horas.setHoras("11:30AM - 11:45AM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja48()<20 && hmap.get(hini)<=48 && hmap.get(hfin)>48 ) {
+            Horas horas = new Horas();
+            horas.setHoras("11:45AM - 12:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja49()<20 && hmap.get(hini)<=49 && hmap.get(hfin)>49 ) {
+            Horas horas = new Horas();
+            horas.setHoras("12:00PM - 12:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja50()<20 && hmap.get(hini)<=50 && hmap.get(hfin)>50 ) {
+            Horas horas = new Horas();
+            horas.setHoras("12:15PM - 12:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja51()<20 && hmap.get(hini)<=51 && hmap.get(hfin)>51 ) {
+            Horas horas = new Horas();
+            horas.setHoras("12:30PM - 12:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja52()<20 && hmap.get(hini)<=52 && hmap.get(hfin)>52 ) {
+            Horas horas = new Horas();
+            horas.setHoras("12:45PM - 01:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja53()<20 && hmap.get(hini)<=53 && hmap.get(hfin)>53 ) {
+            Horas horas = new Horas();
+            horas.setHoras("01:00PM - 01:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja54()<20 && hmap.get(hini)<=54 && hmap.get(hfin)>54 ) {
+            Horas horas = new Horas();
+            horas.setHoras("01:15PM - 01:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja55()<20 && hmap.get(hini)<=55 && hmap.get(hfin)>55 ) {
+            Horas horas = new Horas();
+            horas.setHoras("01:30PM - 01:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja56()<20 && hmap.get(hini)<=56 && hmap.get(hfin)>56 ) {
+            Horas horas = new Horas();
+            horas.setHoras("01:45PM - 02:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja57()<20 && hmap.get(hini)<=57 && hmap.get(hfin)>57 ) {
+            Horas horas = new Horas();
+            horas.setHoras("02:00PM - 02:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja58()<20 && hmap.get(hini)<=58 && hmap.get(hfin)>58 ) {
+            Horas horas = new Horas();
+            horas.setHoras("02:15PM - 02:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja59()<20 && hmap.get(hini)<=59 && hmap.get(hfin)>59 ) {
+            Horas horas = new Horas();
+            horas.setHoras("02:30PM - 02:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja60()<20 && hmap.get(hini)<=60 && hmap.get(hfin)>60 ) {
+            Horas horas = new Horas();
+            horas.setHoras("02:45PM - 03:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja61()<20 && hmap.get(hini)<=61 && hmap.get(hfin)>61 ) {
+            Horas horas = new Horas();
+            horas.setHoras("03:00PM - 03:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja62()<20 && hmap.get(hini)<=62 && hmap.get(hfin)>62 ) {
+            Horas horas = new Horas();
+            horas.setHoras("03:15PM - 03:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja63()<20 && hmap.get(hini)<=63 && hmap.get(hfin)>63 ) {
+            Horas horas = new Horas();
+            horas.setHoras("03:30PM - 03:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja64()<20 && hmap.get(hini)<=64 && hmap.get(hfin)>64 ) {
+            Horas horas = new Horas();
+            horas.setHoras("03:45PM - 04:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja65()<20 && hmap.get(hini)<=65 && hmap.get(hfin)>65 ) {
+            Horas horas = new Horas();
+            horas.setHoras("04:00PM - 04:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja66()<20 && hmap.get(hini)<=66 && hmap.get(hfin)>66 ) {
+            Horas horas = new Horas();
+            horas.setHoras("04:15PM - 04:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja67()<20 && hmap.get(hini)<=67 && hmap.get(hfin)>67 ) {
+            Horas horas = new Horas();
+            horas.setHoras("04:30PM - 04:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja68()<20 && hmap.get(hini)<=68 && hmap.get(hfin)>68 ) {
+            Horas horas = new Horas();
+            horas.setHoras("04:45PM - 05:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja69()<20 && hmap.get(hini)<=69 && hmap.get(hfin)>69 ) {
+            Horas horas = new Horas();
+            horas.setHoras("05:00PM - 05:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja70()<20 && hmap.get(hini)<=70 && hmap.get(hfin)>70 ) {
+            Horas horas = new Horas();
+            horas.setHoras("05:15PM - 05:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja71()<20 && hmap.get(hini)<=71 && hmap.get(hfin)>71 ) {
+            Horas horas = new Horas();
+            horas.setHoras("05:30PM - 05:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja72()<20 && hmap.get(hini)<=72 && hmap.get(hfin)>72 ) {
+            Horas horas = new Horas();
+            horas.setHoras("05:45PM - 06:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja73()<20 && hmap.get(hini)<=73 && hmap.get(hfin)>73 ) {
+            Horas horas = new Horas();
+            horas.setHoras("06:00PM - 06:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja74()<20 && hmap.get(hini)<=74 && hmap.get(hfin)>74 ) {
+            Horas horas = new Horas();
+            horas.setHoras("06:15PM - 06:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja75()<20 && hmap.get(hini)<=75 && hmap.get(hfin)>75 ) {
+            Horas horas = new Horas();
+            horas.setHoras("06:30PM - 06:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja76()<20 && hmap.get(hini)<=76 && hmap.get(hfin)>76 ) {
+            Horas horas = new Horas();
+            horas.setHoras("06:45PM - 07:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja77()<20 && hmap.get(hini)<=77 && hmap.get(hfin)>77 ) {
+            Horas horas = new Horas();
+            horas.setHoras("07:00PM - 07:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja78()<20 && hmap.get(hini)<=78 && hmap.get(hfin)>78 ) {
+            Horas horas = new Horas();
+            horas.setHoras("07:15PM - 07:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja79()<20 && hmap.get(hini)<=79 && hmap.get(hfin)>79 ) {
+            Horas horas = new Horas();
+            horas.setHoras("07:30PM - 07:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja80()<20 && hmap.get(hini)<=80 && hmap.get(hfin)>80 ) {
+            Horas horas = new Horas();
+            horas.setHoras("07:45PM - 08:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja81()<20 && hmap.get(hini)<=81 && hmap.get(hfin)>81 ) {
+            Horas horas = new Horas();
+            horas.setHoras("08:00PM - 08:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja82()<20 && hmap.get(hini)<=82 && hmap.get(hfin)>82 ) {
+            Horas horas = new Horas();
+            horas.setHoras("08:15PM - 08:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja83()<20 && hmap.get(hini)<=83 && hmap.get(hfin)>83 ) {
+            Horas horas = new Horas();
+            horas.setHoras("08:30PM - 08:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja84()<20 && hmap.get(hini)<=84 && hmap.get(hfin)>84 ) {
+            Horas horas = new Horas();
+            horas.setHoras("08:45PM - 09:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja85()<20 && hmap.get(hini)<=85 && hmap.get(hfin)>85 ) {
+            Horas horas = new Horas();
+            horas.setHoras("09:00PM - 09:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja86()<20 && hmap.get(hini)<=86 && hmap.get(hfin)>86 ) {
+            Horas horas = new Horas();
+            horas.setHoras("09:15PM - 09:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja87()<20 && hmap.get(hini)<=87 && hmap.get(hfin)>87 ) {
+            Horas horas = new Horas();
+            horas.setHoras("09:30PM - 09:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja88()<20 && hmap.get(hini)<=88 && hmap.get(hfin)>88 ) {
+            Horas horas = new Horas();
+            horas.setHoras("09:45PM - 10:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja89()<20 && hmap.get(hini)<=89 && hmap.get(hfin)>89 ) {
+            Horas horas = new Horas();
+            horas.setHoras("10:00PM - 10:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja90()<20 && hmap.get(hini)<=90 && hmap.get(hfin)>90 ) {
+            Horas horas = new Horas();
+            horas.setHoras("10:15PM - 10:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja91()<20 && hmap.get(hini)<=91 && hmap.get(hfin)>91 ) {
+            Horas horas = new Horas();
+            horas.setHoras("10:30PM - 10:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja92()<20 && hmap.get(hini)<=92 && hmap.get(hfin)>92 ) {
+            Horas horas = new Horas();
+            horas.setHoras("10:45PM - 11:00PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja93()<20 && hmap.get(hini)<=93 && hmap.get(hfin)>93 ) {
+            Horas horas = new Horas();
+            horas.setHoras("11:00PM - 11:15PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja94()<20 && hmap.get(hini)<=94 && hmap.get(hfin)>94 ) {
+            Horas horas = new Horas();
+            horas.setHoras("11:15PM - 11:30PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja95()<20 && hmap.get(hini)<=95 && hmap.get(hfin)>95 ) {
+            Horas horas = new Horas();
+            horas.setHoras("11:30PM - 11:45PM");
+            dlist.add(horas);
+        }
+        if(dmodel.getFranja96()<20 && hmap.get(hini)<=96 && hmap.get(hfin)>96 ) {
+            Horas horas = new Horas();
+            horas.setHoras("11:45PM - 12:00AM");
+            dlist.add(horas);
         }
         return dlist;
     }
