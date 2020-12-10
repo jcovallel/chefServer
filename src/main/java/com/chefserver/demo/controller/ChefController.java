@@ -4,11 +4,14 @@ import com.chefserver.demo.model.*;
 import com.chefserver.demo.ExcelDB.ExcelController;
 import com.chefserver.demo.repositories.*;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.commons.compress.utils.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -25,10 +28,7 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @RestController
 @RequestMapping("/chef")
@@ -69,11 +69,51 @@ public class ChefController {
     @Autowired
     private JavaMailSender javaMailSender;
 
+
+    @RequestMapping(value = "/prueba",method = RequestMethod.GET )
+    public ResponseEntity<byte[]> showImages () throws IOException {
+        String boundary="---------THIS_IS_THE_BOUNDARY";
+        List<String> imageNames = Arrays.asList(new String[]{"1.jpg"});
+        List<String> contentTypes = Arrays.asList(new String[]{MediaType.IMAGE_JPEG_VALUE});
+        List<Byte[]> imagesData = new ArrayList<Byte[]>();
+        imagesData.add(ArrayUtils.toObject(IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("Images/prueba/Menu0.jpg"))));
+        //imagesData.add(ArrayUtils.toObject(IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("Images/prueba/Menu1.jpg"))));
+        byte[] allImages = getMultipleImageResponse(boundary, imageNames,contentTypes, imagesData);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type","multipart/x-mixed-replace; boundary=" + boundary);
+        return new ResponseEntity<byte[]>(allImages,headers, HttpStatus.CREATED);
+    }
+
+    private static byte[] getMultipleImageResponse(String boundary, List<String> imageNames, List<String> contentTypes, List<Byte[]> imagesData){
+        byte[] finalByteArray = new byte[0];
+        Integer imagesCounter = -1;
+        for(String imageName : imageNames){
+            imagesCounter++;
+            String header="--" + boundary
+                    + "\r\nContent-Disposition: form-data; name=\"" + imageName
+                    + "\"; filename=\"" + imageName + "\"\r\n"
+                    + "Content-type: " + contentTypes.get(imagesCounter) + "\r\n\r\n";
+            byte[] currentImageByteArray=ArrayUtils.addAll(header.getBytes(), ArrayUtils.toPrimitive(imagesData.get(imagesCounter)));
+            finalByteArray = ArrayUtils.addAll(finalByteArray,ArrayUtils.addAll(currentImageByteArray, "\r\n\r\n".getBytes()));
+            if (imagesCounter == imageNames.size() - 1) {
+                String end = "--" + boundary + "--";
+                finalByteArray = ArrayUtils.addAll(finalByteArray, end.getBytes());
+            }
+        }
+        return finalByteArray;
+    }
+
+
+
+
+
     @PostMapping("/uploadmenu/{empresa}")
-    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable String empresa){
+    public String uploadImage(@RequestParam("imageFile") MultipartFile[] imageFile, @PathVariable String empresa){
         String returnValue = "error";
         try {
-            specimenService.saveImage(imageFile, empresa);
+            for(int i=0; i<imageFile.length; i++){
+                specimenService.saveImage(imageFile[i], empresa+"?"+i);
+            }
             returnValue = "exitosa";
         } catch (Exception e) {
             e.printStackTrace();
