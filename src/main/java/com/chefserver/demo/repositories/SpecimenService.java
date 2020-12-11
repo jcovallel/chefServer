@@ -1,8 +1,10 @@
 package com.chefserver.demo.repositories;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,6 +26,7 @@ public class SpecimenService implements ISpecimenService{
         //String folder ="../src/main/resources/Images/"+empresa+"Menu.jpg";
         byte[] bytes = imageFile.getBytes();
         Path path = Paths.get(folder);
+        FileUtils.deleteDirectory(new File("src/main/resources/Images/"+empresa));
         Files.createDirectories(path.getParent());
         if( !Files.exists(path))
             Files.createFile(path);

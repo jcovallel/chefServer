@@ -219,6 +219,8 @@ public class ChefController {
         //ARREGLAR ESTO TILDES Y ÑS NO PASAN POR PATHVARIABLE, JSON NEEDED
     }
 
+
+
     @RequestMapping(value = "/getpass/{user}/{pass}", method = RequestMethod.GET)
     public Boolean comparepass( @PathVariable String user, @PathVariable String pass) {
         if(emrepository.findByNombre(user).getPassword().equals(pass)){
