@@ -207,19 +207,107 @@ public class ChefController {
             lmerepository.save(menus.get(i));
         }
     }
-
-    @RequestMapping(value = "/modifymenu/{user}/{nmenu}", method = RequestMethod.PUT)
-    public void modifymenu(@PathVariable String user, @PathVariable String nmenu) {
-        ListaMenus oldmenu = lmrepository.findByMenu(user);
+//======================================== MODIFIERS ==================================================
+    @RequestMapping(value = "/modifymenu/", method = RequestMethod.POST)
+    public void modifymenu(@Valid @RequestBody ListaMenus menus) {
+        lmrepository.deleteById(menus.getId());
         ListaMenus newmenu = new ListaMenus();
-        newmenu.setId(nmenu);
-        newmenu.setMenu(nmenu);
-        lmrepository.deleteById(user);
+        newmenu.setId(menus.getMenu());
+        newmenu.setMenu(menus.getMenu());
         lmrepository.save(newmenu);
-        //ARREGLAR ESTO TILDES Y ÑS NO PASAN POR PATHVARIABLE, JSON NEEDED
     }
 
+    @RequestMapping(value = "/modifyhorariomenus/", method = RequestMethod.POST)
+    public void modifyHorarioMenus(@Valid @RequestBody HorariosMenus hmenus) {
+        HorariosMenus oldHM = hmrepository.findById(hmenus.getId()).orElse(null);
+        HorariosMenus newHM = new HorariosMenus();
+        newHM.setId(hmenus.getEmpresa()+hmenus.getMenu());
+        newHM.setEmpresa(hmenus.getEmpresa());
+        newHM.setMenu(hmenus.getMenu());
+        newHM.sethInicioRes(oldHM.gethInicioRes());
+        newHM.sethFinRes(oldHM.gethFinRes());
+        newHM.sethInicioEnt(oldHM.gethInicioEnt());
+        newHM.sethFinEnt(oldHM.gethFinEnt());
+        hmrepository.save(newHM);
+        hmrepository.deleteById(hmenus.getId());
+    }
 
+    @RequestMapping(value = "/modifydispomenu/", method = RequestMethod.POST)
+    public void modifyDispoMenu(@Valid @RequestBody DisponibilidadPorMenu dispomenu) {
+        DisponibilidadPorMenu oldDM = repository.findById(dispomenu.getId()).orElse(null);
+        DisponibilidadPorMenu newDM = new DisponibilidadPorMenu();
+        newDM.setId(dispomenu.getEmpresa()+dispomenu.getMenu());
+        newDM.setEmpresa(dispomenu.getEmpresa());
+        newDM.setMenu(dispomenu.getMenu());
+        newDM.setLunesref(oldDM.getLunesref());
+        newDM.setMartesref(oldDM.getMartesref());
+        newDM.setMiercolesref(oldDM.getMiercolesref());
+        newDM.setJuevesref(oldDM.getJuevesref());
+        newDM.setViernesref(oldDM.getViernesref());
+        newDM.setSabadoref(oldDM.getSabadoref());
+        newDM.setDomingoref(oldDM.getDomingoref());
+        newDM.setLunes(oldDM.getLunes());
+        newDM.setMartes(oldDM.getMartes());
+        newDM.setMiercoles(oldDM.getMiercoles());
+        newDM.setJueves(oldDM.getJueves());
+        newDM.setViernes(oldDM.getViernes());
+        newDM.setSabado(oldDM.getSabado());
+        newDM.setDomingo(oldDM.getDomingo());
+        repository.save(newDM);
+        repository.deleteById(dispomenu.getId());
+    }
+
+    @RequestMapping(value = "/modifymenuempresa/", method = RequestMethod.POST)
+    public void modifyMenuEmpresa(@Valid @RequestBody ListaMenusEmpresas menus) {
+        ListaMenusEmpresas oldME = lmerepository.findById(menus.getId()).orElse(null);
+        ListaMenusEmpresas newME = new ListaMenusEmpresas();
+        newME.setId(menus.getEmpresa()+menus.getMenu());
+        newME.setEmpresa(menus.getEmpresa());
+        newME.setMenu(menus.getMenu());
+        newME.setCheck(oldME.getCheck());
+        lmerepository.save(newME);
+        lmerepository.deleteById(menus.getId());
+    }
+
+//======================================================================================================
+
+//======================================== DELETERS ==================================================
+    @RequestMapping(value = "/deletemenu/{menu}", method = RequestMethod.GET)
+    public void deletmenu(@PathVariable String menu) {
+        lmrepository.deleteById(menu);
+    }
+
+    @RequestMapping(value = "/deletehorariomenusbymenu/{menu}", method = RequestMethod.GET)
+    public void deletHorarioMenusByMenu(@PathVariable String menu) {
+        hmrepository.deleteByMenu(menu);
+    }
+
+    @RequestMapping(value = "/deletedispomenubymenu/{menu}", method = RequestMethod.GET)
+    public void deletDispoMenuByMenu(@PathVariable String menu) {
+        repository.deleteByMenu(menu);
+    }
+
+    @RequestMapping(value = "/deletelistamenusempresabymenu/{menu}", method = RequestMethod.GET)
+    public void deletListaMenusEmpresaByMenu(@PathVariable String menu) {
+        lmerepository.deleteByMenu(menu);
+    }
+
+// ======================================================================================================
+
+    @RequestMapping(value = "/deletehorariomenus/{empresa}", method = RequestMethod.GET)
+    public void deletHorarioMenus(@PathVariable String empresa) {
+        hmrepository.deleteByEmpresa(empresa);
+    }
+
+    @RequestMapping(value = "/deletedispomenu/{empresa}", method = RequestMethod.GET)
+    public void deletDispoMenu(@PathVariable String empresa) {
+        repository.deleteByEmpresa(empresa);
+    }
+
+    @RequestMapping(value = "/deletelistamenusempresa/{empresa}", method = RequestMethod.GET)
+    public void deletListaMenusEmpresa(@PathVariable String empresa) {
+        lmerepository.deleteByEmpresa(empresa);
+    }
 
     @RequestMapping(value = "/getpass/{user}/{pass}", method = RequestMethod.GET)
     public Boolean comparepass( @PathVariable String user, @PathVariable String pass) {
@@ -491,25 +579,7 @@ public class ChefController {
          ddsitiorepository.deleteById(empresa);
     }
 
-    @RequestMapping(value = "/deletehorariomenus/{empresa}", method = RequestMethod.GET)
-    public void deletHorarioMenus(@PathVariable String empresa) {
-        hmrepository.deleteByEmpresa(empresa);
-    }
 
-    @RequestMapping(value = "/deletelistamenusempresa/{empresa}", method = RequestMethod.GET)
-    public void deletListaMenusEmpresa(@PathVariable String empresa) {
-        lmerepository.deleteByEmpresa(empresa);
-    }
-
-    @RequestMapping(value = "/deletedispomenu/{empresa}", method = RequestMethod.GET)
-    public void deletDispoMenu(@PathVariable String empresa) {
-        repository.deleteByEmpresa(empresa);
-    }
-
-    @RequestMapping(value = "/deletemenu/{menu}", method = RequestMethod.GET)
-    public void deletmenu(@PathVariable String menu) {
-        lmrepository.deleteById(menu);
-    }
 
     @RequestMapping(value = "/deletecoment/{empresa}", method = RequestMethod.GET)
     public void deletcoment(@PathVariable String empresa) {

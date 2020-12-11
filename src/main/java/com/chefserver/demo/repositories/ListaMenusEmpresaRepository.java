@@ -17,4 +17,6 @@ public interface ListaMenusEmpresaRepository extends MongoRepository<ListaMenusE
     List<MenuTrue> findListaMenusTrue(String empresa);
 
     void deleteByEmpresa (String empresa);
+
+    void deleteByMenu (String menu);
 }

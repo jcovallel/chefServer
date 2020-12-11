@@ -12,4 +12,6 @@ public interface HorariosMenusRepository extends MongoRepository<HorariosMenus, 
     List<HorarioMenusReturn> findListaHoras(String empresa, String menu);
 
     void deleteByEmpresa (String empresa);
+
+    void deleteByMenu (String menu);
 }

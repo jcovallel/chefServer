@@ -21,4 +21,6 @@ public interface DispoRepository extends MongoRepository<DisponibilidadPorMenu, 
     List<DisponibilidadPorMenuReturn> findDispoMenus(String empresa, String menu);
 
     void deleteByEmpresa (String empresa);
+
+    void deleteByMenu (String menu);
 }
