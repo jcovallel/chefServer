@@ -69,8 +69,7 @@ public class ChefController {
     @Autowired
     private JavaMailSender javaMailSender;
 
-
-    @RequestMapping(value = "/prueba",method = RequestMethod.GET )
+    /*@RequestMapping(value = "/prueba",method = RequestMethod.GET )
     public ResponseEntity<byte[]> showImages () throws IOException {
         String boundary="---------THIS_IS_THE_BOUNDARY";
         List<String> imageNames = Arrays.asList(new String[]{"1.jpg"});
@@ -101,11 +100,7 @@ public class ChefController {
             }
         }
         return finalByteArray;
-    }
-
-
-
-
+    }*/
 
     @PostMapping("/uploadmenu/{empresa}")
     public String uploadImage(@RequestParam("imageFile") MultipartFile[] imageFile, @PathVariable String empresa){
@@ -207,7 +202,11 @@ public class ChefController {
             lmerepository.save(menus.get(i));
         }
     }
-//======================================== MODIFIERS ==================================================
+/*#################################################################################################################################
+##################################################  MODIFIERS  ####################################################################
+#################################################################################################################################*/
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  PARA MENUS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     @RequestMapping(value = "/modifymenu/", method = RequestMethod.POST)
     public void modifymenu(@Valid @RequestBody ListaMenus menus) {
         lmrepository.deleteById(menus.getId());
@@ -269,6 +268,161 @@ public class ChefController {
         lmerepository.deleteById(menus.getId());
     }
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  PARA USUARIOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    @RequestMapping(value = "/modifyinfoadmi/", method = RequestMethod.POST)
+    public void modifyinfoadmi(@Valid @RequestBody Usuarios emodel) {
+        Usuarios olduser = emrepository.findById(emodel.getId()).orElse(null);
+        Usuarios newuser = new Usuarios();
+        newuser.setPassword(olduser.getPassword());
+        newuser.setRol(olduser.getRol());
+
+        if(!emodel.getCorreo().equals("NULL")){
+            if(!emodel.getNombre().equals("NULL")){
+                newuser.setId(emodel.getNombre());
+                newuser.setNombre(emodel.getNombre());
+                newuser.setCorreo(emodel.getCorreo());
+            }else{
+                newuser.setId(olduser.getNombre());
+                newuser.setNombre(olduser.getNombre());
+                newuser.setCorreo(emodel.getCorreo());
+            }
+        }else{
+            if(!emodel.getNombre().equals("NULL")){
+                newuser.setId(emodel.getNombre());
+                newuser.setNombre(emodel.getNombre());
+                newuser.setCorreo(olduser.getCorreo());
+            }
+        }
+        emrepository.deleteById(emodel.getId());
+        emrepository.save(newuser);
+    }
+
+    @RequestMapping(value = "/modifydiassitio/", method = RequestMethod.POST)
+    public void modifyDiasSitio(@Valid @RequestBody DiasDisponiblesPorSitio dds) {
+        DiasDisponiblesPorSitio olddds = ddsitiorepository.findById(dds.getid()).orElse(null);
+        DiasDisponiblesPorSitio newdds = new DiasDisponiblesPorSitio();
+        newdds.setid(dds.getEmpresa());
+        newdds.setEmpresa(dds.getEmpresa());
+        newdds.setLunes(olddds.getLunes());
+        newdds.setMartes(olddds.getMartes());
+        newdds.setMiercoles(olddds.getMiercoles());
+        newdds.setJueves(olddds.getJueves());
+        newdds.setViernes(olddds.getViernes());
+        newdds.setSabado(olddds.getSabado());
+        newdds.setDomingo(olddds.getDomingo());
+        ddsitiorepository.save(newdds);
+        ddsitiorepository.deleteById(dds.getid());
+    }
+
+    @RequestMapping(value = "/modifyhours", method = RequestMethod.POST)
+    public void modifyhours(@Valid @RequestBody DisponibilidadPorFranjaHoraria cmodel) {
+        DisponibilidadPorFranjaHoraria oldDpfh = dhrepository.findById(cmodel.getId()).orElse(null);
+        DisponibilidadPorFranjaHoraria newDpfh = new DisponibilidadPorFranjaHoraria();
+        newDpfh.setId(cmodel.getEmpresa()+cmodel.getDia());
+        newDpfh.setEmpresa(cmodel.getEmpresa());
+        newDpfh.setDia(cmodel.getDia());
+        newDpfh.setFranja1(oldDpfh.getFranja1());
+        newDpfh.setFranja2(oldDpfh.getFranja2());
+        newDpfh.setFranja3(oldDpfh.getFranja3());
+        newDpfh.setFranja4(oldDpfh.getFranja4());
+        newDpfh.setFranja5(oldDpfh.getFranja5());
+        newDpfh.setFranja6(oldDpfh.getFranja6());
+        newDpfh.setFranja7(oldDpfh.getFranja7());
+        newDpfh.setFranja8(oldDpfh.getFranja8());
+        newDpfh.setFranja9(oldDpfh.getFranja9());
+        newDpfh.setFranja10(oldDpfh.getFranja10());
+        newDpfh.setFranja11(oldDpfh.getFranja11());
+        newDpfh.setFranja12(oldDpfh.getFranja12());
+        newDpfh.setFranja13(oldDpfh.getFranja13());
+        newDpfh.setFranja14(oldDpfh.getFranja14());
+        newDpfh.setFranja15(oldDpfh.getFranja15());
+        newDpfh.setFranja16(oldDpfh.getFranja16());
+        newDpfh.setFranja17(oldDpfh.getFranja17());
+        newDpfh.setFranja18(oldDpfh.getFranja18());
+        newDpfh.setFranja19(oldDpfh.getFranja19());
+        newDpfh.setFranja20(oldDpfh.getFranja20());
+        newDpfh.setFranja21(oldDpfh.getFranja21());
+        newDpfh.setFranja22(oldDpfh.getFranja22());
+        newDpfh.setFranja23(oldDpfh.getFranja23());
+        newDpfh.setFranja24(oldDpfh.getFranja24());
+        newDpfh.setFranja25(oldDpfh.getFranja25());
+        newDpfh.setFranja26(oldDpfh.getFranja26());
+        newDpfh.setFranja27(oldDpfh.getFranja27());
+        newDpfh.setFranja28(oldDpfh.getFranja28());
+        newDpfh.setFranja29(oldDpfh.getFranja29());
+        newDpfh.setFranja30(oldDpfh.getFranja30());
+        newDpfh.setFranja31(oldDpfh.getFranja31());
+        newDpfh.setFranja32(oldDpfh.getFranja32());
+        newDpfh.setFranja33(oldDpfh.getFranja33());
+        newDpfh.setFranja34(oldDpfh.getFranja34());
+        newDpfh.setFranja35(oldDpfh.getFranja35());
+        newDpfh.setFranja36(oldDpfh.getFranja36());
+        newDpfh.setFranja37(oldDpfh.getFranja37());
+        newDpfh.setFranja38(oldDpfh.getFranja38());
+        newDpfh.setFranja39(oldDpfh.getFranja39());
+        newDpfh.setFranja40(oldDpfh.getFranja40());
+        newDpfh.setFranja41(oldDpfh.getFranja41());
+        newDpfh.setFranja42(oldDpfh.getFranja42());
+        newDpfh.setFranja43(oldDpfh.getFranja43());
+        newDpfh.setFranja44(oldDpfh.getFranja44());
+        newDpfh.setFranja45(oldDpfh.getFranja45());
+        newDpfh.setFranja46(oldDpfh.getFranja46());
+        newDpfh.setFranja47(oldDpfh.getFranja47());
+        newDpfh.setFranja48(oldDpfh.getFranja48());
+        newDpfh.setFranja49(oldDpfh.getFranja49());
+        newDpfh.setFranja50(oldDpfh.getFranja50());
+        newDpfh.setFranja51(oldDpfh.getFranja51());
+        newDpfh.setFranja52(oldDpfh.getFranja52());
+        newDpfh.setFranja53(oldDpfh.getFranja53());
+        newDpfh.setFranja54(oldDpfh.getFranja54());
+        newDpfh.setFranja55(oldDpfh.getFranja55());
+        newDpfh.setFranja56(oldDpfh.getFranja56());
+        newDpfh.setFranja57(oldDpfh.getFranja57());
+        newDpfh.setFranja58(oldDpfh.getFranja58());
+        newDpfh.setFranja59(oldDpfh.getFranja59());
+        newDpfh.setFranja60(oldDpfh.getFranja60());
+        newDpfh.setFranja61(oldDpfh.getFranja61());
+        newDpfh.setFranja62(oldDpfh.getFranja62());
+        newDpfh.setFranja63(oldDpfh.getFranja63());
+        newDpfh.setFranja64(oldDpfh.getFranja64	());
+        newDpfh.setFranja65(oldDpfh.getFranja65());
+        newDpfh.setFranja66(oldDpfh.getFranja66());
+        newDpfh.setFranja67(oldDpfh.getFranja67());
+        newDpfh.setFranja68(oldDpfh.getFranja68());
+        newDpfh.setFranja69(oldDpfh.getFranja69());
+        newDpfh.setFranja70(oldDpfh.getFranja70());
+        newDpfh.setFranja71(oldDpfh.getFranja71());
+        newDpfh.setFranja72(oldDpfh.getFranja72());
+        newDpfh.setFranja73(oldDpfh.getFranja73());
+        newDpfh.setFranja74(oldDpfh.getFranja74());
+        newDpfh.setFranja75(oldDpfh.getFranja75());
+        newDpfh.setFranja76(oldDpfh.getFranja76());
+        newDpfh.setFranja77(oldDpfh.getFranja77());
+        newDpfh.setFranja78(oldDpfh.getFranja78());
+        newDpfh.setFranja79(oldDpfh.getFranja79());
+        newDpfh.setFranja80(oldDpfh.getFranja80());
+        newDpfh.setFranja81(oldDpfh.getFranja81());
+        newDpfh.setFranja82(oldDpfh.getFranja82());
+        newDpfh.setFranja83(oldDpfh.getFranja83());
+        newDpfh.setFranja84(oldDpfh.getFranja84());
+        newDpfh.setFranja85(oldDpfh.getFranja85());
+        newDpfh.setFranja86(oldDpfh.getFranja86());
+        newDpfh.setFranja87(oldDpfh.getFranja87());
+        newDpfh.setFranja88(oldDpfh.getFranja88());
+        newDpfh.setFranja89(oldDpfh.getFranja89());
+        newDpfh.setFranja90(oldDpfh.getFranja90());
+        newDpfh.setFranja91(oldDpfh.getFranja91());
+        newDpfh.setFranja92(oldDpfh.getFranja92());
+        newDpfh.setFranja93(oldDpfh.getFranja93());
+        newDpfh.setFranja94(oldDpfh.getFranja94());
+        newDpfh.setFranja95(oldDpfh.getFranja95());
+        newDpfh.setFranja96(oldDpfh.getFranja96());
+        dhrepository.save(newDpfh);
+        dhrepository.deleteById(cmodel.getId());
+    }
+/*################################################################################################################################
+#################################################################################################################################*/
+
 //======================================================================================================
 
 //======================================== DELETERS ==================================================
@@ -307,6 +461,21 @@ public class ChefController {
     @RequestMapping(value = "/deletelistamenusempresa/{empresa}", method = RequestMethod.GET)
     public void deletListaMenusEmpresa(@PathVariable String empresa) {
         lmerepository.deleteByEmpresa(empresa);
+    }
+
+    @RequestMapping(value = "/deleteuser/{empresa}", method = RequestMethod.GET)
+    public void deletuser(@PathVariable String empresa) {
+        emrepository.deleteById(empresa);
+    }
+
+    @RequestMapping(value = "/deletedispodiassitio/{empresa}", method = RequestMethod.GET)
+    public void deletDispoDiasSitio(@PathVariable String empresa) {
+        ddsitiorepository.deleteById(empresa);
+    }
+
+    @RequestMapping(value = "/deletedispofranjah/{empresa}", method = RequestMethod.GET)
+    public void deletDispoFranjaH(@PathVariable String empresa) {
+        dhrepository.deleteByEmpresa(empresa);
     }
 
     @RequestMapping(value = "/getpass/{user}/{pass}", method = RequestMethod.GET)
@@ -352,37 +521,6 @@ public class ChefController {
         }else{
             return false;
         }
-    }
-
-    @RequestMapping(value = "/modifyinfoadmi/{user}/{nnombre}/{nmail}", method = RequestMethod.PUT)
-    public void modifyinfoadmi(@PathVariable String user, @PathVariable String nnombre, @PathVariable String nmail) {
-        Usuarios emodelold = emrepository.findByNombre(user);
-        Usuarios emodelnew = new Usuarios();
-        emodelnew.setPassword(emodelold.getPassword());
-        emodelnew.setRol(emodelold.getRol());
-
-        if(!nmail.equals("NULL")){
-            if(!nnombre.equals("NULL")){
-                emodelnew.setId(nnombre);
-                emodelnew.setNombre(nnombre);
-                emodelnew.setCorreo(nmail);
-                //emrepository.save(emodelnew);
-            }else{
-                emodelnew.setId(emodelold.getNombre());
-                emodelnew.setNombre(emodelold.getNombre());
-                emodelnew.setCorreo(nmail);
-                //emrepository.save(emodelnew);
-            }
-        }else{
-            if(!nnombre.equals("NULL")){
-                emodelnew.setId(nnombre);
-                emodelnew.setNombre(nnombre);
-                emodelnew.setCorreo(emodelold.getCorreo());
-                //emrepository.save(emodelnew);
-            }
-        }
-        emrepository.deleteById(user);
-        emrepository.save(emodelnew);
     }
 
     @RequestMapping(value = "/getusers/", method = RequestMethod.GET)
@@ -445,33 +583,29 @@ public class ChefController {
         return rvrepository.findByEmpresa(empresa);
     }
 
-    @RequestMapping(value = "/modifydatausers/{user}/{npass}/{nmail}", method = RequestMethod.PUT)
-    public void modifydatauser(@PathVariable String user, @PathVariable String npass, @PathVariable String nmail) {
-        Usuarios emodelold = emrepository.findByNombre(user);
-        Usuarios emodelnew = new Usuarios();
-        emodelnew.setId(emodelold.getNombre());
-        emodelnew.setNombre(emodelold.getNombre());
-        emodelnew.setRol(emodelold.getRol());
-
-        if(!nmail.equals("NULL")){
-            if(!npass.equals("NULL")){
-                emodelnew.setPassword(npass);
-                emodelnew.setCorreo(nmail);
-                emrepository.save(emodelnew);
+    @RequestMapping(value = "/modifydatausers/", method = RequestMethod.POST)
+    public void modifydatauser(@Valid @RequestBody Usuarios emodel) {
+        Usuarios olduser = emrepository.findById(emodel.getId()).orElse(null);
+        Usuarios newuser = new Usuarios();
+        newuser.setId(olduser.getId());
+        newuser.setNombre(olduser.getNombre());
+        newuser.setRol(olduser.getRol());
+        if(!emodel.getCorreo().equals("NULL")){
+            if(!emodel.getPassword().equals("NULL")){
+                newuser.setPassword(emodel.getPassword());
+                newuser.setCorreo(emodel.getCorreo());
             }else{
-                emodelnew.setPassword(emodelold.getPassword());
-                emodelnew.setCorreo(nmail);
-                emrepository.save(emodelnew);
+                newuser.setPassword(olduser.getPassword());
+                newuser.setCorreo(emodel.getCorreo());
             }
         }else{
-            if(!npass.equals("NULL")){
-                emodelnew.setPassword(npass);
-                emodelnew.setCorreo(emodelold.getCorreo());
-                emrepository.save(emodelnew);
+            if(!emodel.getPassword().equals("NULL")){
+                newuser.setPassword(emodel.getPassword());
+                newuser.setCorreo(olduser.getCorreo());
             }
         }
-        emrepository.deleteById(user);
-        emrepository.save(emodelnew);
+        emrepository.deleteById(emodel.getId());
+        emrepository.save(newuser);
     }
 
     @RequestMapping(value = "/setavailabledays/", method = RequestMethod.POST)
@@ -512,74 +646,6 @@ public class ChefController {
         }
         return dlist;
     }
-
-    /*@RequestMapping(value = "/disponibilidad/{empresa}/{dia}", method = RequestMethod.GET)
-    public int getDisponibilidad(@PathVariable String empresa, @PathVariable String dia) {
-        switch (dia){
-            case "Lunes":{
-                return repository.findByEmpresa(empresa).getLunes();
-            }
-            case "Martes":{
-                return repository.findByEmpresa(empresa).getMartes();
-            }
-            case "Miercoles":{
-                return repository.findByEmpresa(empresa).getMiercoles();
-            }
-            case "Jueves":{
-                return repository.findByEmpresa(empresa).getJueves();
-            }
-            case "Viernes":{
-                return repository.findByEmpresa(empresa).getViernes();
-            }
-        }
-        return 0;
-    }
-
-    @RequestMapping(value = "/disponibilidad/{empresa}", method = RequestMethod.PUT)
-    public void modifyDispo(@Valid @RequestBody DisponibilidadPorMenu dispoModel, @PathVariable String empresa) {
-        if(repository.findByEmpresa(empresa)!=null){
-            DisponibilidadPorMenu current = repository.findByEmpresa(empresa);
-            repository.delete(current);
-            if(dispoModel.getLunes()==null){
-                dispoModel.setLunes(current.getLunes());
-            }
-            if(dispoModel.getMartes()==null){
-                dispoModel.setMartes(current.getMartes());
-            }
-            if(dispoModel.getMiercoles()==null){
-                dispoModel.setMiercoles(current.getMiercoles());
-            }
-            if(dispoModel.getJueves()==null){
-                dispoModel.setJueves(current.getJueves());
-            }
-            if(dispoModel.getViernes()==null){
-                dispoModel.setViernes(current.getViernes());
-            }
-        }
-        repository.save(dispoModel);
-    }*/
-
-    /*@RequestMapping(value = "/disponibilidad/{empresa}", method = RequestMethod.DELETE)
-    public void deleteDispo(@PathVariable String empresa) {
-        repository.delete(repository.findByEmpresa(empresa));
-    }*/
-
-    /*@RequestMapping(value = "/deleteuser/{empresa}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable String empresa) {
-        emrepository.deleteById(empresa);
-    }*/
-
-    @RequestMapping(value = "/deleteuser/{empresa}", method = RequestMethod.GET)
-    public void deletuser(@PathVariable String empresa) {
-        emrepository.deleteById(empresa);
-    }
-
-    @RequestMapping(value = "/deletedispodiassitio/{empresa}", method = RequestMethod.GET)
-    public void deletDispoDiasSitio(@PathVariable String empresa) {
-         ddsitiorepository.deleteById(empresa);
-    }
-
-
 
     @RequestMapping(value = "/deletecoment/{empresa}", method = RequestMethod.GET)
     public void deletcoment(@PathVariable String empresa) {
@@ -651,39 +717,6 @@ public class ChefController {
         sendEmail(getmail(dataModel.getEmpresa()),"Tiene una nueva reservacion", contenido);
         reserepository.save(dataModel);
     }
-
-    /*@RequestMapping(value = "/getdayslist/{empresa}", method = RequestMethod.GET)
-    public List<Dia> getdays(@PathVariable String empresa) {
-        DisponibilidadPorMenu dmodel = repository.findByEmpresa(empresa);
-        List<Dia> dlist = new ArrayList<Dia>();
-        Dia dia;
-        if(dmodel.getLunes()>0){
-            dia = new Dia();
-            dia.setDia("Lunes");
-            dlist.add(dia);
-        }
-        if(dmodel.getMartes()>0){
-            dia = new Dia();
-            dia.setDia("Martes");
-            dlist.add(dia);
-        }
-        if(dmodel.getMiercoles()>0){
-            dia = new Dia();
-            dia.setDia("Miércoles");
-            dlist.add(dia);
-        }
-        if(dmodel.getJueves()>0){
-            dia = new Dia();
-            dia.setDia("Jueves");
-            dlist.add(dia);
-        }
-        if(dmodel.getViernes()>0){
-            dia = new Dia();
-            dia.setDia("Viernes");
-            dlist.add(dia);
-        }
-        return dlist;
-    }*/
 
     @RequestMapping(value = "/createhours", method = RequestMethod.POST)
     public void createhours(@Valid @RequestBody DisponibilidadPorFranjaHoraria cmodel) {
