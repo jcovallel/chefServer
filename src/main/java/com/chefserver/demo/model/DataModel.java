@@ -9,14 +9,9 @@ public class DataModel {
     public String correo;
     public String cargo;
     public String tipomenu;
-    public boolean lunes;
-    public boolean martes;
-    public boolean miercoles;
-    public boolean jueves;
-    public boolean viernes;
+    public String dia;
     public String entrega;
     String horaentrega;
-    public String direccion;
     public String observaciones;
 
     public String getEmpresa() {
@@ -83,44 +78,12 @@ public class DataModel {
         this.tipomenu = tipomenu;
     }
 
-    public boolean isLunes() {
-        return lunes;
+    public String getDia() {
+        return dia;
     }
 
-    public void setLunes(boolean lunes) {
-        this.lunes = lunes;
-    }
-
-    public boolean isMartes() {
-        return martes;
-    }
-
-    public void setMartes(boolean martes) {
-        this.martes = martes;
-    }
-
-    public boolean isMiercoles() {
-        return miercoles;
-    }
-
-    public void setMiercoles(boolean miercoles) {
-        this.miercoles = miercoles;
-    }
-
-    public boolean isJueves() {
-        return jueves;
-    }
-
-    public void setJueves(boolean jueves) {
-        this.jueves = jueves;
-    }
-
-    public boolean isViernes() {
-        return viernes;
-    }
-
-    public void setViernes(boolean viernes) {
-        this.viernes = viernes;
+    public void setDia(String dia) {
+        this.dia = dia;
     }
 
     public String getEntrega() {
@@ -137,14 +100,6 @@ public class DataModel {
 
     public void setHoraentrega(String horaentrega) {
         this.horaentrega = horaentrega;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
     }
 
     public String getObservaciones() {

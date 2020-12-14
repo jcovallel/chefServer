@@ -26,7 +26,9 @@ public class SpecimenService implements ISpecimenService{
         //String folder ="../src/main/resources/Images/"+empresa+"Menu.jpg";
         byte[] bytes = imageFile.getBytes();
         Path path = Paths.get(folder);
-        FileUtils.deleteDirectory(new File("src/main/resources/Images/"+empresa));
+        if(i.equals("0")){
+            FileUtils.deleteDirectory(new File("src/main/resources/Images/"+empresa));
+        }
         Files.createDirectories(path.getParent());
         if( !Files.exists(path))
             Files.createFile(path);

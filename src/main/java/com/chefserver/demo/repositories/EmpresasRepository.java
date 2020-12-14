@@ -11,9 +11,17 @@ public interface EmpresasRepository extends MongoRepository<Usuarios, String> {
     Usuarios findByNombre(String nombre);
 
     @Query(value="{}", fields="{nombre : 1, _id : 0}")
-    List<User> findNameAndExcludeId();
+    List<Usuarios> findNameAndExcludeId();
 
     @Query(value="{rol: 3}", fields="{nombre : 1, _id : 0}")
-    List<User> findNameMobileAndExcludeId();
+    List<Usuarios> findNameMobileAndExcludeId();
 
+    @Query(value="{rol: 1}", fields="{imgnum : 1, _id : 0}")
+    List<Usuarios> findImgnumTips();
+
+    @Query(value="{rol: 1}", fields="{nombre : 1, _id : 0}")
+    List<Usuarios> findAdminName();
+
+    @Query(value="{_id: ?0}", fields="{imgnum : 1, _id : 0}")
+    List<Usuarios> findImgnum(String empresa);
 }

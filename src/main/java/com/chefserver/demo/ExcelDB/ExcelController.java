@@ -15,10 +15,7 @@ import java.util.List;
 
 public class ExcelController {
     public void writeFile(List<DataModel> datamodel) throws IOException {
-        //for local
-        //File myfile = new File("DatosExcel/Reservaciones.xlsx");
-        //for gcloud
-        //File myfile = new File("../DatosExcel/Reservaciones.xlsx");
+
         //FileInputStream fis = new FileInputStream(myfile);
 
         // Finds the workbook instance for XLSX file
@@ -44,22 +41,12 @@ public class ExcelController {
         celda = fila.createCell(6);
         celda.setCellValue("Tipo menú");
         celda = fila.createCell(7);
-        celda.setCellValue("Reserva menú Lunes");
+        celda.setCellValue("Día");
         celda = fila.createCell(8);
-        celda.setCellValue("Reserva menú Martes");
-        celda = fila.createCell(9);
-        celda.setCellValue("Reserva menú Miercoles");
-        celda = fila.createCell(10);
-        celda.setCellValue("Reserva menú Jueves");
-        celda = fila.createCell(11);
-        celda.setCellValue("Reserva menú Viernes");
-        celda = fila.createCell(12);
         celda.setCellValue("Tipo entrega");
-        celda = fila.createCell(13);
-        celda.setCellValue("Hora reserva");
-        celda = fila.createCell(14);
-        celda.setCellValue("Dirección");
-        celda = fila.createCell(15);
+        celda = fila.createCell(9);
+        celda.setCellValue("Hora entrega");
+        celda = fila.createCell(10);
         celda.setCellValue("Observaciones");
 
         for(int i =0; i<datamodel.size(); i++){
@@ -79,45 +66,18 @@ public class ExcelController {
             celda = fila.createCell(6);
             celda.setCellValue(datamodel.get(i).getTipomenu());
             celda = fila.createCell(7);
-            if(datamodel.get(i).isLunes()){
-                celda.setCellValue("si");
-            }else {
-                celda.setCellValue("no");
-            }
+            celda.setCellValue(datamodel.get(i).getDia());
             celda = fila.createCell(8);
-            if(datamodel.get(i).isMartes()){
-                celda.setCellValue("si");
-            }else {
-                celda.setCellValue("no");
-            }
-            celda = fila.createCell(9);
-            if(datamodel.get(i).isMiercoles()){
-                celda.setCellValue("si");
-            }else {
-                celda.setCellValue("no");
-            }
-            celda = fila.createCell(10);
-            if(datamodel.get(i).isJueves()){
-                celda.setCellValue("si");
-            }else {
-                celda.setCellValue("no");
-            }
-            celda = fila.createCell(11);
-            if(datamodel.get(i).isViernes()){
-                celda.setCellValue("si");
-            }else {
-                celda.setCellValue("no");
-            }
-            celda = fila.createCell(12);
             celda.setCellValue(datamodel.get(i).getEntrega());
-            celda = fila.createCell(13);
+            celda = fila.createCell(9);
             celda.setCellValue(datamodel.get(i).getHoraentrega());
-            celda = fila.createCell(14);
-            celda.setCellValue(datamodel.get(i).getDireccion());
-            celda = fila.createCell(15);
+            celda = fila.createCell(10);
             celda.setCellValue(datamodel.get(i).getObservaciones());
         }
-        FileOutputStream salida = new FileOutputStream("../DatosExcel/Reservaciones.xlsx");
+        //for local
+        FileOutputStream salida = new FileOutputStream("DatosExcel/Reservaciones.xlsx");
+        //for gcloud
+        //FileOutputStream salida = new FileOutputStream("../DatosExcel/Reservaciones.xlsx");
         myWorkBook.write(salida);
         myWorkBook.close();
     }
@@ -166,7 +126,10 @@ public class ExcelController {
             celda.setCellValue(comentmodel.get(i).getCorreo());
         }
 
-        FileOutputStream salida = new FileOutputStream("../DatosExcel/Comentarios.xlsx");
+        //for local
+        FileOutputStream salida = new FileOutputStream("DatosExcel/Comentarios.xlsx");
+        //for gcloud
+        //FileOutputStream salida = new FileOutputStream("../DatosExcel/Comentarios.xlsx");
         myWorkBook.write(salida);
         myWorkBook.close();
     }

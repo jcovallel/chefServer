@@ -3,20 +3,15 @@ package com.chefserver.demo.controller;
 import com.chefserver.demo.model.*;
 import com.chefserver.demo.ExcelDB.ExcelController;
 import com.chefserver.demo.repositories.*;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.apache.commons.compress.utils.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,10 +32,10 @@ public class ChefController {
     private ISpecimenService specimenService;
 
     @Autowired
-    private DispoRepository repository;
+    private DisponibilidadPorMenuRepo disponibilidadPorMenuRepo;
 
     @Autowired
-    private DispoHorasRepository dhrepository;
+    private DisponibilidadFranjaHoraRepo disponibilidadFranjaHoraRepo;
 
     @Autowired
     private ComentRepository rvrepository;
@@ -69,39 +64,6 @@ public class ChefController {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    /*@RequestMapping(value = "/prueba",method = RequestMethod.GET )
-    public ResponseEntity<byte[]> showImages () throws IOException {
-        String boundary="---------THIS_IS_THE_BOUNDARY";
-        List<String> imageNames = Arrays.asList(new String[]{"1.jpg"});
-        List<String> contentTypes = Arrays.asList(new String[]{MediaType.IMAGE_JPEG_VALUE});
-        List<Byte[]> imagesData = new ArrayList<Byte[]>();
-        imagesData.add(ArrayUtils.toObject(IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("Images/prueba/Menu0.jpg"))));
-        //imagesData.add(ArrayUtils.toObject(IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("Images/prueba/Menu1.jpg"))));
-        byte[] allImages = getMultipleImageResponse(boundary, imageNames,contentTypes, imagesData);
-        final HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type","multipart/x-mixed-replace; boundary=" + boundary);
-        return new ResponseEntity<byte[]>(allImages,headers, HttpStatus.CREATED);
-    }
-
-    private static byte[] getMultipleImageResponse(String boundary, List<String> imageNames, List<String> contentTypes, List<Byte[]> imagesData){
-        byte[] finalByteArray = new byte[0];
-        Integer imagesCounter = -1;
-        for(String imageName : imageNames){
-            imagesCounter++;
-            String header="--" + boundary
-                    + "\r\nContent-Disposition: form-data; name=\"" + imageName
-                    + "\"; filename=\"" + imageName + "\"\r\n"
-                    + "Content-type: " + contentTypes.get(imagesCounter) + "\r\n\r\n";
-            byte[] currentImageByteArray=ArrayUtils.addAll(header.getBytes(), ArrayUtils.toPrimitive(imagesData.get(imagesCounter)));
-            finalByteArray = ArrayUtils.addAll(finalByteArray,ArrayUtils.addAll(currentImageByteArray, "\r\n\r\n".getBytes()));
-            if (imagesCounter == imageNames.size() - 1) {
-                String end = "--" + boundary + "--";
-                finalByteArray = ArrayUtils.addAll(finalByteArray, end.getBytes());
-            }
-        }
-        return finalByteArray;
-    }*/
-
     @PostMapping("/uploadmenu/{empresa}")
     public String uploadImage(@RequestParam("imageFile") MultipartFile[] imageFile, @PathVariable String empresa){
         String returnValue = "error";
@@ -127,9 +89,9 @@ public class ChefController {
             e.printStackTrace();
         }
         //for local
-        // String dirPath = "DatosExcel/";
+        String dirPath = "DatosExcel/";
         //for gcloud
-        String dirPath = "../DatosExcel/";
+        //String dirPath = "../DatosExcel/";
         byte[] byteArray;  // data comes from external service call in byte[]
         byteArray = null;
         try {
@@ -189,7 +151,7 @@ public class ChefController {
     public void createHorarioMenus(@Valid @RequestBody HorariosMenus hmenus) { hmrepository.save(hmenus);}
 
     @RequestMapping(value = "/createdispomenu/", method = RequestMethod.POST)
-    public void createDispoMenu(@Valid @RequestBody DisponibilidadPorMenu dispomenu) { repository.save(dispomenu);}
+    public void createDispoMenu(@Valid @RequestBody DisponibilidadPorMenu dispomenu) { disponibilidadPorMenuRepo.save(dispomenu);}
 
     @RequestMapping(value = "/creatediassitio/", method = RequestMethod.POST)
     public void createDiasSitio(@Valid @RequestBody DiasDisponiblesPorSitio dds) {
@@ -233,7 +195,7 @@ public class ChefController {
 
     @RequestMapping(value = "/modifydispomenu/", method = RequestMethod.POST)
     public void modifyDispoMenu(@Valid @RequestBody DisponibilidadPorMenu dispomenu) {
-        DisponibilidadPorMenu oldDM = repository.findById(dispomenu.getId()).orElse(null);
+        DisponibilidadPorMenu oldDM = disponibilidadPorMenuRepo.findById(dispomenu.getId()).orElse(null);
         DisponibilidadPorMenu newDM = new DisponibilidadPorMenu();
         newDM.setId(dispomenu.getEmpresa()+dispomenu.getMenu());
         newDM.setEmpresa(dispomenu.getEmpresa());
@@ -252,8 +214,8 @@ public class ChefController {
         newDM.setViernes(oldDM.getViernes());
         newDM.setSabado(oldDM.getSabado());
         newDM.setDomingo(oldDM.getDomingo());
-        repository.save(newDM);
-        repository.deleteById(dispomenu.getId());
+        disponibilidadPorMenuRepo.save(newDM);
+        disponibilidadPorMenuRepo.deleteById(dispomenu.getId());
     }
 
     @RequestMapping(value = "/modifymenuempresa/", method = RequestMethod.POST)
@@ -264,17 +226,33 @@ public class ChefController {
         newME.setEmpresa(menus.getEmpresa());
         newME.setMenu(menus.getMenu());
         newME.setCheck(oldME.getCheck());
-        lmerepository.save(newME);
         lmerepository.deleteById(menus.getId());
+        lmerepository.save(newME);
     }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  PARA USUARIOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    @RequestMapping(value = "/modifyimgnum/", method = RequestMethod.POST)
+    public void modifyimgnum(@Valid @RequestBody Usuarios emodel) {
+        Usuarios olduser = emrepository.findById(emodel.getId()).orElse(null);
+        Usuarios newuser = new Usuarios();
+        newuser.setId(olduser.getId());
+        newuser.setNombre(olduser.getNombre());
+        newuser.setCorreo(olduser.getCorreo());
+        newuser.setPassword(olduser.getPassword());
+        newuser.setRol(olduser.getRol());
+        newuser.setImgnum(emodel.getImgnum());
+        emrepository.deleteById(emodel.getId());
+        emrepository.save(newuser);
+    }
+
+
     @RequestMapping(value = "/modifyinfoadmi/", method = RequestMethod.POST)
     public void modifyinfoadmi(@Valid @RequestBody Usuarios emodel) {
         Usuarios olduser = emrepository.findById(emodel.getId()).orElse(null);
         Usuarios newuser = new Usuarios();
         newuser.setPassword(olduser.getPassword());
         newuser.setRol(olduser.getRol());
+        newuser.setImgnum(olduser.getImgnum());
 
         if(!emodel.getCorreo().equals("NULL")){
             if(!emodel.getNombre().equals("NULL")){
@@ -316,7 +294,7 @@ public class ChefController {
 
     @RequestMapping(value = "/modifyhours", method = RequestMethod.POST)
     public void modifyhours(@Valid @RequestBody DisponibilidadPorFranjaHoraria cmodel) {
-        DisponibilidadPorFranjaHoraria oldDpfh = dhrepository.findById(cmodel.getId()).orElse(null);
+        DisponibilidadPorFranjaHoraria oldDpfh = disponibilidadFranjaHoraRepo.findById(cmodel.getId()).orElse(null);
         DisponibilidadPorFranjaHoraria newDpfh = new DisponibilidadPorFranjaHoraria();
         newDpfh.setId(cmodel.getEmpresa()+cmodel.getDia());
         newDpfh.setEmpresa(cmodel.getEmpresa());
@@ -417,8 +395,8 @@ public class ChefController {
         newDpfh.setFranja94(oldDpfh.getFranja94());
         newDpfh.setFranja95(oldDpfh.getFranja95());
         newDpfh.setFranja96(oldDpfh.getFranja96());
-        dhrepository.save(newDpfh);
-        dhrepository.deleteById(cmodel.getId());
+        disponibilidadFranjaHoraRepo.save(newDpfh);
+        disponibilidadFranjaHoraRepo.deleteById(cmodel.getId());
     }
 /*################################################################################################################################
 #################################################################################################################################*/
@@ -438,7 +416,7 @@ public class ChefController {
 
     @RequestMapping(value = "/deletedispomenubymenu/{menu}", method = RequestMethod.GET)
     public void deletDispoMenuByMenu(@PathVariable String menu) {
-        repository.deleteByMenu(menu);
+        disponibilidadPorMenuRepo.deleteByMenu(menu);
     }
 
     @RequestMapping(value = "/deletelistamenusempresabymenu/{menu}", method = RequestMethod.GET)
@@ -455,7 +433,7 @@ public class ChefController {
 
     @RequestMapping(value = "/deletedispomenu/{empresa}", method = RequestMethod.GET)
     public void deletDispoMenu(@PathVariable String empresa) {
-        repository.deleteByEmpresa(empresa);
+        disponibilidadPorMenuRepo.deleteByEmpresa(empresa);
     }
 
     @RequestMapping(value = "/deletelistamenusempresa/{empresa}", method = RequestMethod.GET)
@@ -475,7 +453,7 @@ public class ChefController {
 
     @RequestMapping(value = "/deletedispofranjah/{empresa}", method = RequestMethod.GET)
     public void deletDispoFranjaH(@PathVariable String empresa) {
-        dhrepository.deleteByEmpresa(empresa);
+        disponibilidadFranjaHoraRepo.deleteByEmpresa(empresa);
     }
 
     @RequestMapping(value = "/getpass/{user}/{pass}", method = RequestMethod.GET)
@@ -512,6 +490,8 @@ public class ChefController {
                 emodelnew.setId(emodelold.getNombre());
                 emodelnew.setNombre(emodelold.getNombre());
                 emodelnew.setCorreo(emodelold.getCorreo());
+                emodelnew.setRol(emodelold.getRol());
+                emodelnew.setImgnum(emodelold.getImgnum());
                 emrepository.deleteById(user);
                 emrepository.save(emodelnew);
                 String contenido =  "Su nueva contraseña temporal es: " + tpass + ", recuerde que debe cambiarla una vez inicie sesion";
@@ -524,12 +504,25 @@ public class ChefController {
     }
 
     @RequestMapping(value = "/getusers/", method = RequestMethod.GET)
-    public List<User> getusers() {
+    public List<Usuarios> getusers() {
         return emrepository.findNameAndExcludeId();
     }
 
+    @RequestMapping(value = "/getimgnum/{empresa}", method = RequestMethod.GET)
+    public List<Usuarios> getimgnum(@PathVariable String empresa) {
+        List<Usuarios> returnList = emrepository.findImgnum(empresa);
+        returnList.add(emrepository.findImgnumTips().get(0));
+        returnList.add(emrepository.findAdminName().get(0));
+        return returnList;
+    }
+
+    @RequestMapping(value = "/getadminname/", method = RequestMethod.GET)
+    public List<Usuarios> getAdminName() {
+        return emrepository.findAdminName();
+    }
+
     @RequestMapping(value = "/getusersmobile/", method = RequestMethod.GET)
-    public List<User> getusersmobile() {
+    public List<Usuarios> getusersmobile() {
         return emrepository.findNameMobileAndExcludeId();
     }
 
@@ -549,13 +542,13 @@ public class ChefController {
     }
 
     @RequestMapping(value = "/getdispomenuref/{empresa}/{menu}", method = RequestMethod.GET)
-    public List<DisponibilidadPorMenuRefReturn> getDisponibilidadRefMenu(@PathVariable String empresa, @PathVariable String menu) {
-        return repository.findDispoRefMenus(empresa, menu);
+    public List<DisponibilidadPorMenu> getDisponibilidadRefMenu(@PathVariable String empresa, @PathVariable String menu) {
+        return disponibilidadPorMenuRepo.findDispoRefMenus(empresa, menu);
     }
 
     @RequestMapping(value = "/getdispomenu/{empresa}/{menu}", method = RequestMethod.GET)
-    public List<DisponibilidadPorMenuReturn> getDisponibilidadMenu(@PathVariable String empresa, @PathVariable String menu) {
-        return repository.findDispoMenus(empresa, menu);
+    public List<DisponibilidadPorMenu> getDisponibilidadMenu(@PathVariable String empresa, @PathVariable String menu) {
+        return disponibilidadPorMenuRepo.findDispoMenus(empresa, menu);
     }
 
     @RequestMapping(value = "/getmenusempresa/{empresa}", method = RequestMethod.GET)
@@ -590,6 +583,7 @@ public class ChefController {
         newuser.setId(olduser.getId());
         newuser.setNombre(olduser.getNombre());
         newuser.setRol(olduser.getRol());
+        newuser.setImgnum(olduser.getImgnum());
         if(!emodel.getCorreo().equals("NULL")){
             if(!emodel.getPassword().equals("NULL")){
                 newuser.setPassword(emodel.getPassword());
@@ -608,45 +602,6 @@ public class ChefController {
         emrepository.save(newuser);
     }
 
-    @RequestMapping(value = "/setavailabledays/", method = RequestMethod.POST)
-    public void setavadays(@Valid @RequestBody DiasDisponiblesPorSitio amodel) {
-        arepository.save(amodel);
-    }
-
-    @RequestMapping(value = "/getavailabledays/", method = RequestMethod.GET)
-    public List<Dia> getavadays() {
-        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
-        DiasDisponiblesPorSitio dmodel = lresult.get(0);
-        List<Dia> dlist = new ArrayList<Dia>();
-        Dia dia;
-        if(dmodel.getLunes()){
-            dia = new Dia();
-            dia.setDia("Lunes");
-            dlist.add(dia);
-        }
-        if(dmodel.getMartes()){
-            dia = new Dia();
-            dia.setDia("Martes");
-            dlist.add(dia);
-        }
-        if(dmodel.getMiercoles()){
-            dia = new Dia();
-            dia.setDia("Miércoles");
-            dlist.add(dia);
-        }
-        if(dmodel.getJueves()){
-            dia = new Dia();
-            dia.setDia("Jueves");
-            dlist.add(dia);
-        }
-        if(dmodel.getViernes()){
-            dia = new Dia();
-            dia.setDia("Viernes");
-            dlist.add(dia);
-        }
-        return dlist;
-    }
-
     @RequestMapping(value = "/deletecoment/{empresa}", method = RequestMethod.GET)
     public void deletcoment(@PathVariable String empresa) {
         rvrepository.deleteByEmpresa(empresa);
@@ -659,12 +614,7 @@ public class ChefController {
 
     @RequestMapping(value = "/deletedhmodel/{empresa}", method = RequestMethod.GET)
     public void deletdhmodel(@PathVariable String empresa) {
-        dhrepository.deleteByEmpresa(empresa);
-    }
-
-    @RequestMapping(value = "/deletedispomodel/{empresa}", method = RequestMethod.GET)
-    public void deletdispomodel(@PathVariable String empresa) {
-        repository.deleteById(empresa);
+        disponibilidadFranjaHoraRepo.deleteByEmpresa(empresa);
     }
 
     @RequestMapping(value = "/getmail/{empresa}", method = RequestMethod.GET)
@@ -674,45 +624,256 @@ public class ChefController {
 
     @RequestMapping(value = "/reserva/save/{provisional}", method = RequestMethod.POST)
     public void createReservationREG(@Valid @RequestBody DataModel dataModel, @PathVariable String provisional) {
-        String dia = provisional.replace(dataModel.getEmpresa(),"");
-        if(dia.equals("Miercoles")){
-            dia = "Miércoles";
+        String dia = provisional.replace(dataModel.getEmpresa(),"").toLowerCase();
+        String hora = dataModel.getHoraentrega().substring(0,7);
+        //=====================================
+        HashMap<String, Integer> hmap = new HashMap<String, Integer>();
+        /*Adding elements to HashMap*/
+        hmap.put("12:00AM", 1);
+        hmap.put("12:15AM", 2);
+        hmap.put("12:30AM", 3);
+        hmap.put("12:45AM", 4);
+        hmap.put("01:00AM", 5);
+        hmap.put("01:15AM", 6);
+        hmap.put("01:30AM", 7);
+        hmap.put("01:45AM", 8);
+        hmap.put("02:00AM", 9);
+        hmap.put("02:15AM", 10);
+        hmap.put("02:30AM", 11);
+        hmap.put("02:45AM", 12);
+        hmap.put("03:00AM", 13);
+        hmap.put("03:15AM", 14);
+        hmap.put("03:30AM", 15);
+        hmap.put("03:45AM", 16);
+        hmap.put("04:00AM", 17);
+        hmap.put("04:15AM", 18);
+        hmap.put("04:30AM", 19);
+        hmap.put("04:45AM", 20);
+        hmap.put("05:00AM", 21);
+        hmap.put("05:15AM", 22);
+        hmap.put("05:30AM", 23);
+        hmap.put("05:45AM", 24);
+        hmap.put("06:00AM", 25);
+        hmap.put("06:15AM", 26);
+        hmap.put("06:30AM", 27);
+        hmap.put("06:45AM", 28);
+        hmap.put("07:00AM", 29);
+        hmap.put("07:15AM", 30);
+        hmap.put("07:30AM", 31);
+        hmap.put("07:45AM", 32);
+        hmap.put("08:00AM", 33);
+        hmap.put("08:15AM", 34);
+        hmap.put("08:30AM", 35);
+        hmap.put("08:45AM", 36);
+        hmap.put("09:00AM", 37);
+        hmap.put("09:15AM", 38);
+        hmap.put("09:30AM", 39);
+        hmap.put("09:45AM", 40);
+        hmap.put("10:00AM", 41);
+        hmap.put("10:15AM", 42);
+        hmap.put("10:30AM", 43);
+        hmap.put("10:45AM", 44);
+        hmap.put("11:00AM", 45);
+        hmap.put("11:15AM", 46);
+        hmap.put("11:30AM", 47);
+        hmap.put("11:45AM", 48);
+        hmap.put("12:00PM", 49);
+        hmap.put("12:15PM", 50);
+        hmap.put("12:30PM", 51);
+        hmap.put("12:45PM", 52);
+        hmap.put("01:00PM", 53);
+        hmap.put("01:15PM", 54);
+        hmap.put("01:30PM", 55);
+        hmap.put("01:45PM", 56);
+        hmap.put("02:00PM", 57);
+        hmap.put("02:15PM", 58);
+        hmap.put("02:30PM", 59);
+        hmap.put("02:45PM", 60);
+        hmap.put("03:00PM", 61);
+        hmap.put("03:15PM", 62);
+        hmap.put("03:30PM", 63);
+        hmap.put("03:45PM", 64);
+        hmap.put("04:00PM", 65);
+        hmap.put("04:15PM", 66);
+        hmap.put("04:30PM", 67);
+        hmap.put("04:45PM", 68);
+        hmap.put("05:00PM", 69);
+        hmap.put("05:15PM", 70);
+        hmap.put("05:30PM", 71);
+        hmap.put("05:45PM", 72);
+        hmap.put("06:00PM", 73);
+        hmap.put("06:15PM", 74);
+        hmap.put("06:30PM", 75);
+        hmap.put("06:45PM", 76);
+        hmap.put("07:00PM", 77);
+        hmap.put("07:15PM", 78);
+        hmap.put("07:30PM", 79);
+        hmap.put("07:45PM", 80);
+        hmap.put("08:00PM", 81);
+        hmap.put("08:15PM", 82);
+        hmap.put("08:30PM", 83);
+        hmap.put("08:45PM", 84);
+        hmap.put("09:00PM", 85);
+        hmap.put("09:15PM", 86);
+        hmap.put("09:30PM", 87);
+        hmap.put("09:45PM", 88);
+        hmap.put("10:00PM", 89);
+        hmap.put("10:15PM", 90);
+        hmap.put("10:30PM", 91);
+        hmap.put("10:45PM", 92);
+        hmap.put("11:00PM", 93);
+        hmap.put("11:15PM", 94);
+        hmap.put("11:30PM", 95);
+        hmap.put("11:45PM", 96);
+        //==========================================================
+        int num = hmap.get(hora);
+        DisponibilidadPorFranjaHoraria dpfh = disponibilidadFranjaHoraRepo.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
+
+        switch (num){
+            case 1	:	{	dpfh.setFranja1	(	dpfh.getFranja1	()+1);}break;
+            case 2	:	{	dpfh.setFranja2	(	dpfh.getFranja2	()+1);}break;
+            case 3	:	{	dpfh.setFranja3	(	dpfh.getFranja3	()+1);}break;
+            case 4	:	{	dpfh.setFranja4	(	dpfh.getFranja4	()+1);}break;
+            case 5	:	{	dpfh.setFranja5	(	dpfh.getFranja5	()+1);}break;
+            case 6	:	{	dpfh.setFranja6	(	dpfh.getFranja6	()+1);}break;
+            case 7	:	{	dpfh.setFranja7	(	dpfh.getFranja7	()+1);}break;
+            case 8	:	{	dpfh.setFranja8	(	dpfh.getFranja8	()+1);}break;
+            case 9	:	{	dpfh.setFranja9	(	dpfh.getFranja9	()+1);}break;
+            case 10	:	{	dpfh.setFranja10	(	dpfh.getFranja10	()+1);}break;
+            case 11	:	{	dpfh.setFranja11	(	dpfh.getFranja11	()+1);}break;
+            case 12	:	{	dpfh.setFranja12	(	dpfh.getFranja12	()+1);}break;
+            case 13	:	{	dpfh.setFranja13	(	dpfh.getFranja13	()+1);}break;
+            case 14	:	{	dpfh.setFranja14	(	dpfh.getFranja14	()+1);}break;
+            case 15	:	{	dpfh.setFranja15	(	dpfh.getFranja15	()+1);}break;
+            case 16	:	{	dpfh.setFranja16	(	dpfh.getFranja16	()+1);}break;
+            case 17	:	{	dpfh.setFranja17	(	dpfh.getFranja17	()+1);}break;
+            case 18	:	{	dpfh.setFranja18	(	dpfh.getFranja18	()+1);}break;
+            case 19	:	{	dpfh.setFranja19	(	dpfh.getFranja19	()+1);}break;
+            case 20	:	{	dpfh.setFranja20	(	dpfh.getFranja20	()+1);}break;
+            case 21	:	{	dpfh.setFranja21	(	dpfh.getFranja21	()+1);}break;
+            case 22	:	{	dpfh.setFranja22	(	dpfh.getFranja22	()+1);}break;
+            case 23	:	{	dpfh.setFranja23	(	dpfh.getFranja23	()+1);}break;
+            case 24	:	{	dpfh.setFranja24	(	dpfh.getFranja24	()+1);}break;
+            case 25	:	{	dpfh.setFranja25	(	dpfh.getFranja25	()+1);}break;
+            case 26	:	{	dpfh.setFranja26	(	dpfh.getFranja26	()+1);}break;
+            case 27	:	{	dpfh.setFranja27	(	dpfh.getFranja27	()+1);}break;
+            case 28	:	{	dpfh.setFranja28	(	dpfh.getFranja28	()+1);}break;
+            case 29	:	{	dpfh.setFranja29	(	dpfh.getFranja29	()+1);}break;
+            case 30	:	{	dpfh.setFranja30	(	dpfh.getFranja30	()+1);}break;
+            case 31	:	{	dpfh.setFranja31	(	dpfh.getFranja31	()+1);}break;
+            case 32	:	{	dpfh.setFranja32	(	dpfh.getFranja32	()+1);}break;
+            case 33	:	{	dpfh.setFranja33	(	dpfh.getFranja33	()+1);}break;
+            case 34	:	{	dpfh.setFranja34	(	dpfh.getFranja34	()+1);}break;
+            case 35	:	{	dpfh.setFranja35	(	dpfh.getFranja35	()+1);}break;
+            case 36	:	{	dpfh.setFranja36	(	dpfh.getFranja36	()+1);}break;
+            case 37	:	{	dpfh.setFranja37	(	dpfh.getFranja37	()+1);}break;
+            case 38	:	{	dpfh.setFranja38	(	dpfh.getFranja38	()+1);}break;
+            case 39	:	{	dpfh.setFranja39	(	dpfh.getFranja39	()+1);}break;
+            case 40	:	{	dpfh.setFranja40	(	dpfh.getFranja40	()+1);}break;
+            case 41	:	{	dpfh.setFranja41	(	dpfh.getFranja41	()+1);}break;
+            case 42	:	{	dpfh.setFranja42	(	dpfh.getFranja42	()+1);}break;
+            case 43	:	{	dpfh.setFranja43	(	dpfh.getFranja43	()+1);}break;
+            case 44	:	{	dpfh.setFranja44	(	dpfh.getFranja44	()+1);}break;
+            case 45	:	{	dpfh.setFranja45	(	dpfh.getFranja45	()+1);}break;
+            case 46	:	{	dpfh.setFranja46	(	dpfh.getFranja46	()+1);}break;
+            case 47	:	{	dpfh.setFranja47	(	dpfh.getFranja47	()+1);}break;
+            case 48	:	{	dpfh.setFranja48	(	dpfh.getFranja48	()+1);}break;
+            case 49	:	{	dpfh.setFranja49	(	dpfh.getFranja49	()+1);}break;
+            case 50	:	{	dpfh.setFranja50	(	dpfh.getFranja50	()+1);}break;
+            case 51	:	{	dpfh.setFranja51	(	dpfh.getFranja51	()+1);}break;
+            case 52	:	{	dpfh.setFranja52	(	dpfh.getFranja52	()+1);}break;
+            case 53	:	{	dpfh.setFranja53	(	dpfh.getFranja53	()+1);}break;
+            case 54	:	{	dpfh.setFranja54	(	dpfh.getFranja54	()+1);}break;
+            case 55	:	{	dpfh.setFranja55	(	dpfh.getFranja55	()+1);}break;
+            case 56	:	{	dpfh.setFranja56	(	dpfh.getFranja56	()+1);}break;
+            case 57	:	{	dpfh.setFranja57	(	dpfh.getFranja57	()+1);}break;
+            case 58	:	{	dpfh.setFranja58	(	dpfh.getFranja58	()+1);}break;
+            case 59	:	{	dpfh.setFranja59	(	dpfh.getFranja59	()+1);}break;
+            case 60	:	{	dpfh.setFranja60	(	dpfh.getFranja60	()+1);}break;
+            case 61	:	{	dpfh.setFranja61	(	dpfh.getFranja61	()+1);}break;
+            case 62	:	{	dpfh.setFranja62	(	dpfh.getFranja62	()+1);}break;
+            case 63	:	{	dpfh.setFranja63	(	dpfh.getFranja63	()+1);}break;
+            case 64	:	{	dpfh.setFranja64	(	dpfh.getFranja64	()+1);}break;
+            case 65	:	{	dpfh.setFranja65	(	dpfh.getFranja65	()+1);}break;
+            case 66	:	{	dpfh.setFranja66	(	dpfh.getFranja66	()+1);}break;
+            case 67	:	{	dpfh.setFranja67	(	dpfh.getFranja67	()+1);}break;
+            case 68	:	{	dpfh.setFranja68	(	dpfh.getFranja68	()+1);}break;
+            case 69	:	{	dpfh.setFranja69	(	dpfh.getFranja69	()+1);}break;
+            case 70	:	{	dpfh.setFranja70	(	dpfh.getFranja70	()+1);}break;
+            case 71	:	{	dpfh.setFranja71	(	dpfh.getFranja71	()+1);}break;
+            case 72	:	{	dpfh.setFranja72	(	dpfh.getFranja72	()+1);}break;
+            case 73	:	{	dpfh.setFranja73	(	dpfh.getFranja73	()+1);}break;
+            case 74	:	{	dpfh.setFranja74	(	dpfh.getFranja74	()+1);}break;
+            case 75	:	{	dpfh.setFranja75	(	dpfh.getFranja75	()+1);}break;
+            case 76	:	{	dpfh.setFranja76	(	dpfh.getFranja76	()+1);}break;
+            case 77	:	{	dpfh.setFranja77	(	dpfh.getFranja77	()+1);}break;
+            case 78	:	{	dpfh.setFranja78	(	dpfh.getFranja78	()+1);}break;
+            case 79	:	{	dpfh.setFranja79	(	dpfh.getFranja79	()+1);}break;
+            case 80	:	{	dpfh.setFranja80	(	dpfh.getFranja80	()+1);}break;
+            case 81	:	{	dpfh.setFranja81	(	dpfh.getFranja81	()+1);}break;
+            case 82	:	{	dpfh.setFranja82	(	dpfh.getFranja82	()+1);}break;
+            case 83	:	{	dpfh.setFranja83	(	dpfh.getFranja83	()+1);}break;
+            case 84	:	{	dpfh.setFranja84	(	dpfh.getFranja84	()+1);}break;
+            case 85	:	{	dpfh.setFranja85	(	dpfh.getFranja85	()+1);}break;
+            case 86	:	{	dpfh.setFranja86	(	dpfh.getFranja86	()+1);}break;
+            case 87	:	{	dpfh.setFranja87	(	dpfh.getFranja87	()+1);}break;
+            case 88	:	{	dpfh.setFranja88	(	dpfh.getFranja88	()+1);}break;
+            case 89	:	{	dpfh.setFranja89	(	dpfh.getFranja89	()+1);}break;
+            case 90	:	{	dpfh.setFranja90	(	dpfh.getFranja90	()+1);}break;
+            case 91	:	{	dpfh.setFranja91	(	dpfh.getFranja91	()+1);}break;
+            case 92	:	{	dpfh.setFranja92	(	dpfh.getFranja92	()+1);}break;
+            case 93	:	{	dpfh.setFranja93	(	dpfh.getFranja93	()+1);}break;
+            case 94	:	{	dpfh.setFranja94	(	dpfh.getFranja94	()+1);}break;
+            case 95	:	{	dpfh.setFranja95	(	dpfh.getFranja95	()+1);}break;
+            case 96	:	{	dpfh.setFranja96	(	dpfh.getFranja96	()+1);}break;
         }
-        if(!dataModel.getHoraentrega().equals("")){
-            DisponibilidadPorFranjaHoraria dmodel = dhrepository.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
-            setFranjaEQ(dataModel.getHoraentrega(), dmodel, dhrepository);
-        }
-        String contenido = "Hola! "+dataModel.getNombre()+" acaba de reservar\n";
+        disponibilidadFranjaHoraRepo.save(dpfh);
+
+        DisponibilidadPorMenu dpm = disponibilidadPorMenuRepo.findById(dataModel.getEmpresa()+dataModel.getTipomenu()).orElse(null);
+
+        String contenido = "Hola! \n"+dataModel.getNombre()+" acaba de reservar\n";
         contenido+="Tipo de menú: "+dataModel.getTipomenu()+"\n";
         DateTimeFormatter fmt = DateTimeFormat.forPattern("e");
         LocalDate ld = LocalDate.parse(dataModel.getFecha());
         int hoy = Integer.parseInt(ld.toString(fmt));
         int reservaday=0;
         switch (dia){
-            case "Lunes":{
+            case "lunes":{
                 reservaday=1;
+                dpm.setLunes(dpm.getLunes()-1);
             }break;
-            case "Martes":{
+            case "martes":{
                 reservaday=2;
+                dpm.setMartes(dpm.getMartes()-1);
             }break;
-            case "Miércoles":{
+            case "miercoles":{
                 reservaday=3;
+                dpm.setMiercoles(dpm.getMiercoles()-1);
             }break;
-            case "Jueves":{
+            case "jueves":{
                 reservaday=4;
+                dpm.setJueves(dpm.getJueves()-1);
             }break;
-            case "Viernes":{
+            case "viernes":{
                 reservaday=5;
+                dpm.setViernes(dpm.getViernes()-1);
+            }break;
+            case "sabado":{
+                reservaday=6;
+                dpm.setSabado(dpm.getSabado()-1);
+            }break;
+            case "domingo":{
+                reservaday=7;
+                dpm.setDomingo(dpm.getDomingo()-1);
             }break;
         }
+        disponibilidadPorMenuRepo.save(dpm);
         LocalDate ld2 = ld.plusDays(reservaday-hoy);
         DateTimeFormatter fmt2 = DateTimeFormat.forPattern("EEEE dd - MMMM");
         contenido+="Para el día: "+ld2.toString(fmt2).replace("-","de")+"\n";
         contenido+="Tipo de entrega: "+dataModel.getEntrega()+"\n";
         if(!dataModel.getHoraentrega().equals("")){
-            contenido+="Hora de reserva: "+dataModel.getHoraentrega()+"\n";
-        }else{
-            contenido+="Direccion: "+dataModel.getDireccion()+"\n";
+            contenido+="Hora de entrega: "+dataModel.getHoraentrega()+"\n";
         }
         sendEmail(getmail(dataModel.getEmpresa()),"Tiene una nueva reservacion", contenido);
         reserepository.save(dataModel);
@@ -720,12 +881,12 @@ public class ChefController {
 
     @RequestMapping(value = "/createhours", method = RequestMethod.POST)
     public void createhours(@Valid @RequestBody DisponibilidadPorFranjaHoraria cmodel) {
-        dhrepository.save(cmodel);
+        disponibilidadFranjaHoraRepo.save(cmodel);
     }
 
     @RequestMapping(value = "/gethours/{empresa}/{dia}/{menu}", method = RequestMethod.GET)
     public List<Horas> gethours(@PathVariable String empresa, @PathVariable String dia, @PathVariable String menu) {
-        DisponibilidadPorFranjaHoraria dmodel = dhrepository.findByEmpresaAndDia(empresa,dia);
+        DisponibilidadPorFranjaHoraria dmodel = disponibilidadFranjaHoraRepo.findByEmpresaAndDia(empresa,dia);
         List<Horas> dlist = new ArrayList<Horas>();
 
         HashMap<String, Integer> hmap = new HashMap<String, Integer>();
@@ -828,8 +989,8 @@ public class ChefController {
         hmap.put("11:45PM", 96);
 
         List<HorarioMenusReturn> horarios = hmrepository.findListaHoras(empresa, menu);
-        String hini = horarios.get(0).gethInicioRes();
-        String hfin = horarios.get(0).gethFinRes();
+        String hini = horarios.get(0).gethInicioEnt();
+        String hfin = horarios.get(0).gethFinEnt();
 
         if(dmodel.getFranja1()<20 && hmap.get(hini)<=1 && hmap.get(hfin)>1 ) {
             Horas horas = new Horas();
@@ -1315,15 +1476,11 @@ public class ChefController {
     }
 
     void sendEmail(String to, String subject, String content) {
-
         SimpleMailMessage email = new SimpleMailMessage();
-
         email.setTo(to);
         email.setSubject(subject);
         email.setText(content);
-
         javaMailSender.send(email);
-
     }
 
     public String passGen() throws NoSuchAlgorithmException {
@@ -1355,135 +1512,7 @@ public class ChefController {
         return passHashedValue;
     }
 
-    public int setFranjaEQ(String equivalente, DisponibilidadPorFranjaHoraria dmodel, DispoHorasRepository dh){
-        DisponibilidadPorFranjaHoraria dmodel2 = new DisponibilidadPorFranjaHoraria();
-        dmodel2.setId(dmodel.getEmpresa()+dmodel.getDia());
-        dmodel2.setEmpresa(dmodel.getEmpresa());
-        dmodel2.setDia(dmodel.getDia());
-        dmodel2.setFranja1(dmodel.getFranja1());
-        dmodel2.setFranja2(dmodel.getFranja2());
-        dmodel2.setFranja3(dmodel.getFranja3());
-        dmodel2.setFranja4(dmodel.getFranja4());
-        dmodel2.setFranja5(dmodel.getFranja5());
-        dmodel2.setFranja6(dmodel.getFranja6());
-        dmodel2.setFranja7(dmodel.getFranja7());
-        dmodel2.setFranja8(dmodel.getFranja8());
-        dmodel2.setFranja9(dmodel.getFranja9());
-        dmodel2.setFranja10(dmodel.getFranja10());
-        dmodel2.setFranja11(dmodel.getFranja11());
-        dmodel2.setFranja12(dmodel.getFranja12());
-        dmodel2.setFranja13(dmodel.getFranja13());
-        dmodel2.setFranja14(dmodel.getFranja14());
-        dmodel2.setFranja15(dmodel.getFranja15());
-        dmodel2.setFranja16(dmodel.getFranja16());
-        dmodel2.setFranja17(dmodel.getFranja17());
-        dmodel2.setFranja18(dmodel.getFranja18());
-        dmodel2.setFranja19(dmodel.getFranja19());
-        dmodel2.setFranja20(dmodel.getFranja20());
-        if(equivalente.equals("10:00am - 10:15am")){
-            dmodel2.setFranja1(dmodel.getFranja1()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("10:15am - 10:30am")){
-            dmodel2.setFranja2(dmodel.getFranja2()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("10:30am - 10:45am")){
-            dmodel2.setFranja3(dmodel.getFranja3()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("10:45am - 11:00am")){
-            dmodel2.setFranja4(dmodel.getFranja4()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("11:00am - 11:15am")){
-            dmodel2.setFranja5(dmodel.getFranja5()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("11:15am - 11:30am")){
-            dmodel2.setFranja6(dmodel.getFranja6()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("11:30am - 11:45am")){
-            dmodel2.setFranja7(dmodel.getFranja8()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("11:45 - 12:00pm")){
-            dmodel2.setFranja8(dmodel.getFranja8()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("12:00pm - 12:15pm")){
-            dmodel2.setFranja9(dmodel.getFranja9()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("12:15pm - 12:30pm")){
-            dmodel2.setFranja10(dmodel.getFranja10()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("12:30pm - 12:45pm")){
-            dmodel2.setFranja11(dmodel.getFranja11()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("12:45pm - 01:00pm")){
-            dmodel2.setFranja12(dmodel.getFranja12()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("01:00pm - 01:15pm")){
-            dmodel2.setFranja13(dmodel.getFranja13()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("01:15pm - 01:30pm")){
-            dmodel2.setFranja14(dmodel.getFranja14()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("01:30pm - 01:45pm")){
-            dmodel2.setFranja15(dmodel.getFranja15()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("01:45pm - 02:00pm")){
-            dmodel2.setFranja16(dmodel.getFranja16()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("02:00pm - 02:15pm")){
-            dmodel2.setFranja17(dmodel.getFranja17()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("02:15pm - 02:30pm")){
-            dmodel2.setFranja18(dmodel.getFranja18()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("02:30pm - 02:45pm")){
-            dmodel2.setFranja19(dmodel.getFranja19()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        if(equivalente.equals("02:45pm - 03:00pm")){
-            dmodel2.setFranja20(dmodel.getFranja20()+1);
-            dh.save(dmodel2);
-            return 0;
-        }
-        return 0;
-    }
-
-    @Scheduled(cron = "0 0 10 ? * MON", zone = "GMT-5")
+    /*@Scheduled(cron = "0 0 10 ? * MON", zone = "GMT-5")
     public void Nomasporlun() {
         List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
         DiasDisponiblesPorSitio dmodel = lresult.get(0);
@@ -1615,6 +1644,6 @@ public class ChefController {
                 dhrepository.save(dmodel2);
             }
         }
-    }
+    }*/
 }
 

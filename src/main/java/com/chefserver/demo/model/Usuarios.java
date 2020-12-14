@@ -9,6 +9,7 @@ public class Usuarios {
     public String correo;
     public String password;
     public int rol;
+    public int imgnum;
 
     public String getId() {
         return id;
@@ -48,5 +49,13 @@ public class Usuarios {
 
     public void setRol(int rol) {
         this.rol = rol;
+    }
+
+    public int getImgnum() {
+        return imgnum;
+    }
+
+    public void setImgnum(int imgnum) {
+        this.imgnum = imgnum;
     }
 }
