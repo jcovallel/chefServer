@@ -48,6 +48,8 @@ public class ExcelController {
         celda.setCellValue("Hora entrega");
         celda = fila.createCell(10);
         celda.setCellValue("Observaciones");
+        celda = fila.createCell(11);
+        celda.setCellValue("Plataforma");
 
         for(int i =0; i<datamodel.size(); i++){
             fila = mySheet.createRow(i+1);
@@ -73,6 +75,8 @@ public class ExcelController {
             celda.setCellValue(datamodel.get(i).getHoraentrega());
             celda = fila.createCell(10);
             celda.setCellValue(datamodel.get(i).getObservaciones());
+            celda = fila.createCell(11);
+            celda.setCellValue(datamodel.get(i).getPlataforma());
         }
         //for local
         FileOutputStream salida = new FileOutputStream("DatosExcel/Reservaciones.xlsx");

@@ -13,6 +13,7 @@ public class DataModel {
     public String entrega;
     String horaentrega;
     public String observaciones;
+    String plataforma;
 
     public String getEmpresa() {
         return empresa;
@@ -108,5 +109,13 @@ public class DataModel {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public String getPlataforma() {
+        return plataforma;
+    }
+
+    public void setPlataforma(String plataforma) {
+        this.plataforma = plataforma;
     }
 }
