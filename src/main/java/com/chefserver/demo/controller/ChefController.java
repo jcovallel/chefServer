@@ -23,6 +23,8 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -620,6 +622,105 @@ public class ChefController {
     @RequestMapping(value = "/getmail/{empresa}", method = RequestMethod.GET)
     public String getmail(@PathVariable String empresa) {
         return emrepository.findByNombre(empresa).getCorreo();
+    }
+
+    @RequestMapping(value = "/aredisponow/{empresa}", method = RequestMethod.GET)
+    public boolean areDispoNow(@PathVariable String empresa) {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        String currentHour = dateFormat.format(new Date());
+        List<MenuTrue> menuList;
+        menuList = lmerepository.findListaMenusTrue(empresa);
+        List<HorarioMenusReturn> horarioMenu;
+        for(int i=0; i<menuList.size();i++){
+            horarioMenu = hmrepository.findListaHoras(empresa, menuList.get(i).getMenu());
+            String horaIni = horarioMenu.get(0).gethInicioRes().substring(0,2);
+            int horaInit = Integer.parseInt(horaIni);
+            if(horaInit==12){ horaInit=0; }
+            String minutoIni = horarioMenu.get(0).gethInicioRes().substring(3,5);
+            int minInit = Integer.parseInt(minutoIni);
+            String amIni = horarioMenu.get(0).gethInicioRes().substring(5);
+            String horaFin = horarioMenu.get(0).gethFinRes().substring(0,2);
+            int horaFi = Integer.parseInt(horaFin);
+            String minutoFin = horarioMenu.get(0).gethFinRes().substring(3,5);
+            int minFi = Integer.parseInt(minutoFin);
+            String amFin = horarioMenu.get(0).gethFinRes().substring(5);
+
+            //CAMBIO A 24
+            if(amIni.equals("PM")){ horaInit+=12; }
+            if(amFin.equals("PM")){ horaFi+=12; }
+
+            //COMPROBACION BETWEEN
+            int curretH = Integer.parseInt(currentHour.substring(0,2));
+            int currentmin = Integer.parseInt(currentHour.substring(3));
+            if(curretH>horaInit && curretH<horaFi){
+                return true;
+            }else {
+                if(curretH==horaInit){
+                    if(currentmin>=minInit){
+                        return true;
+                    }
+                }else {
+                    if(curretH==horaFi) {
+                        if(currentmin<=minFi){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    @RequestMapping(value = "/getmenusnowempresa/{empresa}", method = RequestMethod.GET)
+    public List<MenuTrue> getmenusNowEmpresa(@PathVariable String empresa) {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        String currentHour = dateFormat.format(new Date());
+        List<MenuTrue> menuList;
+        List<MenuTrue> menuList2 = new ArrayList<>();
+        menuList = lmerepository.findListaMenusTrue(empresa);
+        List<HorarioMenusReturn> horarioMenu;
+        for(int i=0; i<menuList.size();i++){
+            MenuTrue menuAdd = new MenuTrue();
+            horarioMenu = hmrepository.findListaHoras(empresa, menuList.get(i).getMenu());
+            String horaIni = horarioMenu.get(0).gethInicioRes().substring(0,2);
+            int horaInit = Integer.parseInt(horaIni);
+            if(horaInit==12){ horaInit=0; }
+            String minutoIni = horarioMenu.get(0).gethInicioRes().substring(3,5);
+            int minInit = Integer.parseInt(minutoIni);
+            String amIni = horarioMenu.get(0).gethInicioRes().substring(5);
+            String horaFin = horarioMenu.get(0).gethFinRes().substring(0,2);
+            int horaFi = Integer.parseInt(horaFin);
+            String minutoFin = horarioMenu.get(0).gethFinRes().substring(3,5);
+            int minFi = Integer.parseInt(minutoFin);
+            String amFin = horarioMenu.get(0).gethFinRes().substring(5);
+
+            //CAMBIO A 24
+            if(amIni.equals("PM")){ horaInit+=12; }
+            if(amFin.equals("PM")){ horaFi+=12; }
+
+            //COMPROBACION BETWEEN
+            int curretH = Integer.parseInt(currentHour.substring(0,2));
+            int currentmin = Integer.parseInt(currentHour.substring(3));
+            if(curretH>horaInit && curretH<horaFi){
+                menuAdd.setMenu(menuList.get(i).getMenu());
+                menuList2.add(menuAdd);
+            }else {
+                if(curretH==horaInit){
+                    if(currentmin>=minInit){
+                        menuAdd.setMenu(menuList.get(i).getMenu());
+                        menuList2.add(menuAdd);
+                    }
+                }else {
+                    if(curretH==horaFi) {
+                        if(currentmin<=minFi){
+                            menuAdd.setMenu(menuList.get(i).getMenu());
+                            menuList2.add(menuAdd);
+                        }
+                    }
+                }
+            }
+        }
+        return menuList2;
     }
 
     @RequestMapping(value = "/reserva/save/{provisional}", method = RequestMethod.POST)
