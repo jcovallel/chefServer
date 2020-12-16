@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.xml.bind.DatatypeConverter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -261,6 +262,11 @@ public class ChefController {
                 newuser.setId(emodel.getNombre());
                 newuser.setNombre(emodel.getNombre());
                 newuser.setCorreo(emodel.getCorreo());
+                if(olduser.getImgnum()>0){
+                    File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
+                    File dest = new File("src/main/resources/Images/"+emodel.getNombre());
+                    sourceFile.renameTo(dest);
+                }
             }else{
                 newuser.setId(olduser.getNombre());
                 newuser.setNombre(olduser.getNombre());
@@ -271,6 +277,11 @@ public class ChefController {
                 newuser.setId(emodel.getNombre());
                 newuser.setNombre(emodel.getNombre());
                 newuser.setCorreo(olduser.getCorreo());
+                if(olduser.getImgnum()>0){
+                    File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
+                    File dest = new File("src/main/resources/Images/"+emodel.getNombre());
+                    sourceFile.renameTo(dest);
+                }
             }
         }
         emrepository.deleteById(emodel.getId());
