@@ -92,9 +92,9 @@ public class ChefController {
             e.printStackTrace();
         }
         //for local
-        String dirPath = "DatosExcel/";
+        //String dirPath = "DatosExcel/";
         //for gcloud
-        //String dirPath = "../DatosExcel/";
+        String dirPath = "../DatosExcel/";
         byte[] byteArray;  // data comes from external service call in byte[]
         byteArray = null;
         try {
@@ -263,8 +263,12 @@ public class ChefController {
                 newuser.setNombre(emodel.getNombre());
                 newuser.setCorreo(emodel.getCorreo());
                 if(olduser.getImgnum()>0){
-                    File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
-                    File dest = new File("src/main/resources/Images/"+emodel.getNombre());
+                    //for local
+                    //File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
+                    //File dest = new File("src/main/resources/Images/"+emodel.getNombre());
+                    //for gcloud
+                    File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
+                    File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
                     sourceFile.renameTo(dest);
                 }
             }else{
@@ -278,8 +282,12 @@ public class ChefController {
                 newuser.setNombre(emodel.getNombre());
                 newuser.setCorreo(olduser.getCorreo());
                 if(olduser.getImgnum()>0){
-                    File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
-                    File dest = new File("src/main/resources/Images/"+emodel.getNombre());
+                    //for local
+                    //File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
+                    //File dest = new File("src/main/resources/Images/"+emodel.getNombre());
+                    //for gcloud
+                    File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
+                    File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
                     sourceFile.renameTo(dest);
                 }
             }

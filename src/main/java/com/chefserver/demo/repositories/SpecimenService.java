@@ -15,19 +15,20 @@ public class SpecimenService implements ISpecimenService{
 
     @Override
     public void saveImage(MultipartFile imageFile, String empresa) throws Exception {
-        //for local
         empresa = StringUtils.stripAccents(empresa).replaceAll(" ","-");
         String i = empresa.substring(empresa.indexOf("?")+1);
         empresa = empresa.substring(0,empresa.indexOf("?"));
-        String folder ="src/main/resources/Images/"+empresa+"/"+"/Menu"+i+".jpg";
+        //for local
+        //String folder ="src/main/resources/Images/"+empresa+"/"+"/Menu"+i+".jpg";
         //for gcloud
-        ///empresa = StringUtils.stripAccents(empresa).replaceAll(" ","-");
-        //empresa = empresa.replaceAll(" ","-");
-        //String folder ="../src/main/resources/Images/"+empresa+"Menu.jpg";
+        String folder ="../src/main/resources/Images/"+empresa+"/"+"/Menu"+i+".jpg";
         byte[] bytes = imageFile.getBytes();
         Path path = Paths.get(folder);
         if(i.equals("0")){
-            FileUtils.deleteDirectory(new File("src/main/resources/Images/"+empresa));
+            //for local
+            //FileUtils.deleteDirectory(new File("src/main/resources/Images/"+empresa));
+            //for gcloud
+            FileUtils.deleteDirectory(new File("../src/main/resources/Images/"+empresa));
         }
         Files.createDirectories(path.getParent());
         if( !Files.exists(path))
