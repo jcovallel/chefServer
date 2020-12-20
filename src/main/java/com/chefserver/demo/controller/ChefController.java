@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -92,9 +93,9 @@ public class ChefController {
             e.printStackTrace();
         }
         //for local
-        //String dirPath = "DatosExcel/";
+        String dirPath = "DatosExcel/";
         //for gcloud
-        String dirPath = "../DatosExcel/";
+        //String dirPath = "../DatosExcel/";
         byte[] byteArray;  // data comes from external service call in byte[]
         byteArray = null;
         try {
@@ -125,9 +126,9 @@ public class ChefController {
             e.printStackTrace();
         }
         //for local
-        //String dirPath = "DatosExcel/";
+        String dirPath = "DatosExcel/";
         //for gcloud
-        String dirPath = "../DatosExcel/";
+        //String dirPath = "../DatosExcel/";
         byte[] byteArray;  // data comes from external service call in byte[]
         byteArray = null;
         try {
@@ -264,11 +265,11 @@ public class ChefController {
                 newuser.setCorreo(emodel.getCorreo());
                 if(olduser.getImgnum()>0){
                     //for local
-                    //File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
-                    //File dest = new File("src/main/resources/Images/"+emodel.getNombre());
+                    File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
+                    File dest = new File("src/main/resources/Images/"+emodel.getNombre());
                     //for gcloud
-                    File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
-                    File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
+                    //File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
+                    //File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
                     sourceFile.renameTo(dest);
                 }
             }else{
@@ -283,11 +284,11 @@ public class ChefController {
                 newuser.setCorreo(olduser.getCorreo());
                 if(olduser.getImgnum()>0){
                     //for local
-                    //File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
-                    //File dest = new File("src/main/resources/Images/"+emodel.getNombre());
+                    File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
+                    File dest = new File("src/main/resources/Images/"+emodel.getNombre());
                     //for gcloud
-                    File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
-                    File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
+                    //File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
+                    //File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
                     sourceFile.renameTo(dest);
                 }
             }
@@ -850,102 +851,102 @@ public class ChefController {
         DisponibilidadPorFranjaHoraria dpfh = disponibilidadFranjaHoraRepo.findByEmpresaAndDia(dataModel.getEmpresa(),dia);
 
         switch (num){
-            case 1	:	{	dpfh.setFranja1	(	dpfh.getFranja1	()+1);}break;
-            case 2	:	{	dpfh.setFranja2	(	dpfh.getFranja2	()+1);}break;
-            case 3	:	{	dpfh.setFranja3	(	dpfh.getFranja3	()+1);}break;
-            case 4	:	{	dpfh.setFranja4	(	dpfh.getFranja4	()+1);}break;
-            case 5	:	{	dpfh.setFranja5	(	dpfh.getFranja5	()+1);}break;
-            case 6	:	{	dpfh.setFranja6	(	dpfh.getFranja6	()+1);}break;
-            case 7	:	{	dpfh.setFranja7	(	dpfh.getFranja7	()+1);}break;
-            case 8	:	{	dpfh.setFranja8	(	dpfh.getFranja8	()+1);}break;
-            case 9	:	{	dpfh.setFranja9	(	dpfh.getFranja9	()+1);}break;
-            case 10	:	{	dpfh.setFranja10	(	dpfh.getFranja10	()+1);}break;
-            case 11	:	{	dpfh.setFranja11	(	dpfh.getFranja11	()+1);}break;
-            case 12	:	{	dpfh.setFranja12	(	dpfh.getFranja12	()+1);}break;
-            case 13	:	{	dpfh.setFranja13	(	dpfh.getFranja13	()+1);}break;
-            case 14	:	{	dpfh.setFranja14	(	dpfh.getFranja14	()+1);}break;
-            case 15	:	{	dpfh.setFranja15	(	dpfh.getFranja15	()+1);}break;
-            case 16	:	{	dpfh.setFranja16	(	dpfh.getFranja16	()+1);}break;
-            case 17	:	{	dpfh.setFranja17	(	dpfh.getFranja17	()+1);}break;
-            case 18	:	{	dpfh.setFranja18	(	dpfh.getFranja18	()+1);}break;
-            case 19	:	{	dpfh.setFranja19	(	dpfh.getFranja19	()+1);}break;
-            case 20	:	{	dpfh.setFranja20	(	dpfh.getFranja20	()+1);}break;
-            case 21	:	{	dpfh.setFranja21	(	dpfh.getFranja21	()+1);}break;
-            case 22	:	{	dpfh.setFranja22	(	dpfh.getFranja22	()+1);}break;
-            case 23	:	{	dpfh.setFranja23	(	dpfh.getFranja23	()+1);}break;
-            case 24	:	{	dpfh.setFranja24	(	dpfh.getFranja24	()+1);}break;
-            case 25	:	{	dpfh.setFranja25	(	dpfh.getFranja25	()+1);}break;
-            case 26	:	{	dpfh.setFranja26	(	dpfh.getFranja26	()+1);}break;
-            case 27	:	{	dpfh.setFranja27	(	dpfh.getFranja27	()+1);}break;
-            case 28	:	{	dpfh.setFranja28	(	dpfh.getFranja28	()+1);}break;
-            case 29	:	{	dpfh.setFranja29	(	dpfh.getFranja29	()+1);}break;
-            case 30	:	{	dpfh.setFranja30	(	dpfh.getFranja30	()+1);}break;
-            case 31	:	{	dpfh.setFranja31	(	dpfh.getFranja31	()+1);}break;
-            case 32	:	{	dpfh.setFranja32	(	dpfh.getFranja32	()+1);}break;
-            case 33	:	{	dpfh.setFranja33	(	dpfh.getFranja33	()+1);}break;
-            case 34	:	{	dpfh.setFranja34	(	dpfh.getFranja34	()+1);}break;
-            case 35	:	{	dpfh.setFranja35	(	dpfh.getFranja35	()+1);}break;
-            case 36	:	{	dpfh.setFranja36	(	dpfh.getFranja36	()+1);}break;
-            case 37	:	{	dpfh.setFranja37	(	dpfh.getFranja37	()+1);}break;
-            case 38	:	{	dpfh.setFranja38	(	dpfh.getFranja38	()+1);}break;
-            case 39	:	{	dpfh.setFranja39	(	dpfh.getFranja39	()+1);}break;
-            case 40	:	{	dpfh.setFranja40	(	dpfh.getFranja40	()+1);}break;
-            case 41	:	{	dpfh.setFranja41	(	dpfh.getFranja41	()+1);}break;
-            case 42	:	{	dpfh.setFranja42	(	dpfh.getFranja42	()+1);}break;
-            case 43	:	{	dpfh.setFranja43	(	dpfh.getFranja43	()+1);}break;
-            case 44	:	{	dpfh.setFranja44	(	dpfh.getFranja44	()+1);}break;
-            case 45	:	{	dpfh.setFranja45	(	dpfh.getFranja45	()+1);}break;
-            case 46	:	{	dpfh.setFranja46	(	dpfh.getFranja46	()+1);}break;
-            case 47	:	{	dpfh.setFranja47	(	dpfh.getFranja47	()+1);}break;
-            case 48	:	{	dpfh.setFranja48	(	dpfh.getFranja48	()+1);}break;
-            case 49	:	{	dpfh.setFranja49	(	dpfh.getFranja49	()+1);}break;
-            case 50	:	{	dpfh.setFranja50	(	dpfh.getFranja50	()+1);}break;
-            case 51	:	{	dpfh.setFranja51	(	dpfh.getFranja51	()+1);}break;
-            case 52	:	{	dpfh.setFranja52	(	dpfh.getFranja52	()+1);}break;
-            case 53	:	{	dpfh.setFranja53	(	dpfh.getFranja53	()+1);}break;
-            case 54	:	{	dpfh.setFranja54	(	dpfh.getFranja54	()+1);}break;
-            case 55	:	{	dpfh.setFranja55	(	dpfh.getFranja55	()+1);}break;
-            case 56	:	{	dpfh.setFranja56	(	dpfh.getFranja56	()+1);}break;
-            case 57	:	{	dpfh.setFranja57	(	dpfh.getFranja57	()+1);}break;
-            case 58	:	{	dpfh.setFranja58	(	dpfh.getFranja58	()+1);}break;
-            case 59	:	{	dpfh.setFranja59	(	dpfh.getFranja59	()+1);}break;
-            case 60	:	{	dpfh.setFranja60	(	dpfh.getFranja60	()+1);}break;
-            case 61	:	{	dpfh.setFranja61	(	dpfh.getFranja61	()+1);}break;
-            case 62	:	{	dpfh.setFranja62	(	dpfh.getFranja62	()+1);}break;
-            case 63	:	{	dpfh.setFranja63	(	dpfh.getFranja63	()+1);}break;
-            case 64	:	{	dpfh.setFranja64	(	dpfh.getFranja64	()+1);}break;
-            case 65	:	{	dpfh.setFranja65	(	dpfh.getFranja65	()+1);}break;
-            case 66	:	{	dpfh.setFranja66	(	dpfh.getFranja66	()+1);}break;
-            case 67	:	{	dpfh.setFranja67	(	dpfh.getFranja67	()+1);}break;
-            case 68	:	{	dpfh.setFranja68	(	dpfh.getFranja68	()+1);}break;
-            case 69	:	{	dpfh.setFranja69	(	dpfh.getFranja69	()+1);}break;
-            case 70	:	{	dpfh.setFranja70	(	dpfh.getFranja70	()+1);}break;
-            case 71	:	{	dpfh.setFranja71	(	dpfh.getFranja71	()+1);}break;
-            case 72	:	{	dpfh.setFranja72	(	dpfh.getFranja72	()+1);}break;
-            case 73	:	{	dpfh.setFranja73	(	dpfh.getFranja73	()+1);}break;
-            case 74	:	{	dpfh.setFranja74	(	dpfh.getFranja74	()+1);}break;
-            case 75	:	{	dpfh.setFranja75	(	dpfh.getFranja75	()+1);}break;
-            case 76	:	{	dpfh.setFranja76	(	dpfh.getFranja76	()+1);}break;
-            case 77	:	{	dpfh.setFranja77	(	dpfh.getFranja77	()+1);}break;
-            case 78	:	{	dpfh.setFranja78	(	dpfh.getFranja78	()+1);}break;
-            case 79	:	{	dpfh.setFranja79	(	dpfh.getFranja79	()+1);}break;
-            case 80	:	{	dpfh.setFranja80	(	dpfh.getFranja80	()+1);}break;
-            case 81	:	{	dpfh.setFranja81	(	dpfh.getFranja81	()+1);}break;
-            case 82	:	{	dpfh.setFranja82	(	dpfh.getFranja82	()+1);}break;
-            case 83	:	{	dpfh.setFranja83	(	dpfh.getFranja83	()+1);}break;
-            case 84	:	{	dpfh.setFranja84	(	dpfh.getFranja84	()+1);}break;
-            case 85	:	{	dpfh.setFranja85	(	dpfh.getFranja85	()+1);}break;
-            case 86	:	{	dpfh.setFranja86	(	dpfh.getFranja86	()+1);}break;
-            case 87	:	{	dpfh.setFranja87	(	dpfh.getFranja87	()+1);}break;
-            case 88	:	{	dpfh.setFranja88	(	dpfh.getFranja88	()+1);}break;
-            case 89	:	{	dpfh.setFranja89	(	dpfh.getFranja89	()+1);}break;
-            case 90	:	{	dpfh.setFranja90	(	dpfh.getFranja90	()+1);}break;
-            case 91	:	{	dpfh.setFranja91	(	dpfh.getFranja91	()+1);}break;
-            case 92	:	{	dpfh.setFranja92	(	dpfh.getFranja92	()+1);}break;
-            case 93	:	{	dpfh.setFranja93	(	dpfh.getFranja93	()+1);}break;
-            case 94	:	{	dpfh.setFranja94	(	dpfh.getFranja94	()+1);}break;
-            case 95	:	{	dpfh.setFranja95	(	dpfh.getFranja95	()+1);}break;
-            case 96	:	{	dpfh.setFranja96	(	dpfh.getFranja96	()+1);}break;
+            case 1	:	{	dpfh.setFranja1(dpfh.getFranja1()+1);   }break;
+            case 2	:	{	dpfh.setFranja2(dpfh.getFranja2()+1);   }break;
+            case 3	:	{	dpfh.setFranja3(dpfh.getFranja3()+1);   }break;
+            case 4	:	{	dpfh.setFranja4(dpfh.getFranja4()+1);   }break;
+            case 5	:	{	dpfh.setFranja5(dpfh.getFranja5()+1);   }break;
+            case 6	:	{	dpfh.setFranja6(dpfh.getFranja6()+1);   }break;
+            case 7	:	{	dpfh.setFranja7(dpfh.getFranja7()+1);   }break;
+            case 8	:	{	dpfh.setFranja8(dpfh.getFranja8()+1);   }break;
+            case 9	:	{	dpfh.setFranja9(dpfh.getFranja9()+1);   }break;
+            case 10	:	{	dpfh.setFranja10(dpfh.getFranja10()+1); }break;
+            case 11	:	{	dpfh.setFranja11(dpfh.getFranja11()+1); }break;
+            case 12	:	{	dpfh.setFranja12(dpfh.getFranja12()+1); }break;
+            case 13	:	{	dpfh.setFranja13(dpfh.getFranja13()+1); }break;
+            case 14	:	{	dpfh.setFranja14(dpfh.getFranja14()+1); }break;
+            case 15	:	{	dpfh.setFranja15(dpfh.getFranja15()+1); }break;
+            case 16	:	{	dpfh.setFranja16(dpfh.getFranja16()+1); }break;
+            case 17	:	{	dpfh.setFranja17(dpfh.getFranja17()+1); }break;
+            case 18	:	{	dpfh.setFranja18(dpfh.getFranja18()+1); }break;
+            case 19	:	{	dpfh.setFranja19(dpfh.getFranja19()+1); }break;
+            case 20	:	{	dpfh.setFranja20(dpfh.getFranja20()+1); }break;
+            case 21	:	{	dpfh.setFranja21(dpfh.getFranja21()+1); }break;
+            case 22	:	{	dpfh.setFranja22(dpfh.getFranja22()+1); }break;
+            case 23	:	{	dpfh.setFranja23(dpfh.getFranja23()+1); }break;
+            case 24	:	{	dpfh.setFranja24(dpfh.getFranja24()+1); }break;
+            case 25	:	{	dpfh.setFranja25(dpfh.getFranja25()+1); }break;
+            case 26	:	{	dpfh.setFranja26(dpfh.getFranja26()+1); }break;
+            case 27	:	{	dpfh.setFranja27(dpfh.getFranja27()+1); }break;
+            case 28	:	{	dpfh.setFranja28(dpfh.getFranja28()+1); }break;
+            case 29	:	{	dpfh.setFranja29(dpfh.getFranja29()+1); }break;
+            case 30	:	{	dpfh.setFranja30(dpfh.getFranja30()+1); }break;
+            case 31	:	{	dpfh.setFranja31(dpfh.getFranja31()+1); }break;
+            case 32	:	{	dpfh.setFranja32(dpfh.getFranja32()+1); }break;
+            case 33	:	{	dpfh.setFranja33(dpfh.getFranja33()+1); }break;
+            case 34	:	{	dpfh.setFranja34(dpfh.getFranja34()+1); }break;
+            case 35	:	{	dpfh.setFranja35(dpfh.getFranja35()+1); }break;
+            case 36	:	{	dpfh.setFranja36(dpfh.getFranja36()+1); }break;
+            case 37	:	{	dpfh.setFranja37(dpfh.getFranja37()+1); }break;
+            case 38	:	{	dpfh.setFranja38(dpfh.getFranja38()+1); }break;
+            case 39	:	{	dpfh.setFranja39(dpfh.getFranja39()+1); }break;
+            case 40	:	{	dpfh.setFranja40(dpfh.getFranja40()+1); }break;
+            case 41	:	{	dpfh.setFranja41(dpfh.getFranja41()+1); }break;
+            case 42	:	{	dpfh.setFranja42(dpfh.getFranja42()+1); }break;
+            case 43	:	{	dpfh.setFranja43(dpfh.getFranja43()+1); }break;
+            case 44	:	{	dpfh.setFranja44(dpfh.getFranja44()+1); }break;
+            case 45	:	{	dpfh.setFranja45(dpfh.getFranja45()+1); }break;
+            case 46	:	{	dpfh.setFranja46(dpfh.getFranja46()+1); }break;
+            case 47	:	{	dpfh.setFranja47(dpfh.getFranja47()+1); }break;
+            case 48	:	{	dpfh.setFranja48(dpfh.getFranja48()+1); }break;
+            case 49	:	{	dpfh.setFranja49(dpfh.getFranja49()+1); }break;
+            case 50	:	{	dpfh.setFranja50(dpfh.getFranja50()+1); }break;
+            case 51	:	{	dpfh.setFranja51(dpfh.getFranja51()+1); }break;
+            case 52	:	{	dpfh.setFranja52(dpfh.getFranja52()+1); }break;
+            case 53	:	{	dpfh.setFranja53(dpfh.getFranja53()+1); }break;
+            case 54	:	{	dpfh.setFranja54(dpfh.getFranja54()+1); }break;
+            case 55	:	{	dpfh.setFranja55(dpfh.getFranja55()+1); }break;
+            case 56	:	{	dpfh.setFranja56(dpfh.getFranja56()+1); }break;
+            case 57	:	{	dpfh.setFranja57(dpfh.getFranja57()+1); }break;
+            case 58	:	{	dpfh.setFranja58(dpfh.getFranja58()+1); }break;
+            case 59	:	{	dpfh.setFranja59(dpfh.getFranja59()+1); }break;
+            case 60	:	{	dpfh.setFranja60(dpfh.getFranja60()+1); }break;
+            case 61	:	{	dpfh.setFranja61(dpfh.getFranja61()+1); }break;
+            case 62	:	{	dpfh.setFranja62(dpfh.getFranja62()+1); }break;
+            case 63	:	{	dpfh.setFranja63(dpfh.getFranja63()+1); }break;
+            case 64	:	{	dpfh.setFranja64(dpfh.getFranja64()+1); }break;
+            case 65	:	{	dpfh.setFranja65(dpfh.getFranja65()+1); }break;
+            case 66	:	{	dpfh.setFranja66(dpfh.getFranja66()+1); }break;
+            case 67	:	{	dpfh.setFranja67(dpfh.getFranja67()+1); }break;
+            case 68	:	{	dpfh.setFranja68(dpfh.getFranja68()+1); }break;
+            case 69	:	{	dpfh.setFranja69(dpfh.getFranja69()+1); }break;
+            case 70	:	{	dpfh.setFranja70(dpfh.getFranja70()+1); }break;
+            case 71	:	{	dpfh.setFranja71(dpfh.getFranja71()+1); }break;
+            case 72	:	{	dpfh.setFranja72(dpfh.getFranja72()+1); }break;
+            case 73	:	{	dpfh.setFranja73(dpfh.getFranja73()+1); }break;
+            case 74	:	{	dpfh.setFranja74(dpfh.getFranja74()+1); }break;
+            case 75	:	{	dpfh.setFranja75(dpfh.getFranja75()+1); }break;
+            case 76	:	{	dpfh.setFranja76(dpfh.getFranja76()+1); }break;
+            case 77	:	{	dpfh.setFranja77(dpfh.getFranja77()+1); }break;
+            case 78	:	{	dpfh.setFranja78(dpfh.getFranja78()+1); }break;
+            case 79	:	{	dpfh.setFranja79(dpfh.getFranja79()+1); }break;
+            case 80	:	{	dpfh.setFranja80(dpfh.getFranja80()+1); }break;
+            case 81	:	{	dpfh.setFranja81(dpfh.getFranja81()+1); }break;
+            case 82	:	{	dpfh.setFranja82(dpfh.getFranja82()+1); }break;
+            case 83	:	{	dpfh.setFranja83(dpfh.getFranja83()+1); }break;
+            case 84	:	{	dpfh.setFranja84(dpfh.getFranja84()+1); }break;
+            case 85	:	{	dpfh.setFranja85(dpfh.getFranja85()+1); }break;
+            case 86	:	{	dpfh.setFranja86(dpfh.getFranja86()+1); }break;
+            case 87	:	{	dpfh.setFranja87(dpfh.getFranja87()+1); }break;
+            case 88	:	{	dpfh.setFranja88(dpfh.getFranja88()+1); }break;
+            case 89	:	{	dpfh.setFranja89(dpfh.getFranja89()+1); }break;
+            case 90	:	{	dpfh.setFranja90(dpfh.getFranja90()+1); }break;
+            case 91	:	{	dpfh.setFranja91(dpfh.getFranja91()+1); }break;
+            case 92	:	{	dpfh.setFranja92(dpfh.getFranja92()+1); }break;
+            case 93	:	{	dpfh.setFranja93(dpfh.getFranja93()+1); }break;
+            case 94	:	{	dpfh.setFranja94(dpfh.getFranja94()+1); }break;
+            case 95	:	{	dpfh.setFranja95(dpfh.getFranja95()+1); }break;
+            case 96	:	{	dpfh.setFranja96(dpfh.getFranja96()+1); }break;
         }
         disponibilidadFranjaHoraRepo.save(dpfh);
 
@@ -1606,7 +1607,7 @@ public class ChefController {
     public String passGen() throws NoSuchAlgorithmException {
         String[] symbols = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
         int length = 8;
-        Random random = SecureRandom.getInstanceStrong();    // as of JDK 8, this should return the strongest algorithm available to the JVM
+        Random random = SecureRandom.getInstanceStrong();
         StringBuilder sb = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
             int indexRandom = random.nextInt( symbols.length );
@@ -1632,138 +1633,138 @@ public class ChefController {
         return passHashedValue;
     }
 
-    /*@Scheduled(cron = "0 0 10 ? * MON", zone = "GMT-5")
-    public void Nomasporlun() {
-        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
-        DiasDisponiblesPorSitio dmodel = lresult.get(0);
-        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
-        newmodel.setid("availaible");
-        newmodel.setLunes(false);
-        newmodel.setMartes(true);
-        newmodel.setMiercoles(true);
-        newmodel.setJueves(true);
-        newmodel.setViernes(true);
-        arepository.delete(dmodel);
-        arepository.save(newmodel);
-    }
-    @Scheduled(cron = "0 0 10 ? * TUE", zone = "GMT-5")
-    public void Nomaspormar() {
-        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
-        DiasDisponiblesPorSitio dmodel = lresult.get(0);
-        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
-        newmodel.setid("availaible");
-        newmodel.setLunes(false);
-        newmodel.setMartes(false);
-        newmodel.setMiercoles(true);
-        newmodel.setJueves(true);
-        newmodel.setViernes(true);
-        arepository.delete(dmodel);
-        arepository.save(newmodel);
-    }
-    @Scheduled(cron = "0 0 10 ? * WED", zone = "GMT-5")
-    public void Nomaspormie() {
-        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
-        DiasDisponiblesPorSitio dmodel = lresult.get(0);
-        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
-        newmodel.setid("availaible");
-        newmodel.setLunes(false);
-        newmodel.setMartes(false);
-        newmodel.setMiercoles(false);
-        newmodel.setJueves(true);
-        newmodel.setViernes(true);
-        arepository.delete(dmodel);
-        arepository.save(newmodel);
-    }
-    @Scheduled(cron = "0 0 10 ? * THU", zone = "GMT-5")
-    public void Nomasporjue() {
-        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
-        DiasDisponiblesPorSitio dmodel = lresult.get(0);
-        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
-        newmodel.setid("availaible");
-        newmodel.setLunes(false);
-        newmodel.setMartes(false);
-        newmodel.setMiercoles(false);
-        newmodel.setJueves(false);
-        newmodel.setViernes(true);
-        arepository.delete(dmodel);
-        arepository.save(newmodel);
-    }
-    @Scheduled(cron = "0 0 10 ? * FRI", zone = "GMT-5")
-    public void Nomasporvie() {
-        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
-        DiasDisponiblesPorSitio dmodel = lresult.get(0);
-        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
-        newmodel.setid("availaible");
-        newmodel.setLunes(false);
-        newmodel.setMartes(false);
-        newmodel.setMiercoles(false);
-        newmodel.setJueves(false);
-        newmodel.setViernes(false);
-        arepository.delete(dmodel);
-        arepository.save(newmodel);
-    }
     @Scheduled(cron = "0 0 0 ? * MON", zone = "GMT-5")
     public void reset() {
-        List<DiasDisponiblesPorSitio> lresult = arepository.findAll();
-        DiasDisponiblesPorSitio dmodel = lresult.get(0);
-        DiasDisponiblesPorSitio newmodel = new DiasDisponiblesPorSitio();
-        newmodel.setid("availaible");
-        newmodel.setLunes(true);
-        newmodel.setMartes(true);
-        newmodel.setMiercoles(true);
-        newmodel.setJueves(true);
-        newmodel.setViernes(true);
-        arepository.delete(dmodel);
-        arepository.save(newmodel);
-    }
-    @Scheduled(cron = "0 0 15 ? * FRI", zone = "GMT-5")
-    public void resethours() {
-        List<User> nombres = getusers();
-        for(int i =0; i<nombres.size(); i++){
-            if(!nombres.get(i).getNombre().equals("Administrador")){
-                DisponibilidadPorFranjaHoraria dmodel;
-                DisponibilidadPorFranjaHoraria dmodel2;
-                dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Lunes");
-                dmodel2 = new DisponibilidadPorFranjaHoraria();
-                dmodel2.setId(dmodel.getId());
-                dmodel2.setEmpresa(dmodel.getEmpresa());
-                dmodel2.setDia("Lunes");
-                dhrepository.delete(dmodel);
-                dhrepository.save(dmodel2);
-
-                dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Martes");
-                dmodel2 = new DisponibilidadPorFranjaHoraria();
-                dmodel2.setId(dmodel.getId());
-                dmodel2.setEmpresa(dmodel.getEmpresa());
-                dmodel2.setDia("Martes");
-                dhrepository.delete(dmodel);
-                dhrepository.save(dmodel2);
-
-                dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Miércoles");
-                dmodel2 = new DisponibilidadPorFranjaHoraria();
-                dmodel2.setId(dmodel.getId());
-                dmodel2.setEmpresa(dmodel.getEmpresa());
-                dmodel2.setDia("Miércoles");
-                dhrepository.delete(dmodel);
-                dhrepository.save(dmodel2);
-
-                dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Jueves");
-                dmodel2 = new DisponibilidadPorFranjaHoraria();
-                dmodel2.setId(dmodel.getId());
-                dmodel2.setEmpresa(dmodel.getEmpresa());
-                dmodel2.setDia("Jueves");
-                dhrepository.delete(dmodel);
-                dhrepository.save(dmodel2);
-
-                dmodel = dhrepository.findByEmpresaAndDia(nombres.get(i).getNombre(),"Viernes");
-                dmodel2 = new DisponibilidadPorFranjaHoraria();
-                dmodel2.setId(dmodel.getId());
-                dmodel2.setEmpresa(dmodel.getEmpresa());
-                dmodel2.setDia("Viernes");
-                dhrepository.delete(dmodel);
-                dhrepository.save(dmodel2);
-            }
+        List<DisponibilidadPorMenu> menus = disponibilidadPorMenuRepo.findAll();
+        for(int i=0; i<menus.size(); i++){
+            DisponibilidadPorMenu currentmenu = menus.get(i);
+            DisponibilidadPorMenu newmenu = new DisponibilidadPorMenu();
+            newmenu.setId(currentmenu.getId());
+            newmenu.setEmpresa(currentmenu.getEmpresa());
+            newmenu.setMenu(currentmenu.getMenu());
+            newmenu.setLunesref(0);
+            newmenu.setMartesref(0);
+            newmenu.setMiercolesref(0);
+            newmenu.setJuevesref(0);
+            newmenu.setViernesref(0);
+            newmenu.setSabadoref(0);
+            newmenu.setDomingoref(0);
+            newmenu.setLunes(0);
+            newmenu.setMartes(0);
+            newmenu.setMiercoles(0);
+            newmenu.setJueves(0);
+            newmenu.setViernes(0);
+            newmenu.setSabado(0);
+            newmenu.setDomingo(0);
+            disponibilidadPorMenuRepo.deleteById(currentmenu.getId());
+            disponibilidadPorMenuRepo.save(newmenu);
         }
-    }*/
+        List<DisponibilidadPorFranjaHoraria> horas = disponibilidadFranjaHoraRepo.findAll();
+        for(int j=0; j<horas.size(); j++){
+            DisponibilidadPorFranjaHoraria currenthoras = horas.get(j);
+            DisponibilidadPorFranjaHoraria newhoras = new DisponibilidadPorFranjaHoraria();
+            newhoras.setId(currenthoras.getId());
+            newhoras.setEmpresa(currenthoras.getEmpresa());
+            newhoras.setDia(currenthoras.getDia());
+            newhoras.setFranja1(0);
+            newhoras.setFranja2(0);
+            newhoras.setFranja3(0);
+            newhoras.setFranja4(0);
+            newhoras.setFranja5(0);
+            newhoras.setFranja6(0);
+            newhoras.setFranja7(0);
+            newhoras.setFranja8(0);
+            newhoras.setFranja9(0);
+            newhoras.setFranja10(0);
+            newhoras.setFranja11(0);
+            newhoras.setFranja12(0);
+            newhoras.setFranja13(0);
+            newhoras.setFranja14(0);
+            newhoras.setFranja15(0);
+            newhoras.setFranja16(0);
+            newhoras.setFranja17(0);
+            newhoras.setFranja18(0);
+            newhoras.setFranja19(0);
+            newhoras.setFranja20(0);
+            newhoras.setFranja21(0);
+            newhoras.setFranja22(0);
+            newhoras.setFranja23(0);
+            newhoras.setFranja24(0);
+            newhoras.setFranja25(0);
+            newhoras.setFranja26(0);
+            newhoras.setFranja27(0);
+            newhoras.setFranja28(0);
+            newhoras.setFranja29(0);
+            newhoras.setFranja30(0);
+            newhoras.setFranja31(0);
+            newhoras.setFranja32(0);
+            newhoras.setFranja33(0);
+            newhoras.setFranja34(0);
+            newhoras.setFranja35(0);
+            newhoras.setFranja36(0);
+            newhoras.setFranja37(0);
+            newhoras.setFranja38(0);
+            newhoras.setFranja39(0);
+            newhoras.setFranja40(0);
+            newhoras.setFranja41(0);
+            newhoras.setFranja42(0);
+            newhoras.setFranja43(0);
+            newhoras.setFranja44(0);
+            newhoras.setFranja45(0);
+            newhoras.setFranja46(0);
+            newhoras.setFranja47(0);
+            newhoras.setFranja48(0);
+            newhoras.setFranja49(0);
+            newhoras.setFranja50(0);
+            newhoras.setFranja51(0);
+            newhoras.setFranja52(0);
+            newhoras.setFranja53(0);
+            newhoras.setFranja54(0);
+            newhoras.setFranja55(0);
+            newhoras.setFranja56(0);
+            newhoras.setFranja57(0);
+            newhoras.setFranja58(0);
+            newhoras.setFranja59(0);
+            newhoras.setFranja60(0);
+            newhoras.setFranja61(0);
+            newhoras.setFranja62(0);
+            newhoras.setFranja63(0);
+            newhoras.setFranja64(0);
+            newhoras.setFranja65(0);
+            newhoras.setFranja66(0);
+            newhoras.setFranja67(0);
+            newhoras.setFranja68(0);
+            newhoras.setFranja69(0);
+            newhoras.setFranja70(0);
+            newhoras.setFranja71(0);
+            newhoras.setFranja72(0);
+            newhoras.setFranja73(0);
+            newhoras.setFranja74(0);
+            newhoras.setFranja75(0);
+            newhoras.setFranja76(0);
+            newhoras.setFranja77(0);
+            newhoras.setFranja78(0);
+            newhoras.setFranja79(0);
+            newhoras.setFranja80(0);
+            newhoras.setFranja81(0);
+            newhoras.setFranja82(0);
+            newhoras.setFranja83(0);
+            newhoras.setFranja84(0);
+            newhoras.setFranja85(0);
+            newhoras.setFranja86(0);
+            newhoras.setFranja87(0);
+            newhoras.setFranja88(0);
+            newhoras.setFranja89(0);
+            newhoras.setFranja90(0);
+            newhoras.setFranja91(0);
+            newhoras.setFranja92(0);
+            newhoras.setFranja93(0);
+            newhoras.setFranja94(0);
+            newhoras.setFranja95(0);
+            newhoras.setFranja96(0);
+            disponibilidadFranjaHoraRepo.deleteById(currenthoras.getId());
+            disponibilidadFranjaHoraRepo.save(newhoras);
+        }
+    }
 }
 

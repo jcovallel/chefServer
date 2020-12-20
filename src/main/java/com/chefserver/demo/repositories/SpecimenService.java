@@ -19,16 +19,16 @@ public class SpecimenService implements ISpecimenService{
         String i = empresa.substring(empresa.indexOf("?")+1);
         empresa = empresa.substring(0,empresa.indexOf("?"));
         //for local
-        //String folder ="src/main/resources/Images/"+empresa+"/"+"/Menu"+i+".jpg";
+        String folder ="src/main/resources/Images/"+empresa+"/"+"/Menu"+i+".jpg";
         //for gcloud
-        String folder ="../src/main/resources/Images/"+empresa+"/"+"/Menu"+i+".jpg";
+        //String folder ="../src/main/resources/Images/"+empresa+"/"+"/Menu"+i+".jpg";
         byte[] bytes = imageFile.getBytes();
         Path path = Paths.get(folder);
         if(i.equals("0")){
             //for local
-            //FileUtils.deleteDirectory(new File("src/main/resources/Images/"+empresa));
+            FileUtils.deleteDirectory(new File("src/main/resources/Images/"+empresa));
             //for gcloud
-            FileUtils.deleteDirectory(new File("../src/main/resources/Images/"+empresa));
+            //FileUtils.deleteDirectory(new File("../src/main/resources/Images/"+empresa));
         }
         Files.createDirectories(path.getParent());
         if( !Files.exists(path))
