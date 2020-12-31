@@ -79,19 +79,21 @@ public class ExcelController {
             celda.setCellValue(datamodel.get(i).getPlataforma());
         }
         //for local
-        FileOutputStream salida = new FileOutputStream("DatosExcel/Reservaciones.xlsx");
+        //FileOutputStream salida = new FileOutputStream("DatosExcel/Reservaciones.xlsx");
         //for gcloud
-        //FileOutputStream salida = new FileOutputStream("../DatosExcel/Reservaciones.xlsx");
+        FileOutputStream salida = new FileOutputStream("../DatosExcel/Reservaciones.xlsx");
         myWorkBook.write(salida);
         myWorkBook.close();
     }
 
     public void comentwriteFile(List<ComentModel> comentmodel) throws IOException {
+        /*
         //for local
         //File myfile = new File("DatosExcel/Comentarios.xlsx");
         //for gcloud
         //File myfile = new File("../DatosExcel/Comentarios.xlsx");
         //FileInputStream fis = new FileInputStream(myfile);
+         */
 
         // Finds the workbook instance for XLSX file
         XSSFWorkbook myWorkBook = new XSSFWorkbook ();
@@ -131,9 +133,9 @@ public class ExcelController {
         }
 
         //for local
-        FileOutputStream salida = new FileOutputStream("DatosExcel/Comentarios.xlsx");
+        //FileOutputStream salida = new FileOutputStream("DatosExcel/Comentarios.xlsx");
         //for gcloud
-        //FileOutputStream salida = new FileOutputStream("../DatosExcel/Comentarios.xlsx");
+        FileOutputStream salida = new FileOutputStream("../DatosExcel/Comentarios.xlsx");
         myWorkBook.write(salida);
         myWorkBook.close();
     }

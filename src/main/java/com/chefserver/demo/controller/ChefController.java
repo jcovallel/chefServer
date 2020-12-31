@@ -93,9 +93,9 @@ public class ChefController {
             e.printStackTrace();
         }
         //for local
-        String dirPath = "DatosExcel/";
+        //String dirPath = "DatosExcel/";
         //for gcloud
-        //String dirPath = "../DatosExcel/";
+        String dirPath = "../DatosExcel/";
         byte[] byteArray;  // data comes from external service call in byte[]
         byteArray = null;
         try {
@@ -126,9 +126,9 @@ public class ChefController {
             e.printStackTrace();
         }
         //for local
-        String dirPath = "DatosExcel/";
+        //String dirPath = "DatosExcel/";
         //for gcloud
-        //String dirPath = "../DatosExcel/";
+        String dirPath = "../DatosExcel/";
         byte[] byteArray;  // data comes from external service call in byte[]
         byteArray = null;
         try {
@@ -265,11 +265,11 @@ public class ChefController {
                 newuser.setCorreo(emodel.getCorreo());
                 if(olduser.getImgnum()>0){
                     //for local
-                    File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
-                    File dest = new File("src/main/resources/Images/"+emodel.getNombre());
+                    //File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
+                    //File dest = new File("src/main/resources/Images/"+emodel.getNombre());
                     //for gcloud
-                    //File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
-                    //File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
+                    File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
+                    File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
                     sourceFile.renameTo(dest);
                 }
             }else{
@@ -284,11 +284,11 @@ public class ChefController {
                 newuser.setCorreo(olduser.getCorreo());
                 if(olduser.getImgnum()>0){
                     //for local
-                    File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
-                    File dest = new File("src/main/resources/Images/"+emodel.getNombre());
+                    //File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
+                    //File dest = new File("src/main/resources/Images/"+emodel.getNombre());
                     //for gcloud
-                    //File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
-                    //File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
+                    File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
+                    File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
                     sourceFile.renameTo(dest);
                 }
             }
@@ -648,6 +648,7 @@ public class ChefController {
     public boolean areDispoNow(@PathVariable String empresa) {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String currentHour = dateFormat.format(new Date());
+        System.out.println("esta es la hora: "+currentHour);
         List<MenuTrue> menuList;
         menuList = lmerepository.findListaMenusTrue(empresa);
         List<HorarioMenusReturn> horarioMenu;
