@@ -465,7 +465,15 @@ public class ChefController {
 
     @RequestMapping(value = "/deleteuser/{empresa}", method = RequestMethod.GET)
     public void deletuser(@PathVariable String empresa) {
+        Usuarios user = emrepository.findById(empresa).orElse(null);
         emrepository.deleteById(empresa);
+        if(user.getImgnum()>0){
+            //for local
+            //File sourceFile = new File("src/main/resources/Images/"+empresa);
+            //for gcloud
+            File sourceFile = new File("../src/main/resources/Images/"+empresa);
+            sourceFile.delete();
+        }
     }
 
     @RequestMapping(value = "/deletedispodiassitio/{empresa}", method = RequestMethod.GET)
