@@ -472,7 +472,16 @@ public class ChefController {
             //File sourceFile = new File("src/main/resources/Images/"+empresa);
             //for gcloud
             File sourceFile = new File("../src/main/resources/Images/"+empresa);
-            sourceFile.delete();
+            String[]entries = sourceFile.list();
+            for(String s: entries){
+                File currentFile = new File(sourceFile.getPath(),s);
+                currentFile.delete();
+            }
+            if(sourceFile.delete()){
+                System.out.println("Sucess");
+            }else{
+                System.out.println("error borrando");
+            }
         }
     }
 
