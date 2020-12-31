@@ -648,7 +648,6 @@ public class ChefController {
     public boolean areDispoNow(@PathVariable String empresa) {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String currentHour = dateFormat.format(new Date());
-        System.out.println("esta es la hora: "+currentHour);
         List<MenuTrue> menuList;
         menuList = lmerepository.findListaMenusTrue(empresa);
         List<HorarioMenusReturn> horarioMenu;
