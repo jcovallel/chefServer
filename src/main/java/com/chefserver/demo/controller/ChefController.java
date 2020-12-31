@@ -3,6 +3,7 @@ package com.chefserver.demo.controller;
 import com.chefserver.demo.model.*;
 import com.chefserver.demo.ExcelDB.ExcelController;
 import com.chefserver.demo.repositories.*;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -264,12 +265,14 @@ public class ChefController {
                 newuser.setNombre(emodel.getNombre());
                 newuser.setCorreo(emodel.getCorreo());
                 if(olduser.getImgnum()>0){
+                    String empresa = StringUtils.stripAccents(emodel.getId()).replaceAll(" ","-");
+                    String newempresa = StringUtils.stripAccents(emodel.getNombre()).replaceAll(" ","-");
                     //for local
                     //File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
                     //File dest = new File("src/main/resources/Images/"+emodel.getNombre());
                     //for gcloud
-                    File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
-                    File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
+                    File sourceFile = new File("../src/main/resources/Images/"+empresa);
+                    File dest = new File("../src/main/resources/Images/"+newempresa);
                     sourceFile.renameTo(dest);
                 }
             }else{
@@ -283,12 +286,14 @@ public class ChefController {
                 newuser.setNombre(emodel.getNombre());
                 newuser.setCorreo(olduser.getCorreo());
                 if(olduser.getImgnum()>0){
+                    String empresa = StringUtils.stripAccents(emodel.getId()).replaceAll(" ","-");
+                    String newempresa = StringUtils.stripAccents(emodel.getNombre()).replaceAll(" ","-");
                     //for local
                     //File sourceFile = new File("src/main/resources/Images/"+emodel.getId());
                     //File dest = new File("src/main/resources/Images/"+emodel.getNombre());
                     //for gcloud
-                    File sourceFile = new File("../src/main/resources/Images/"+emodel.getId());
-                    File dest = new File("../src/main/resources/Images/"+emodel.getNombre());
+                    File sourceFile = new File("../src/main/resources/Images/"+empresa);
+                    File dest = new File("../src/main/resources/Images/"+newempresa);
                     sourceFile.renameTo(dest);
                 }
             }
@@ -467,6 +472,7 @@ public class ChefController {
     public void deletuser(@PathVariable String empresa) {
         Usuarios user = emrepository.findById(empresa).orElse(null);
         emrepository.deleteById(empresa);
+        empresa = StringUtils.stripAccents(empresa).replaceAll(" ","-");
         if(user.getImgnum()>0){
             //for local
             //File sourceFile = new File("src/main/resources/Images/"+empresa);
@@ -477,11 +483,7 @@ public class ChefController {
                 File currentFile = new File(sourceFile.getPath(),s);
                 currentFile.delete();
             }
-            if(sourceFile.delete()){
-                System.out.println("Sucess");
-            }else{
-                System.out.println("error borrando");
-            }
+            sourceFile.delete();
         }
     }
 
