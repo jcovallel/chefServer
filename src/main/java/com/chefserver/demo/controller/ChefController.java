@@ -729,6 +729,7 @@ public class ChefController {
             String amIni = horarioMenu.get(0).gethInicioRes().substring(5);
             String horaFin = horarioMenu.get(0).gethFinRes().substring(0,2);
             int horaFi = Integer.parseInt(horaFin);
+            if(horaFi==12){ horaFi=0; }
             String minutoFin = horarioMenu.get(0).gethFinRes().substring(3,5);
             int minFi = Integer.parseInt(minutoFin);
             String amFin = horarioMenu.get(0).gethFinRes().substring(5);
